@@ -1,17 +1,18 @@
-package com.veljkocerovic.timeformeal.recipe;
+package com.veljkocerovic.timeformeal.recipe.comment;
 
+import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "recipe_ratings")
+@Table(name = "recipe_comments")
 @Data
-public class RecipeRating {
+public class RecipeComment {
 
     @EmbeddedId
-    private RecipeRatingKey id;
+    private RecipeCommentKey id;
 
     @ManyToOne
     @MapsId("userId")
@@ -23,6 +24,5 @@ public class RecipeRating {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-
-    private int rating;
+    private String comment;
 }

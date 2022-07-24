@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.recipe;
+package com.veljkocerovic.timeformeal.recipe.rating;
 
 import lombok.Data;
 

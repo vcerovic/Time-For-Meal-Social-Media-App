@@ -1,7 +1,8 @@
 package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
-import com.veljkocerovic.timeformeal.recipe.RecipeRating;
+import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
+import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import lombok.Data;
 
 import javax.management.relation.Role;
@@ -49,5 +50,9 @@ public class User {
 
     //Recipe ratings
     @OneToMany(mappedBy = "user")
-    Set<RecipeRating> recipeRatings;
+    Set<RecipeRating> userRatings;
+
+    //Recipe comments
+    @OneToMany(mappedBy = "user")
+    Set<RecipeComment> userComments;
 }

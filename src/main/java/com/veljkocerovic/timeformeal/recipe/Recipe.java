@@ -1,6 +1,8 @@
 package com.veljkocerovic.timeformeal.recipe;
 
 import com.veljkocerovic.timeformeal.ingredient.Ingredient;
+import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
+import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.user.User;
 import lombok.Data;
 
@@ -54,5 +56,10 @@ public class Recipe {
     //Recipe ratings
     @OneToMany(mappedBy = "recipe")
     Set<RecipeRating> recipeRatings;
+
+
+    //Recipe comments
+    @OneToMany(mappedBy = "recipe")
+    Set<RecipeComment> recipeComments;
 
 }
