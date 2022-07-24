@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.ingredient;
+package com.veljkocerovic.timeformeal.recipe.ingredient;
 
 import lombok.Data;
 

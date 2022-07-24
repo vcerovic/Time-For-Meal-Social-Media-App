@@ -1,6 +1,6 @@
 package com.veljkocerovic.timeformeal.recipe;
 
-import com.veljkocerovic.timeformeal.ingredient.Ingredient;
+import com.veljkocerovic.timeformeal.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.user.User;
@@ -20,7 +20,7 @@ public class Recipe {
     private Integer id;
 
     //Reference to owner (user)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User owner;
 
@@ -40,7 +40,7 @@ public class Recipe {
 
 
     //Recipe ingredients
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "recipe_ingredients",
             joinColumns = @JoinColumn(name = "recipe_id"),
