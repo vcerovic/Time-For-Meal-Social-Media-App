@@ -1,6 +1,7 @@
 package com.veljkocerovic.timeformeal.recipe;
 
 import com.veljkocerovic.timeformeal.ingredient.Ingredient;
+import com.veljkocerovic.timeformeal.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,27 +17,38 @@ public class Recipe {
     @Column(name = "recipe_id")
     private int id;
 
+    //Reference to owner (user)
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User owner;
+
+    //Basic info
     private String name;
     private String instruction;
-
     @Column(name = "prep_time")
     private int prepTime;
-
     @Column(name = "cook_time")
     private int cookTime;
-
     private int serving;
 
+    //Recipe category
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private RecipeCategory recipeCategory;
 
+
+    //Recipe ingredients
     @ManyToMany
     @JoinTable(
             name = "recipe_ingredients",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
     private Set<Ingredient> ingredients;
+
+
+    //Reference to users that liked this recipe
+    @ManyToMany(mappedBy = "recipesLikes")
+    private Set<User> usersLikes;
 
 
 }
