@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.user;
+package com.veljkocerovic.timeformeal.user.model;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
@@ -6,6 +6,9 @@ import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -19,9 +22,19 @@ public class User {
     private Integer id;
 
     //Basic info
+    @NotBlank
+    @Size(min = 4, max = 50, message = "Username must be between 4 and 50 characters")
     private String username;
+
+    @NotBlank
+    @Email
+    @Size(min = 4, max = 70, message = "Email must be between 4 and 70 characters")
     private String email;
+
+    @NotBlank
+    @Size(min = 4, max = 50, message = "Password must be between 4 and 50 characters")
     private String password;
+
     private String image;
     private boolean enabled = false;
 

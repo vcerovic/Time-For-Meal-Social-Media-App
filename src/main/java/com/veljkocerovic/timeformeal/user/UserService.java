@@ -1,5 +1,7 @@
 package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.user.model.User;
+
 import java.util.Set;
 
 public interface UserService {

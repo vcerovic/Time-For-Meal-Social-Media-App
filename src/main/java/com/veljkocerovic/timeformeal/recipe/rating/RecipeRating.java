@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.recipe.rating;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
-import com.veljkocerovic.timeformeal.user.User;
+import com.veljkocerovic.timeformeal.user.model.User;
 import lombok.Data;
 
 import javax.persistence.*;
