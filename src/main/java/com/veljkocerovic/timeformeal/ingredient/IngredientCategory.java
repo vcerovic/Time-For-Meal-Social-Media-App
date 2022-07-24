@@ -1,17 +1,17 @@
-package com.veljkocerovic.timeformeal.recipe;
+package com.veljkocerovic.timeformeal.ingredient;
 
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "recipe_category")
+@Table(name = "ingredient_category")
 @Data
-public class Category {
+public class IngredientCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "ingredient_id")
     private int id;
 
     private String name;

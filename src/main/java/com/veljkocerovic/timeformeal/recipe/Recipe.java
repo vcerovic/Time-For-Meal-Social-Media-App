@@ -27,7 +27,7 @@ public class Recipe {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    private Category category;
+    private RecipeCategory recipeCategory;
 
 
 
