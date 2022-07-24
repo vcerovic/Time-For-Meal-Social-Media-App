@@ -1,9 +1,10 @@
 package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<Set<User>> getAllUsers(){
-        return ResponseEntity.ok(userService.getAllUsers());
+    public Set<User> getAllUsers(){
+        return userService.getAllUsers();
     }
+
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
+        return userService.findUserById(userId);
+    }
+
+
 }
