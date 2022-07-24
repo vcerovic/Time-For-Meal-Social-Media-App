@@ -3,7 +3,6 @@ package com.veljkocerovic.timeformeal.recipe;
 import com.veljkocerovic.timeformeal.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.recipe.ingredient.IngredientCategory;
 import com.veljkocerovic.timeformeal.user.User;
-import com.veljkocerovic.timeformeal.user.UserRepository;
 import com.veljkocerovic.timeformeal.user.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +15,6 @@ import org.springframework.test.annotation.Rollback;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Rollback
@@ -72,10 +69,30 @@ class RecipeRepositoryTest {
     }
 
     @Test
-    void findByName() {
+    void testFindByName() {
         Optional<Recipe> foundRecipe = recipeRepository.findByName("Chicken with eggs");
         Recipe recipe = foundRecipe.orElseThrow(RuntimeException::new);
 
         Assertions.assertThat(recipe.getName()).isEqualTo("Chicken with eggs");
+    }
+
+    @Test
+    void testRecipeRelationships(){
+        Optional<Recipe> foundRecipe = recipeRepository.findByName("Chicken with eggs");
+        Recipe recipe = foundRecipe.orElseThrow(RuntimeException::new);
+
+        //Check owner
+        Assertions.assertThat(recipe.getOwner().getUsername()).isEqualTo("Veljko");
+
+        //Check ingredients size
+        Assertions.assertThat(recipe.getIngredients().size()).isGreaterThan(0);
+
+        //Check first ingredient
+        Optional<Ingredient> first = recipe.getIngredients().stream().findFirst();
+        Ingredient ingredient = first.orElseThrow(RuntimeException::new);
+        Assertions.assertThat(ingredient.getName()).isEqualTo("Egg");
+
+        //Check category
+        Assertions.assertThat(recipe.getRecipeCategory().getName()).isEqualTo("Breakfast");
     }
 }
