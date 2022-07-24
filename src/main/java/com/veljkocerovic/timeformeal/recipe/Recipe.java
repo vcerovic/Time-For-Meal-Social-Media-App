@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.recipe;
 
+import com.veljkocerovic.timeformeal.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
