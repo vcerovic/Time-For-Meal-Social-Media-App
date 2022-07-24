@@ -51,4 +51,8 @@ public class Recipe {
     private Set<User> usersLikes;
 
 
+    //Recipe ratings
+    @OneToMany(mappedBy = "recipe")
+    Set<RecipeRating> recipeRatings;
+
 }

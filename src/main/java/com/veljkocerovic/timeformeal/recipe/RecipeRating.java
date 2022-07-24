@@ -1,11 +1,13 @@
 package com.veljkocerovic.timeformeal.recipe;
 
 import com.veljkocerovic.timeformeal.user.User;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "recipe_ratings")
+@Data
 public class RecipeRating {
 
     @EmbeddedId

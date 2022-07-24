@@ -1,6 +1,7 @@
 package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
+import com.veljkocerovic.timeformeal.recipe.RecipeRating;
 import lombok.Data;
 
 import javax.management.relation.Role;
@@ -44,4 +45,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private Set<Recipe> recipesLikes;
+
+
+    //Recipe ratings
+    @OneToMany(mappedBy = "user")
+    Set<RecipeRating> recipeRatings;
 }
