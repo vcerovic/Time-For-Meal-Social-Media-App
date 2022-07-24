@@ -4,6 +4,8 @@ import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
+import com.veljkocerovic.timeformeal.user.token.VerificationToken;
+import com.veljkocerovic.timeformeal.user.token.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -62,5 +67,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(Integer userId, User user) {
 
+    }
+
+    @Override
+    public void saveUserVerificationToken(String token, User user) {
+        VerificationToken verificationToken = new VerificationToken(user, token);
+
+        verificationTokenRepository.save(verificationToken);
     }
 }

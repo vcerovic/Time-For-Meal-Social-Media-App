@@ -17,4 +17,6 @@ public interface UserService {
     User findUserById(Integer userId) throws UserNotFoundException;
 
     void updateUser(Integer userId, User user);
+
+    void saveUserVerificationToken(String token, User user);
 }

@@ -64,4 +64,5 @@ public class User {
     //Recipe comments
     @OneToMany(mappedBy = "user")
     Set<RecipeComment> userComments;
+
 }
