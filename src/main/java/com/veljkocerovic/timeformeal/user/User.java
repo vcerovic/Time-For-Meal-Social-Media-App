@@ -40,7 +40,7 @@ public class User {
     //Recipes that user liked
     @ManyToMany
     @JoinTable(
-            name = "likes",
+            name = "recipe_likes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private Set<Recipe> recipesLikes;
