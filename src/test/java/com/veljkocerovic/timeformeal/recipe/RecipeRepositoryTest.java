@@ -36,7 +36,7 @@ class RecipeRepositoryTest {
         testUser.setPassword("veljko123");
         testUser.setImage("veljko_image.png");
         testUser.setEnabled(true);
-        testUser.setUserRole(UserRole.ADMIN);
+        testUser.setRole(UserRole.ADMIN);
 
         //Recipe setup
         Recipe recipe = new Recipe();

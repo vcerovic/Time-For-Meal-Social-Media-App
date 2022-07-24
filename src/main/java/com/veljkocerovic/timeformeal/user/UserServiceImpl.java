@@ -1,18 +1,24 @@
 package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Set<User> getAllUsers() {
@@ -20,7 +26,24 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveUser(User user) {
+    public void saveUser(User user) throws UserAlreadyExistsException {
+        //Check if username already exists
+        Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User " +
+                optionalUser.get().getUsername() + " already exists.");
+
+
+        //Check if email already exists
+        Optional<User> emailUser = userRepository.findByEmail(user.getEmail());
+        if (emailUser.isPresent()) throw new UserAlreadyExistsException("User with " +
+                emailUser.get().getEmail() + " email already exists.");
+
+        //Encrypt password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //Set default user role
+        user.setRole(UserRole.USER);
+
         userRepository.save(user);
     }
 

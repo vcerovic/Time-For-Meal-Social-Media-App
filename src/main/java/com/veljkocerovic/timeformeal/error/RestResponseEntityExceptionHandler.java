@@ -4,6 +4,7 @@ package com.veljkocerovic.timeformeal.error;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage()));
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorMessage> userAlreadyExistsException(UserAlreadyExistsException exception,
+                                                              WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage()));
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

@@ -30,7 +30,7 @@ public class UserRepositoryTest {
         testUser.setPassword("veljko123");
         testUser.setImage("veljko_image.png");
         testUser.setEnabled(true);
-        testUser.setUserRole(UserRole.ADMIN);
+        testUser.setRole(UserRole.ADMIN);
 
         entityManager.persist(testUser);
         entityManager.flush();

@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
     Set<User> getAllUsers();
 
-    void saveUser(User user);
+    void saveUser(User user) throws UserAlreadyExistsException;
 
     void deleteUser(Integer userId);
 

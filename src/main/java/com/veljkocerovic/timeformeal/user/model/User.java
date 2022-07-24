@@ -4,10 +4,11 @@ import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -22,16 +23,16 @@ public class User {
     private Integer id;
 
     //Basic info
-    @NotBlank
+    @NotEmpty
     @Size(min = 4, max = 50, message = "Username must be between 4 and 50 characters")
     private String username;
 
-    @NotBlank
+    @NotEmpty
     @Email
     @Size(min = 4, max = 70, message = "Email must be between 4 and 70 characters")
     private String email;
 
-    @NotBlank
+    @NotEmpty
     @Size(min = 4, max = 50, message = "Password must be between 4 and 50 characters")
     private String password;
 
@@ -39,7 +40,7 @@ public class User {
     private boolean enabled = false;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private UserRole role;
 
 
     //Recipes that user published
