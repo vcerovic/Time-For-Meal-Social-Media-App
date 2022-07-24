@@ -1,8 +1,10 @@
 package com.veljkocerovic.timeformeal.ingredient;
 
+import com.veljkocerovic.timeformeal.recipe.Recipe;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "ingredients")
@@ -20,4 +22,6 @@ public class Ingredient {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private IngredientCategory category;
 
+    @ManyToMany(mappedBy = "ingredients")
+    private Set<Recipe> recipes;
 }

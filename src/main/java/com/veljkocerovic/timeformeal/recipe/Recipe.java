@@ -1,8 +1,10 @@
 package com.veljkocerovic.timeformeal.recipe;
 
+import com.veljkocerovic.timeformeal.ingredient.Ingredient;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
@@ -29,6 +31,11 @@ public class Recipe {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private RecipeCategory recipeCategory;
 
+    @JoinTable(
+            name = "recipe_ingredients",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+    private Set<Ingredient> ingredients;
 
 
 }
