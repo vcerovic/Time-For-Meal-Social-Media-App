@@ -5,7 +5,6 @@ import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import lombok.Data;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,21 +16,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Integer id;
 
     //Basic info
     private String username;
     private String email;
     private String password;
     private String image;
+    private boolean enabled = false;
 
-    //Roles that user has
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 
 
     //Recipes that user published

@@ -17,7 +17,7 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
-    private int id;
+    private Integer id;
 
     //Reference to owner (user)
     @ManyToOne
