@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.user.token;
+package com.veljkocerovic.timeformeal.user.tokens.password;
 
 import com.veljkocerovic.timeformeal.user.model.User;
 import lombok.Data;
@@ -8,13 +8,11 @@ import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "verification_token")
-public class VerificationToken {
-
+@Table(name = "password_reset_token")
+public class PasswordResetToken {
     private static final int EXPIRATION_TIME = 10;
 
     @Id
@@ -29,10 +27,10 @@ public class VerificationToken {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "FK_USER_VERIFY_TOKEN"))
+            foreignKey = @ForeignKey(name = "FK_USER_PASSWORD_RESET_TOKEN"))
     private User user;
 
-    public VerificationToken(User user, String token) {
+    public PasswordResetToken(User user, String token) {
         super();
         this.token = token;
         this.user = user;

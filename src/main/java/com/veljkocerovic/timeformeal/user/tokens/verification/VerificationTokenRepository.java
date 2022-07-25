@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.user.token;
+package com.veljkocerovic.timeformeal.user.tokens.verification;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
