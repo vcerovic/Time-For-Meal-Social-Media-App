@@ -2,15 +2,17 @@ package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenExpiredException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
 import com.veljkocerovic.timeformeal.user.token.VerificationToken;
 import com.veljkocerovic.timeformeal.user.token.VerificationTokenRepository;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;
 
@@ -71,8 +73,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUserVerificationToken(String token, User user) {
-        System.out.println("CALLED");
         VerificationToken verificationToken = new VerificationToken(user, token);
         verificationTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public void validateVerificationToken(String token) throws VerificationTokenNotFoundException,
+            VerificationTokenExpiredException {
+        Optional<VerificationToken> optionalToken = verificationTokenRepository.findByToken(token);
+
+        //Check if token exists
+        VerificationToken verificationToken = optionalToken
+                .orElseThrow(() -> new VerificationTokenNotFoundException("Verification token doesn't exist"));
+
+        //Check if token has expired
+        User user = verificationToken.getUser();
+        Calendar calendar = Calendar.getInstance();
+
+        if((verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
+            verificationTokenRepository.delete(verificationToken);
+            throw new VerificationTokenExpiredException("Verification token expired");
+        }
+
+        //Enable user
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

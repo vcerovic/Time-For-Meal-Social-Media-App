@@ -2,6 +2,8 @@ package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenExpiredException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 
 import java.util.Set;
@@ -19,4 +21,7 @@ public interface UserService {
     void updateUser(Integer userId, User user);
 
     void saveUserVerificationToken(String token, User user);
+
+    void validateVerificationToken(String token) throws VerificationTokenNotFoundException,
+            VerificationTokenExpiredException;
 }

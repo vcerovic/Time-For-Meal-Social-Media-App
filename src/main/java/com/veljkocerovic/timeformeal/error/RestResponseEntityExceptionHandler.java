@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenExpiredException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,24 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage()));
     }
+
+    @ExceptionHandler(VerificationTokenNotFoundException.class)
+    public ResponseEntity<ErrorMessage> verificationTokenNotFoundException(VerificationTokenNotFoundException exception,
+                                                                   WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage()));
+    }
+
+    @ExceptionHandler(VerificationTokenExpiredException.class)
+    public ResponseEntity<ErrorMessage> verificationTokenExpiredException(VerificationTokenExpiredException exception,
+                                                                           WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage()));
+    }
+
+
 
 
     @Override

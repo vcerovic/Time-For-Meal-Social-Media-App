@@ -3,6 +3,8 @@ package com.veljkocerovic.timeformeal.user;
 import com.veljkocerovic.timeformeal.user.event.RegistrationCompleteEvent;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenExpiredException;
+import com.veljkocerovic.timeformeal.user.exceptions.VerificationTokenNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -23,7 +25,7 @@ public class UserController {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
-    public Set<User> getAllUsers(){
+    public Set<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -33,9 +35,16 @@ public class UserController {
         userService.saveUser(user);
         publisher.publishEvent(new RegistrationCompleteEvent(
                 user,
-                applicationUrl(request)
+                request.getRequestURL().toString()
         ));
         return "Success";
+    }
+
+    @GetMapping("/verifyRegistration")
+    public String verifyRegistration(@RequestParam(name = "token") String token) throws VerificationTokenExpiredException,
+            VerificationTokenNotFoundException {
+        userService.validateVerificationToken(token);
+        return "User verified successfully";
     }
 
 
@@ -44,14 +53,6 @@ public class UserController {
         return userService.findUserById(userId);
     }
 
-
-    private String applicationUrl(HttpServletRequest request) {
-        return "http://" +
-                request.getServerName() +
-                ":" +
-                request.getServerPort() +
-                request.getContextPath();
-    }
 
 
 }
