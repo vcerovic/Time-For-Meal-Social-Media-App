@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.user.event.RegistrationCompleteEvent;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
@@ -26,6 +27,9 @@ public class UserController {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @GetMapping
     public Set<User> getAllUsers() {
@@ -60,7 +64,9 @@ public class UserController {
 
         //Send mail with new token
         String url = applicationUrl(request) + "/users/verifyRegistration?token=" + token.getToken();
-        log.info("Click the link to verify your account: {}", url);
+        String message = "Click the link to verify your account: " + url;
+
+        emailSenderService.sendSimpleEmail(user.getEmail(), message, "Verify your account");
 
 
         return "Verification link sent";
