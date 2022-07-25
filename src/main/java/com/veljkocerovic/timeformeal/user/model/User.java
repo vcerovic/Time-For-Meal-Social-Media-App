@@ -4,7 +4,6 @@ import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,7 +32,7 @@ public class User {
     private String email;
 
     @NotEmpty
-    @Size(min = 4, max = 50, message = "Password must be between 4 and 50 characters")
+    @Size(min = 4, max = 100, message = "Password must be between 4 and 50 characters")
     private String password;
 
     private String image;

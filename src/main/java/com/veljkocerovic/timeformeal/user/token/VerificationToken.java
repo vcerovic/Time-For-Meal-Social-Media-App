@@ -3,23 +3,27 @@ package com.veljkocerovic.timeformeal.user.token;
 import com.veljkocerovic.timeformeal.user.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
+
 @Data
 @NoArgsConstructor
+@Entity
+@Table(name = "verification_token")
 public class VerificationToken {
 
     private static final int EXPIRATION_TIME = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "token_id")
     private Integer id;
     private String token;
+
+    @Column(name = "expiration_time")
     private Date expirationTime;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -32,12 +36,6 @@ public class VerificationToken {
         super();
         this.token = token;
         this.user = user;
-        this.expirationTime = calculateExpirationDate();
-    }
-
-    public VerificationToken(String token) {
-        super();
-        this.token = token;
         this.expirationTime = calculateExpirationDate();
     }
 

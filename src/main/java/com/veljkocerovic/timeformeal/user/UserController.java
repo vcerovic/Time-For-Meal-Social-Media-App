@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -28,11 +29,11 @@ public class UserController {
 
 
     @PostMapping
-    public String registerUser(@Valid @RequestBody User user) throws UserAlreadyExistsException {
+    public String registerUser(@Valid @RequestBody User user, final HttpServletRequest request) throws UserAlreadyExistsException {
         userService.saveUser(user);
         publisher.publishEvent(new RegistrationCompleteEvent(
                 user,
-                "url"
+                applicationUrl(request)
         ));
         return "Success";
     }
@@ -41,6 +42,15 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUserById(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
         return userService.findUserById(userId);
+    }
+
+
+    private String applicationUrl(HttpServletRequest request) {
+        return "http://" +
+                request.getServerName() +
+                ":" +
+                request.getServerPort() +
+                request.getContextPath();
     }
 
 

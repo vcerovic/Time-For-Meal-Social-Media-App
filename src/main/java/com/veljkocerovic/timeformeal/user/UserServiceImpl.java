@@ -6,6 +6,7 @@ import com.veljkocerovic.timeformeal.user.model.User;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
 import com.veljkocerovic.timeformeal.user.token.VerificationToken;
 import com.veljkocerovic.timeformeal.user.token.VerificationTokenRepository;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUserVerificationToken(String token, User user) {
+        System.out.println("CALLED");
         VerificationToken verificationToken = new VerificationToken(user, token);
-
         verificationTokenRepository.save(verificationToken);
     }
 }
