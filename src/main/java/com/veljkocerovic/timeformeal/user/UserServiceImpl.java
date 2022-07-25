@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -98,5 +99,21 @@ public class UserServiceImpl implements UserService {
         //Enable user
         user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public VerificationToken generateNewVerificationToken(String oldToken) throws VerificationTokenNotFoundException {
+        Optional<VerificationToken> optionalToken = verificationTokenRepository.findByToken(oldToken);
+
+        //Check if token exists
+        VerificationToken verificationToken = optionalToken
+                .orElseThrow(() -> new VerificationTokenNotFoundException("Verification token doesn't exist"));
+
+        //Generate new token
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationTokenRepository.save(verificationToken);
+
+
+        return verificationToken;
     }
 }

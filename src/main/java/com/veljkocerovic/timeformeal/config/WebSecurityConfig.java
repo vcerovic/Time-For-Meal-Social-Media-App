@@ -11,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String[] WHITE_LIST_URLS = {"/api/v1/"};
+    private static final String[] WHITE_LIST_URLS = {"/"};
 
     @Bean
     public PasswordEncoder passwordEncoder(){
