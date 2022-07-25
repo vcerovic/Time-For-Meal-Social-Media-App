@@ -4,10 +4,7 @@ package com.veljkocerovic.timeformeal.error;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
-import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
-import com.veljkocerovic.timeformeal.user.exceptions.TokenExpiredException;
-import com.veljkocerovic.timeformeal.user.exceptions.TokenNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +50,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage()));
+    }
+
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<ErrorMessage> wrongPasswordException(WrongPasswordException exception,
+                                                              WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage()));
     }
 
 

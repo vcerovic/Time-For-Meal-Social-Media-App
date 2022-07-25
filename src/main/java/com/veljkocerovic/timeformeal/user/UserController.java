@@ -1,15 +1,9 @@
 package com.veljkocerovic.timeformeal.user;
 
-import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.user.event.RegistrationCompleteEvent;
-import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
-import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
-import com.veljkocerovic.timeformeal.user.exceptions.TokenExpiredException;
-import com.veljkocerovic.timeformeal.user.exceptions.TokenNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.*;
 import com.veljkocerovic.timeformeal.user.model.PasswordModel;
 import com.veljkocerovic.timeformeal.user.model.User;
-import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetToken;
-import com.veljkocerovic.timeformeal.user.tokens.verification.VerificationToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -30,9 +24,6 @@ public class UserController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @Autowired
-    private EmailSenderService emailSenderService;
-
     @GetMapping
     public Set<User> getAllUsers() {
         return userService.getAllUsers();
@@ -46,7 +37,7 @@ public class UserController {
                 user,
                 request.getRequestURL().toString()
         ));
-        return "Success";
+        return "Successfully registered new user";
     }
 
     @GetMapping("/verifyRegistration")
@@ -60,18 +51,7 @@ public class UserController {
     public String resendVerificationToken(@RequestParam(name = "token") String oldToken, HttpServletRequest request)
             throws TokenNotFoundException {
 
-        VerificationToken token = userService.generateNewVerificationToken(oldToken);
-        User user = token.getUser();
-
-        //Send mail with new token
-        String url = applicationUrl(request) + "/verifyRegistration?token=" + token.getToken();
-        emailSenderService.sendSimpleEmail(
-                user.getEmail(),
-                "Click the link to verify your account: " + url,
-                "Verify your account"
-        );
-
-
+        userService.resendVerificationToken(oldToken, request);
         return "Verification link sent";
     }
 
@@ -85,18 +65,8 @@ public class UserController {
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request)
             throws UserNotFoundException {
-        User user = userService.findUserByEmail(passwordModel.getEmail());
-        PasswordResetToken token = userService.saveUserPasswordResetToken(user);
-
-        //Send mail with reset token
-        String url = applicationUrl(request) + "/savePassword?token=" + token.getToken();
-        emailSenderService.sendSimpleEmail(
-                user.getEmail(),
-                "Click the link to reset your password: " + url,
-                "Reset your password"
-        );
-
-        return "Reset password link has been sent to " + user.getEmail() + " mail.";
+        userService.saveAndSendPasswordResetToken(passwordModel, request);
+        return "Reset password link has been sent to " + passwordModel.getEmail() + " mail.";
     }
 
 
@@ -113,18 +83,19 @@ public class UserController {
         User user = userService.getUserByPasswordResetToken(token);
 
         //Change password
-        userService.changePassword(user, passwordModel.getNewPassword());
+        userService.updatePassword(user, passwordModel.getNewPassword());
 
         return "Password reset successfully";
     }
 
-
-    private String applicationUrl(HttpServletRequest request) {
-        return "http://" +
-                request.getServerName() +
-                ":" +
-                request.getServerPort() +
-                request.getContextPath() + "/users";
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody PasswordModel passwordModel) throws
+            UserNotFoundException, WrongPasswordException {
+        userService.changePassword(passwordModel);
+        return "Password Changed Successfully";
     }
+
+
+
 
 }
