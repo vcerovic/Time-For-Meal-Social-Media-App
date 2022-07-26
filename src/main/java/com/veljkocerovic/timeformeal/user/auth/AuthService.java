@@ -26,6 +26,14 @@ public class AuthService implements UserDetailsService {
         AppUser appUser = optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         //Return spring user
-        return new User(appUser.getUsername(),appUser.getPassword(),new ArrayList<>());
+        return new User(
+                appUser.getUsername(),
+                appUser.getPassword(),
+                appUser.isEnabled(),
+                true,
+                true,
+                true,
+                new ArrayList<>()
+        );
     }
 }

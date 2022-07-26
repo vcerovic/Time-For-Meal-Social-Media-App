@@ -40,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
             userName = jwtUtils.getUsernameFromToken(token);
         }
 
-        //If username is not null and there isn't user logged in
+        //If username is not null and there isn't logged in user
         if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //Load user details
             UserDetails userDetails = authService.loadUserByUsername(userName);
@@ -56,7 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(httpServletRequest)
                 );
 
-                //Add username and password to security context (log in user)
+                //Add user to security context (log in user)
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
 

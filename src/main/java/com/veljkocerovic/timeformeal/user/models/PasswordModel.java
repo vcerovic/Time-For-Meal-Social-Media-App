@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.user.model;
+package com.veljkocerovic.timeformeal.user.models;
 
 import lombok.Data;
 

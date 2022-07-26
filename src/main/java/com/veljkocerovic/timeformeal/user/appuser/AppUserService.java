@@ -1,10 +1,7 @@
 package com.veljkocerovic.timeformeal.user.appuser;
 
 import com.veljkocerovic.timeformeal.user.exceptions.*;
-import com.veljkocerovic.timeformeal.user.model.PasswordModel;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Set;
+import com.veljkocerovic.timeformeal.user.models.UserUpdateModel;
 
 public interface AppUserService {
 
@@ -14,8 +11,10 @@ public interface AppUserService {
 
     AppUser findUserById(Integer userId) throws UserNotFoundException;
 
-    void updateUser(Integer userId, AppUser newUser) throws UserNotFoundException, UserAlreadyExistsException;
+    void updateUser(Integer userId, UserUpdateModel newUser) throws UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException;
 
     AppUser findUserByEmail(String email) throws UserNotFoundException;
+
+    AppUser findUserByUsername(String username) throws UserNotFoundException;
 
 }

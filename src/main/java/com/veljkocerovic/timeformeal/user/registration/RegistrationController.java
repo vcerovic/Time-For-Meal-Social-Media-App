@@ -2,9 +2,9 @@ package com.veljkocerovic.timeformeal.user.registration;
 
 import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import com.veljkocerovic.timeformeal.user.appuser.AppUserService;
-import com.veljkocerovic.timeformeal.user.registration.event.RegistrationCompleteEvent;
+import com.veljkocerovic.timeformeal.user.event.RegistrationCompleteEvent;
 import com.veljkocerovic.timeformeal.user.exceptions.*;
-import com.veljkocerovic.timeformeal.user.model.PasswordModel;
+import com.veljkocerovic.timeformeal.user.models.PasswordModel;
 import com.veljkocerovic.timeformeal.utils.Helpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

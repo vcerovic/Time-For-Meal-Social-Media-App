@@ -3,7 +3,7 @@ package com.veljkocerovic.timeformeal.user.appuser;
 import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
-import com.veljkocerovic.timeformeal.user.model.UserRole;
+import com.veljkocerovic.timeformeal.user.models.UserRole;
 import lombok.Data;
 
 import javax.persistence.*;

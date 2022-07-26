@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                 .disable()
                 .authorizeRequests()
                 .antMatchers(WHITE_LIST_URLS).permitAll()
+                //.antMatchers("/api/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/**").authenticated()

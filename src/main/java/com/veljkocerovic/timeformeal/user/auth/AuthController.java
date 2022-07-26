@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.user.auth;
 
-import com.veljkocerovic.timeformeal.user.model.JwtRequestModel;
-import com.veljkocerovic.timeformeal.user.model.JwtResponseModel;
+import com.veljkocerovic.timeformeal.user.models.JwtRequestModel;
+import com.veljkocerovic.timeformeal.user.models.JwtResponseModel;
 import com.veljkocerovic.timeformeal.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +28,7 @@ public class AuthController {
 
 
     //AUTHENTICATE
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public JwtResponseModel authenticateUser(@RequestBody JwtRequestModel jwtRequest) throws Exception {
         //Authenticate
         try {
@@ -39,14 +39,16 @@ public class AuthController {
                     )
             );
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new Exception("Invalid credentials", e);
         }
 
+        //Create spring user
         UserDetails userDetails = authService.loadUserByUsername(jwtRequest.getUsername());
 
-        //Generate token
+        //Generate jwt token
         String token = jwtUtils.generateToken(userDetails);
 
+        //Send back jwt token
         return new JwtResponseModel(token);
     }
 

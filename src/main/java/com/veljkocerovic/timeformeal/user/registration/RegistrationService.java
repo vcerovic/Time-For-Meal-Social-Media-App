@@ -5,7 +5,7 @@ import com.veljkocerovic.timeformeal.user.exceptions.TokenExpiredException;
 import com.veljkocerovic.timeformeal.user.exceptions.TokenNotFoundException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.exceptions.WrongPasswordException;
-import com.veljkocerovic.timeformeal.user.model.PasswordModel;
+import com.veljkocerovic.timeformeal.user.models.PasswordModel;
 
 import javax.servlet.http.HttpServletRequest;
 

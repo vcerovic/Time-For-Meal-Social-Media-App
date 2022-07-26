@@ -1,7 +1,9 @@
 package com.veljkocerovic.timeformeal.user.appuser;
 
+import com.veljkocerovic.timeformeal.user.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.user.models.UserUpdateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -38,10 +40,10 @@ public class AppUserController {
     @PreAuthorize("@authValidations.checkIfUserIsOwner(#userId, #authentication)")
     @PutMapping("/{id}")
     public String updateUser(@PathVariable(value = "id") Integer userId,
-                             @Valid @RequestBody AppUser appUser,
+                             @Valid @ModelAttribute UserUpdateModel user,
                              Authentication authentication) throws
-            UserNotFoundException, UserAlreadyExistsException {
-        appUserService.updateUser(userId, appUser);
+            UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
+        appUserService.updateUser(userId, user);
         return "User successfully updated.";
     }
 

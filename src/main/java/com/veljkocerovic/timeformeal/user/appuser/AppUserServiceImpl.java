@@ -1,21 +1,25 @@
 package com.veljkocerovic.timeformeal.user.appuser;
 
-import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.user.UserRepository;
-import com.veljkocerovic.timeformeal.user.exceptions.TokenNotFoundException;
+import com.veljkocerovic.timeformeal.user.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
-import com.veljkocerovic.timeformeal.user.model.UserRole;
+import com.veljkocerovic.timeformeal.user.models.UserRole;
+import com.veljkocerovic.timeformeal.user.models.UserUpdateModel;
 import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetToken;
 import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetTokenRepository;
 import com.veljkocerovic.timeformeal.user.tokens.verification.VerificationToken;
 import com.veljkocerovic.timeformeal.user.tokens.verification.VerificationTokenRepository;
+import com.veljkocerovic.timeformeal.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
@@ -39,6 +43,9 @@ public class AppUserServiceImpl implements AppUserService {
 
         //Encrypt password
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+
+        //Set default user image
+        appUser.setImage("no_user_image.jpg");
 
         //Set default appUser role
         appUser.setRole(UserRole.USER);
@@ -77,6 +84,8 @@ public class AppUserServiceImpl implements AppUserService {
         optionalPasswordResetToken.ifPresent(passwordResetToken -> passwordResetTokenRepository
                 .delete(passwordResetToken));
 
+        //Delete his image
+        FileUtil.deleteFile(FileUtil.userImageDir + user.getImage());
 
         userRepository.delete(user);
     }
@@ -89,19 +98,45 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public void updateUser(Integer userId, AppUser newUser) throws UserNotFoundException, UserAlreadyExistsException {
+    public void updateUser(Integer userId, UserUpdateModel newUserModel) throws UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
         AppUser oldUser = findUserById(userId);
+        MultipartFile image = newUserModel.getImage();
 
         //Check if username is taken
-        if(!oldUser.getUsername().equals(newUser.getUsername())){
-            checkIfUsernameAlreadyExists(newUser.getUsername());
-            oldUser.setUsername(newUser.getUsername());
+        if(!oldUser.getUsername().equals(newUserModel.getUsername())){
+            checkIfUsernameAlreadyExists(newUserModel.getUsername());
+            oldUser.setUsername(newUserModel.getUsername());
         }
 
         //Check if email is taken
-        if(!oldUser.getEmail().equals(newUser.getEmail())){
-            checkIfEmailAlreadyExists(newUser.getEmail());
-            oldUser.setEmail(newUser.getEmail());
+        if(!oldUser.getEmail().equals(newUserModel.getEmail())){
+            checkIfEmailAlreadyExists(newUserModel.getEmail());
+            oldUser.setEmail(newUserModel.getEmail());
+        }
+
+        //Check if uploaded image is smaller than 2mb
+        if (image.getSize() > 2e+6) {
+            throw new ImageSizeLimitException("Only 2mb image size is allowed");
+        }
+
+        //Check if new passed image doesn't equal to old one
+        if(!oldUser.getImage().equals(image.getName())){
+            //Renaming image file
+            String newUserImageName = newUserModel.getUsername().replaceAll(" ", "_").toLowerCase()
+                    + "_" + StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
+
+            //Deleting old image if doesn't equal to default
+            if(!oldUser.getImage().equals("no_user_image.jpg"))
+                FileUtil.deleteFile(FileUtil.userImageDir + oldUser.getImage());
+
+            try {
+                FileUtil.saveFile(FileUtil.userImageDir, newUserImageName, image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            oldUser.setImage(newUserImageName);
+
         }
 
         //Save user
@@ -112,6 +147,13 @@ public class AppUserServiceImpl implements AppUserService {
     public AppUser findUserByEmail(String email) throws UserNotFoundException {
         Optional<AppUser> optionalUser = userRepository.findByEmail(email);
 
-        return optionalUser.orElseThrow(() -> new UserNotFoundException("AppUser with " + email + " email doesn't exist."));
+        return optionalUser.orElseThrow(() -> new UserNotFoundException("User with " + email + " email doesn't exist."));
+    }
+
+    @Override
+    public AppUser findUserByUsername(String username) throws UserNotFoundException {
+        Optional<AppUser> optionalUser = userRepository.findByUsername(username);
+
+        return optionalUser.orElseThrow(() -> new UserNotFoundException("User with " + username + " doesn't exist."));
     }
 }
