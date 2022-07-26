@@ -1,8 +1,9 @@
-package com.veljkocerovic.timeformeal.user.model;
+package com.veljkocerovic.timeformeal.user.appuser;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
+import com.veljkocerovic.timeformeal.user.model.UserRole;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,11 +58,11 @@ public class User {
 
 
     //Recipe ratings
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "appUser")
     Set<RecipeRating> userRatings;
 
     //Recipe comments
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "appUser")
     Set<RecipeComment> userComments;
 
 }

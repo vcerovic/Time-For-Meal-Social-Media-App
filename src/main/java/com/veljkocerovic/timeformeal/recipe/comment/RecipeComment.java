@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.recipe.comment;
 
 import com.veljkocerovic.timeformeal.recipe.Recipe;
-import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class RecipeComment {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser appUser;
 
     @ManyToOne
     @MapsId("recipeId")

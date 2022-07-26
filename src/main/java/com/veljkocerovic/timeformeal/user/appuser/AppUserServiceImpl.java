@@ -1,9 +1,8 @@
-package com.veljkocerovic.timeformeal.user;
+package com.veljkocerovic.timeformeal.user.appuser;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.user.exceptions.*;
 import com.veljkocerovic.timeformeal.user.model.PasswordModel;
-import com.veljkocerovic.timeformeal.user.model.User;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
 import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetToken;
 import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetTokenRepository;
@@ -21,9 +20,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AppUserServiceImpl implements AppUserService {
     @Autowired
-    private UserRepository userRepository;
+    private AppUserRepository appUserRepository;
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
@@ -38,30 +37,30 @@ public class UserServiceImpl implements UserService {
     private EmailSenderService emailSenderService;
 
     @Override
-    public Set<User> getAllUsers() {
-        return userRepository.findAllByOrderByIdAsc();
+    public Set<AppUser> getAllUsers() {
+        return appUserRepository.findAllByOrderByIdAsc();
     }
 
     @Override
-    public void saveUser(User user) throws UserAlreadyExistsException {
+    public void saveUser(AppUser appUser) throws UserAlreadyExistsException {
         //Check if username already exists
-        Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
-        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User " +
+        Optional<AppUser> optionalUser = appUserRepository.findByUsername(appUser.getUsername());
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("AppUser " +
                 optionalUser.get().getUsername() + " already exists.");
 
 
         //Check if email already exists
-        Optional<User> emailUser = userRepository.findByEmail(user.getEmail());
-        if (emailUser.isPresent()) throw new UserAlreadyExistsException("User with " +
+        Optional<AppUser> emailUser = appUserRepository.findByEmail(appUser.getEmail());
+        if (emailUser.isPresent()) throw new UserAlreadyExistsException("AppUser with " +
                 emailUser.get().getEmail() + " email already exists.");
 
         //Encrypt password
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
-        //Set default user role
-        user.setRole(UserRole.USER);
+        //Set default appUser role
+        appUser.setRole(UserRole.USER);
 
-        userRepository.save(user);
+        appUserRepository.save(appUser);
     }
 
     @Override
@@ -70,20 +69,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Integer userId) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.findById(userId);
+    public AppUser findUserById(Integer userId) throws UserNotFoundException {
+        Optional<AppUser> optionalUser = appUserRepository.findById(userId);
 
-        return optionalUser.orElseThrow(() -> new UserNotFoundException("User with " + userId + " doesn't exist."));
+        return optionalUser.orElseThrow(() -> new UserNotFoundException("AppUser with " + userId + " doesn't exist."));
     }
 
     @Override
-    public void updateUser(Integer userId, User user) {
+    public void updateUser(Integer userId, AppUser appUser) {
 
     }
 
     @Override
-    public void saveUserVerificationToken(String token, User user) {
-        VerificationToken verificationToken = new VerificationToken(user, token);
+    public void saveUserVerificationToken(String token, AppUser appUser) {
+        VerificationToken verificationToken = new VerificationToken(appUser, token);
         verificationTokenRepository.save(verificationToken);
     }
 
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new TokenNotFoundException("Verification token doesn't exist"));
 
         //Check if token has expired
-        User user = verificationToken.getUser();
+        AppUser appUser = verificationToken.getAppUser();
         Calendar calendar = Calendar.getInstance();
 
         if((verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
@@ -105,16 +104,16 @@ public class UserServiceImpl implements UserService {
             throw new TokenExpiredException("Verification token expired");
         }
 
-        //Enable user
-        user.setEnabled(true);
-        userRepository.save(user);
+        //Enable appUser
+        appUser.setEnabled(true);
+        appUserRepository.save(appUser);
     }
 
     @Override
-    public User findUserByEmail(String email) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+    public AppUser findUserByEmail(String email) throws UserNotFoundException {
+        Optional<AppUser> optionalUser = appUserRepository.findByEmail(email);
 
-        return optionalUser.orElseThrow(() -> new UserNotFoundException("User with " + email + " email doesn't exist."));
+        return optionalUser.orElseThrow(() -> new UserNotFoundException("AppUser with " + email + " email doesn't exist."));
     }
 
 
@@ -136,30 +135,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByPasswordResetToken(String token) throws TokenNotFoundException {
+    public AppUser getUserByPasswordResetToken(String token) throws TokenNotFoundException {
         return passwordResetTokenRepository
                 .findByToken(token)
                 .orElseThrow(() -> new TokenNotFoundException("Password reset token doesn't exist"))
-                .getUser();
+                .getAppUser();
     }
 
     @Override
     public void changePassword(PasswordModel passwordModel) throws UserNotFoundException, WrongPasswordException {
-        User user = findUserByEmail(passwordModel.getEmail());
+        AppUser appUser = findUserByEmail(passwordModel.getEmail());
 
         //Check if old password doesn't match
-        if(!passwordEncoder.matches(passwordModel.getOldPassword(), user.getPassword())){
+        if(!passwordEncoder.matches(passwordModel.getOldPassword(), appUser.getPassword())){
             throw new WrongPasswordException("Wrong old password.");
         }
 
-        user.setPassword(passwordEncoder.encode(passwordModel.getNewPassword()));
-        userRepository.save(user);
+        appUser.setPassword(passwordEncoder.encode(passwordModel.getNewPassword()));
+        appUserRepository.save(appUser);
     }
 
     @Override
-    public void updatePassword(User user, String newPassword) {
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+    public void updatePassword(AppUser appUser, String newPassword) {
+        appUser.setPassword(passwordEncoder.encode(newPassword));
+        appUserRepository.save(appUser);
     }
 
     @Override
@@ -174,12 +173,12 @@ public class UserServiceImpl implements UserService {
         verificationToken.setToken(UUID.randomUUID().toString());
         verificationTokenRepository.save(verificationToken);
 
-        User user = verificationToken.getUser();
+        AppUser appUser = verificationToken.getAppUser();
 
         //Send mail with new token
         String url = Helpers.createAppUrl(request) + "/verifyRegistration?token=" + verificationToken.getToken();
         emailSenderService.sendSimpleEmail(
-                user.getEmail(),
+                appUser.getEmail(),
                 "Click the link to verify your account: " + url,
                 "Verify your account"
         );
@@ -187,11 +186,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveAndSendPasswordResetToken(PasswordModel passwordModel, HttpServletRequest request) throws UserNotFoundException {
-        User user = findUserByEmail(passwordModel.getEmail());
+        AppUser appUser = findUserByEmail(passwordModel.getEmail());
 
         //Generate token
         String token = UUID.randomUUID().toString();
-        PasswordResetToken passwordResetToken = new PasswordResetToken(user, token);
+        PasswordResetToken passwordResetToken = new PasswordResetToken(appUser, token);
 
         //Save token to database
         passwordResetTokenRepository.save(passwordResetToken);
@@ -200,7 +199,7 @@ public class UserServiceImpl implements UserService {
         //Send mail with reset token
         String url = Helpers.createAppUrl(request) + "/savePassword?token=" + passwordResetToken.getToken();
         emailSenderService.sendSimpleEmail(
-                user.getEmail(),
+                appUser.getEmail(),
                 "Click the link to reset your password: " + url,
                 "Reset your password"
         );

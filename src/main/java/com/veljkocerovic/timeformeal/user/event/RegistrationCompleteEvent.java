@@ -1,6 +1,6 @@
 package com.veljkocerovic.timeformeal.user.event;
 
-import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -9,12 +9,12 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 public class RegistrationCompleteEvent extends ApplicationEvent {
 
-    private User user;
+    private AppUser appUser;
     private String applicationUrl;
 
-    public RegistrationCompleteEvent(User user, String applicationUrl) {
-        super(user);
-        this.user = user;
+    public RegistrationCompleteEvent(AppUser appUser, String applicationUrl) {
+        super(appUser);
+        this.appUser = appUser;
         this.applicationUrl = applicationUrl;
     }
 

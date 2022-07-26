@@ -1,9 +1,8 @@
 package com.veljkocerovic.timeformeal.user.event;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
-import com.veljkocerovic.timeformeal.user.UserService;
-import com.veljkocerovic.timeformeal.user.model.User;
-import lombok.extern.slf4j.Slf4j;
+import com.veljkocerovic.timeformeal.user.appuser.AppUserService;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -14,25 +13,25 @@ import java.util.UUID;
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
     @Autowired
-    private UserService userService;
+    private AppUserService appUserService;
 
     @Autowired
     private EmailSenderService emailSenderService;
 
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
-        //Create verification token with link for user
-        User user = event.getUser();
+        //Create verification token with link for appUser
+        AppUser appUser = event.getAppUser();
         String token = UUID.randomUUID().toString();
 
         //Save token in database
-        userService.saveUserVerificationToken(token, user);
+        appUserService.saveUserVerificationToken(token, appUser);
 
-        //Send mail to user
+        //Send mail to appUser
         String url = event.getApplicationUrl() + "/verifyRegistration?token=" + token;
         String message = "Click the link to verify your account: " + url;
 
-        emailSenderService.sendSimpleEmail(user.getEmail(), message, "Verify your account");
+        emailSenderService.sendSimpleEmail(appUser.getEmail(), message, "Verify your account");
 
     }
 }

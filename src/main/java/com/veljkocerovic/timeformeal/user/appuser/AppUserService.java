@@ -1,36 +1,35 @@
-package com.veljkocerovic.timeformeal.user;
+package com.veljkocerovic.timeformeal.user.appuser;
 
 import com.veljkocerovic.timeformeal.user.exceptions.*;
 import com.veljkocerovic.timeformeal.user.model.PasswordModel;
-import com.veljkocerovic.timeformeal.user.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
-public interface UserService {
+public interface AppUserService {
 
-    Set<User> getAllUsers();
+    Set<AppUser> getAllUsers();
 
-    void saveUser(User user) throws UserAlreadyExistsException;
+    void saveUser(AppUser appUser) throws UserAlreadyExistsException;
 
     void deleteUser(Integer userId);
 
-    User findUserById(Integer userId) throws UserNotFoundException;
+    AppUser findUserById(Integer userId) throws UserNotFoundException;
 
-    void updateUser(Integer userId, User user);
+    void updateUser(Integer userId, AppUser appUser);
 
-    void saveUserVerificationToken(String token, User user);
+    void saveUserVerificationToken(String token, AppUser appUser);
 
     void validateVerificationToken(String token) throws TokenNotFoundException,
             TokenExpiredException;
 
-    User findUserByEmail(String email) throws UserNotFoundException;
+    AppUser findUserByEmail(String email) throws UserNotFoundException;
 
     void validatePasswordResetToken(String token) throws TokenNotFoundException, TokenExpiredException;
 
-    User getUserByPasswordResetToken(String token) throws TokenNotFoundException;
+    AppUser getUserByPasswordResetToken(String token) throws TokenNotFoundException;
 
-    void updatePassword(User user, String newPassword);
+    void updatePassword(AppUser appUser, String newPassword);
 
     void changePassword(PasswordModel passwordModel) throws UserNotFoundException, WrongPasswordException;
 

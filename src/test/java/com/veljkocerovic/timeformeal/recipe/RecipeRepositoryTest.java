@@ -3,7 +3,7 @@ package com.veljkocerovic.timeformeal.recipe;
 import com.veljkocerovic.timeformeal.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.recipe.ingredient.IngredientCategory;
-import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,17 +30,17 @@ class RecipeRepositoryTest {
     @BeforeEach
     void setUp() {
         //Owner setup
-        User testUser = new User();
-        testUser.setUsername("Veljko");
-        testUser.setEmail("veljko@gmail.com");
-        testUser.setPassword("veljko123");
-        testUser.setImage("veljko_image.png");
-        testUser.setEnabled(true);
-        testUser.setRole(UserRole.ADMIN);
+        AppUser testAppUser = new AppUser();
+        testAppUser.setUsername("Veljko");
+        testAppUser.setEmail("veljko@gmail.com");
+        testAppUser.setPassword("veljko123");
+        testAppUser.setImage("veljko_image.png");
+        testAppUser.setEnabled(true);
+        testAppUser.setRole(UserRole.ADMIN);
 
         //Recipe setup
         Recipe recipe = new Recipe();
-        recipe.setOwner(testUser);
+        recipe.setOwner(testAppUser);
         recipe.setName("Chicken with eggs");
         recipe.setInstruction("Dummy instructions");
         recipe.setPrepTime(2);

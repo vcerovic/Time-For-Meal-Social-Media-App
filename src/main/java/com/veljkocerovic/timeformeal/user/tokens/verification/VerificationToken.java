@@ -1,6 +1,6 @@
 package com.veljkocerovic.timeformeal.user.tokens.verification;
 
-import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,12 +30,12 @@ public class VerificationToken {
     @JoinColumn(name = "user_id",
             nullable = false,
             foreignKey = @ForeignKey(name = "FK_USER_PASSWORD_TOKEN"))
-    private User user;
+    private AppUser appUser;
 
-    public VerificationToken(User user, String token) {
+    public VerificationToken(AppUser appUser, String token) {
         super();
         this.token = token;
-        this.user = user;
+        this.appUser = appUser;
         this.expirationTime = calculateExpirationDate();
     }
 

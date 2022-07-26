@@ -4,7 +4,7 @@ import com.veljkocerovic.timeformeal.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.recipe.rating.RecipeRating;
-import com.veljkocerovic.timeformeal.user.model.User;
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +23,7 @@ public class Recipe {
     //Reference to owner (user)
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
-    private User owner;
+    private AppUser owner;
 
     //Basic info
     private String name;
@@ -51,7 +51,7 @@ public class Recipe {
 
     //Reference to users that liked this recipe
     @ManyToMany(mappedBy = "recipesLikes")
-    private Set<User> usersLikes;
+    private Set<AppUser> usersLikes;
 
 
     //Recipe ratings
