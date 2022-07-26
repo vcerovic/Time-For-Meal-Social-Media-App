@@ -5,6 +5,7 @@ import com.veljkocerovic.timeformeal.user.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -46,8 +47,8 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/**")
-                .authenticated()
+                //.antMatchers(HttpMethod.POST, "/api/**")
+                //.authenticated()
                 .antMatchers(WHITE_LIST_URLS)
                 .permitAll()
                 .and()

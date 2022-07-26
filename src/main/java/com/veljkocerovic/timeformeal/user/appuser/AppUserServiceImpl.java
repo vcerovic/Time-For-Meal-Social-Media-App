@@ -24,22 +24,9 @@ public class AppUserServiceImpl implements AppUserService {
 
 
     @Override
-    public Set<AppUser> getAllUsers() {
-        return userRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
     public void saveUser(AppUser appUser) throws UserAlreadyExistsException {
-        //Check if username already exists
-        Optional<AppUser> optionalUser = userRepository.findByUsername(appUser.getUsername());
-        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("AppUser " +
-                optionalUser.get().getUsername() + " already exists.");
-
-
-        //Check if email already exists
-        Optional<AppUser> emailUser = userRepository.findByEmail(appUser.getEmail());
-        if (emailUser.isPresent()) throw new UserAlreadyExistsException("AppUser with " +
-                emailUser.get().getEmail() + " email already exists.");
+        checkIfUsernameAlreadyExists(appUser.getUsername());
+        checkIfEmailAlreadyExists(appUser.getEmail());
 
         //Encrypt password
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
@@ -50,9 +37,24 @@ public class AppUserServiceImpl implements AppUserService {
         userRepository.save(appUser);
     }
 
-    @Override
-    public void deleteUser(Integer userId) {
+    private void checkIfEmailAlreadyExists(String email) throws UserAlreadyExistsException {
+        //Check if username already exists
+        Optional<AppUser> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User with " +
+                optionalUser.get().getEmail() + " email already exists.");
+    }
 
+    private void checkIfUsernameAlreadyExists(String username) throws UserAlreadyExistsException {
+        //Check if username already exists
+        Optional<AppUser> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User " +
+                optionalUser.get().getUsername() + " already exists.");
+    }
+
+    @Override
+    public void deleteUser(Integer userId) throws UserNotFoundException {
+        AppUser user = findUserById(userId);
+        userRepository.delete(user);
     }
 
     @Override
@@ -63,8 +65,23 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public void updateUser(Integer userId, AppUser appUser) {
+    public void updateUser(Integer userId, AppUser newUser) throws UserNotFoundException, UserAlreadyExistsException {
+        AppUser oldUser = findUserById(userId);
 
+        //Check if username is taken
+        if(!oldUser.getUsername().equals(newUser.getUsername())){
+            checkIfUsernameAlreadyExists(newUser.getUsername());
+            oldUser.setUsername(newUser.getUsername());
+        }
+
+        //Check if email is taken
+        if(!oldUser.getEmail().equals(newUser.getEmail())){
+            checkIfEmailAlreadyExists(newUser.getEmail());
+            oldUser.setEmail(newUser.getEmail());
+        }
+
+        //Save user
+        userRepository.save(oldUser);
     }
 
     @Override

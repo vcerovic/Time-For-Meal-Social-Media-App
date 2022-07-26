@@ -8,17 +8,14 @@ import java.util.Set;
 
 public interface AppUserService {
 
-    Set<AppUser> getAllUsers();
-
     void saveUser(AppUser appUser) throws UserAlreadyExistsException;
 
-    void deleteUser(Integer userId);
+    void deleteUser(Integer userId) throws UserNotFoundException;
 
     AppUser findUserById(Integer userId) throws UserNotFoundException;
 
-    void updateUser(Integer userId, AppUser appUser);
+    void updateUser(Integer userId, AppUser newUser) throws UserNotFoundException, UserAlreadyExistsException;
 
     AppUser findUserByEmail(String email) throws UserNotFoundException;
-
 
 }
