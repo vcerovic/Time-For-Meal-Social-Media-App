@@ -2,10 +2,13 @@ package com.veljkocerovic.timeformeal.user.appuser;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.user.UserRepository;
+import com.veljkocerovic.timeformeal.user.exceptions.TokenNotFoundException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
+import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetToken;
 import com.veljkocerovic.timeformeal.user.tokens.password.PasswordResetTokenRepository;
+import com.veljkocerovic.timeformeal.user.tokens.verification.VerificationToken;
 import com.veljkocerovic.timeformeal.user.tokens.verification.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +21,12 @@ import java.util.Set;
 public class AppUserServiceImpl implements AppUserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -54,6 +63,21 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void deleteUser(Integer userId) throws UserNotFoundException {
         AppUser user = findUserById(userId);
+
+        //Delete verification token if present
+        Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository
+                .findTokenByUserId(userId);
+        optionalVerificationToken.ifPresent(verificationToken -> verificationTokenRepository
+                .delete(verificationToken));
+
+
+        //Delete reset password token if present
+        Optional<PasswordResetToken> optionalPasswordResetToken = passwordResetTokenRepository
+                .findTokenByUserId(userId);
+        optionalPasswordResetToken.ifPresent(passwordResetToken -> passwordResetTokenRepository
+                .delete(passwordResetToken));
+
+
         userRepository.delete(user);
     }
 

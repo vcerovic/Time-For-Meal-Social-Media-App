@@ -3,6 +3,8 @@ package com.veljkocerovic.timeformeal.user.appuser;
 import com.veljkocerovic.timeformeal.user.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.user.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,16 +25,21 @@ public class AppUserController {
 
 
     //DELETE USER
+    @PreAuthorize("@authValidations.checkIfUserIsOwner(#userId, #authentication)")
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
+    public String deleteUser(@PathVariable(value = "id") Integer userId, Authentication authentication) throws
+            UserNotFoundException {
         appUserService.deleteUser(userId);
         return "User successfully deleted.";
     }
 
 
     //UPDATE USER
+    @PreAuthorize("@authValidations.checkIfUserIsOwner(#userId, #authentication)")
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable(value = "id") Integer userId, @Valid @RequestBody AppUser appUser) throws
+    public String updateUser(@PathVariable(value = "id") Integer userId,
+                             @Valid @RequestBody AppUser appUser,
+                             Authentication authentication) throws
             UserNotFoundException, UserAlreadyExistsException {
         appUserService.updateUser(userId, appUser);
         return "User successfully updated.";
