@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.filter;
 
 
-import com.veljkocerovic.timeformeal.user.AuthUserService;
+import com.veljkocerovic.timeformeal.user.auth.AuthService;
 import com.veljkocerovic.timeformeal.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private AuthUserService authUserService;
+    private AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
@@ -43,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
         //If username is not null and there isn't user logged in
         if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //Load user details
-            UserDetails userDetails = authUserService.loadUserByUsername(userName);
+            UserDetails userDetails = authService.loadUserByUsername(userName);
 
             //Validate token
             if(jwtUtils.validateToken(token, userDetails)) {

@@ -1,8 +1,8 @@
-package com.veljkocerovic.timeformeal.user.event;
+package com.veljkocerovic.timeformeal.user.registration.event;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
-import com.veljkocerovic.timeformeal.user.appuser.AppUserService;
 import com.veljkocerovic.timeformeal.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.user.registration.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
     @Autowired
-    private AppUserService appUserService;
+    private RegistrationService registrationService;
 
     @Autowired
     private EmailSenderService emailSenderService;
@@ -25,7 +25,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
         String token = UUID.randomUUID().toString();
 
         //Save token in database
-        appUserService.saveUserVerificationToken(token, appUser);
+        registrationService.saveUserVerificationToken(token, appUser);
 
         //Send mail to appUser
         String url = event.getApplicationUrl() + "/verifyRegistration?token=" + token;

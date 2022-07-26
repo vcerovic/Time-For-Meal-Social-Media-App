@@ -1,11 +1,12 @@
-package com.veljkocerovic.timeformeal.user.appuser;
+package com.veljkocerovic.timeformeal.user;
 
+import com.veljkocerovic.timeformeal.user.appuser.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.Set;
 
-public interface AppUserRepository extends JpaRepository<AppUser, Integer> {
+public interface UserRepository extends JpaRepository<AppUser, Integer> {
 
     Optional<AppUser> findByUsername(String username);
 

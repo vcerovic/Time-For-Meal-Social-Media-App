@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.config;
 
 import com.veljkocerovic.timeformeal.filter.JwtFilter;
-import com.veljkocerovic.timeformeal.user.AuthUserService;
+import com.veljkocerovic.timeformeal.user.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +22,12 @@ public class WebSecurityConfig {
 
 
     @Autowired
-    private AuthUserService authUserService;
+    private AuthService authService;
 
     @Autowired
     private JwtFilter jwtFilter;
 
-    private final String[] WHITE_LIST_URLS = {"/users/authenticate"};
+    private final String[] WHITE_LIST_URLS = {"/auth/*", "/registration/*"};
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(11);
@@ -37,7 +37,7 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configure AuthenticationManagerBuilder
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(authUserService);
+        authenticationManagerBuilder.userDetailsService(authService);
 
         // Get AuthenticationManager
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
@@ -45,11 +45,11 @@ public class WebSecurityConfig {
         http
                 .csrf()
                 .disable()
-                .authorizeHttpRequests()
+                .authorizeRequests()
+                .antMatchers("/api/**")
+                .authenticated()
                 .antMatchers(WHITE_LIST_URLS)
                 .permitAll()
-                .anyRequest()
-                .authenticated()
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()

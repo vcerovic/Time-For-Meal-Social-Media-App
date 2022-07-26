@@ -1,7 +1,6 @@
 package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.user.appuser.AppUserRepository;
 import com.veljkocerovic.timeformeal.user.model.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +14,13 @@ import java.util.Optional;
 
 @DataJpaTest
 @Rollback
-public class AppAppUserRepositoryTest {
+public class AppUserRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private AppUserRepository appUserRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp(){
@@ -40,7 +39,7 @@ public class AppAppUserRepositoryTest {
 
     @Test
     void findByUsername() {
-        Optional<AppUser> foundUser = appUserRepository.findByUsername("Veljko");
+        Optional<AppUser> foundUser = userRepository.findByUsername("Veljko");
         AppUser appUser = foundUser.orElseThrow(RuntimeException::new);
 
         Assertions.assertThat(appUser.getUsername()).isEqualTo("Veljko");
@@ -48,7 +47,7 @@ public class AppAppUserRepositoryTest {
 
     @Test
     void findByEmail() {
-        Optional<AppUser> foundUser = appUserRepository.findByEmail("veljko@gmail.com");
+        Optional<AppUser> foundUser = userRepository.findByEmail("veljko@gmail.com");
         AppUser appUser = foundUser.orElseThrow(RuntimeException::new);
 
         Assertions.assertThat(appUser.getEmail()).isEqualTo("veljko@gmail.com");
