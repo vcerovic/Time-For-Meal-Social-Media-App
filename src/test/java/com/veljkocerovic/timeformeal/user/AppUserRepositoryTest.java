@@ -28,7 +28,6 @@ public class AppUserRepositoryTest {
         testAppUser.setPassword("veljko123");
         testAppUser.setImage("veljko_image.png");
         testAppUser.setEnabled(true);
-        testAppUser.setRole("ADMIN");
 
         entityManager.persist(testAppUser);
         entityManager.flush();

@@ -38,8 +38,8 @@ public class AppUser {
     private String password;
 
     private String image;
+
     private boolean enabled = false;
-    private String role;
 
 
     //Recipes that user published

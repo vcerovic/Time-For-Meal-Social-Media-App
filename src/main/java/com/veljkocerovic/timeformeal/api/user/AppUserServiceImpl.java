@@ -45,9 +45,6 @@ public class AppUserServiceImpl implements AppUserService {
         //Set default user image
         appUser.setImage("no_user_image.jpg");
 
-        //Set default appUser role
-        appUser.setRole("USER");
-
         userRepository.save(appUser);
     }
 
