@@ -38,6 +38,7 @@ build/
 src/frontend/node_modules
 src/frontend/.pnp
 src/frontend.pnp.js
+src/frontend/.env
 
 # testing
 src/frontend/coverage
