@@ -27,9 +27,9 @@ public class AppUserController {
 
 
     //DELETE USER
-    @PreAuthorize("@authValidations.checkIfUserIsOwner(#userId, #authentication)")
+    @PreAuthorize("@securityService.isOwner(#userId)")
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable(value = "id") Integer userId, Authentication authentication) throws
+    public String deleteUser(@PathVariable(value = "id") Integer userId) throws
             UserNotFoundException {
         appUserService.deleteUser(userId);
         return "User successfully deleted.";
@@ -37,11 +37,10 @@ public class AppUserController {
 
 
     //UPDATE USER
-    @PreAuthorize("@authValidations.checkIfUserIsOwner(#userId, #authentication)")
+    @PreAuthorize("@securityService.isOwner(#userId)")
     @PutMapping("/{id}")
     public String updateUser(@PathVariable(value = "id") Integer userId,
-                             @Valid @ModelAttribute UserUpdateModel user,
-                             Authentication authentication) throws
+                             @Valid @ModelAttribute UserUpdateModel user) throws
             UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
         appUserService.updateUser(userId, user);
         return "User successfully updated.";

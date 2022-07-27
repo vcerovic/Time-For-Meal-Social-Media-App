@@ -1,15 +1,14 @@
 package com.veljkocerovic.timeformeal.api.user.appuser;
 
 import com.veljkocerovic.timeformeal.api.user.UserRepository;
-import com.veljkocerovic.timeformeal.api.user.models.UserRole;
 import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
+import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetToken;
+import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetTokenRepository;
 import com.veljkocerovic.timeformeal.api.user.tokens.verification.VerificationToken;
+import com.veljkocerovic.timeformeal.api.user.tokens.verification.VerificationTokenRepository;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
-import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetToken;
-import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetTokenRepository;
-import com.veljkocerovic.timeformeal.api.user.tokens.verification.VerificationTokenRepository;
 import com.veljkocerovic.timeformeal.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +47,7 @@ public class AppUserServiceImpl implements AppUserService {
         appUser.setImage("no_user_image.jpg");
 
         //Set default appUser role
-        appUser.setRole(UserRole.USER);
+        appUser.setRole("USER");
 
         userRepository.save(appUser);
     }
@@ -98,7 +97,8 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public void updateUser(Integer userId, UserUpdateModel newUserModel) throws UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
+    public void updateUser(Integer userId, UserUpdateModel newUserModel) throws
+            UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
         AppUser oldUser = findUserById(userId);
         MultipartFile image = newUserModel.getImage();
 

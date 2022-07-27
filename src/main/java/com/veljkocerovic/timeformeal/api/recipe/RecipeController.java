@@ -1,8 +1,10 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
+import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,7 @@ public class RecipeController {
     //CREATE NEW RECIPE
     @PostMapping
     public String saveRecipe(@Valid @ModelAttribute RecipeModel recipeModel,
-                             Authentication authentication) throws UserNotFoundException {
+                             Authentication authentication) throws UserNotFoundException, ImageSizeLimitException {
         recipeService.saveRecipe(recipeModel, authentication);
         return "Recipe successfully created";
     }
@@ -37,16 +39,17 @@ public class RecipeController {
     }
 
     //DELETE RECIPE
+    @PreAuthorize("@securityService.isRecipeOwner(#recipeId)")
     @DeleteMapping("/{id}")
-    public String deleteRecipe(@PathVariable(value = "id") Integer recipeId) throws RecipeNotFoundException {
+    public String deleteRecipe(@PathVariable(value = "id") Integer recipeId) throws
+            RecipeNotFoundException {
         recipeService.deleteRecipe(recipeId);
         return "Recipe successfully deleted.";
     }
 
     //UPDATE RECIPE
     @PutMapping("/{id}")
-    public String updateRecipe(@PathVariable(value = "id") Integer recipeId,
-                               @Valid @RequestBody Recipe recipe){
+    public String updateRecipe(@PathVariable(value = "id") Integer recipeId, @Valid @RequestBody Recipe recipe){
 
         return "";
     }

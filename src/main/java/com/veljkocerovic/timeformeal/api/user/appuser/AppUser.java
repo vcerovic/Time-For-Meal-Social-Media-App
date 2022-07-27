@@ -2,7 +2,6 @@ package com.veljkocerovic.timeformeal.api.user.appuser;
 
 import com.veljkocerovic.timeformeal.api.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.recipe.rating.RecipeRating;
-import com.veljkocerovic.timeformeal.api.user.models.UserRole;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import lombok.Data;
 
@@ -10,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,14 +38,12 @@ public class AppUser {
 
     private String image;
     private boolean enabled = false;
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String role;
 
 
     //Recipes that user published
     @OneToMany(mappedBy = "owner")
-    private Set<Recipe> recipes;
+    private List<Recipe> recipes;
 
 
     //Recipes that user liked

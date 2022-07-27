@@ -9,7 +9,7 @@ import java.nio.file.*;
 public class FileUtil {
 
     public static final String userImageDir = "images/user/";
-
+    public static final String recipeImageDir = "images/recipe/";
 
     public static void saveFile(String uploadDir, String fileName,
                                 MultipartFile multipartFile) throws IOException {

@@ -2,19 +2,16 @@ package com.veljkocerovic.timeformeal.user;
 
 import com.veljkocerovic.timeformeal.api.user.UserRepository;
 import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.api.user.models.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.annotation.Rollback;
 
 import java.util.Optional;
 
 @DataJpaTest
-@Rollback
 public class AppUserRepositoryTest {
 
     @Autowired
@@ -31,7 +28,7 @@ public class AppUserRepositoryTest {
         testAppUser.setPassword("veljko123");
         testAppUser.setImage("veljko_image.png");
         testAppUser.setEnabled(true);
-        testAppUser.setRole(UserRole.ADMIN);
+        testAppUser.setRole("ADMIN");
 
         entityManager.persist(testAppUser);
         entityManager.flush();

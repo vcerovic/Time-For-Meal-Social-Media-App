@@ -1,15 +1,22 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
+import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
+import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategoryService;
+import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientService;
 import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
 import com.veljkocerovic.timeformeal.api.user.appuser.AppUserService;
+import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService{
@@ -21,18 +28,60 @@ public class RecipeServiceImpl implements RecipeService{
     private AppUserService appUserService;
 
 
+    @Autowired
+    private RecipeCategoryService recipeCategoryService;
+
+    @Autowired
+    private IngredientService ingredientService;
+
+
     @Override
     public List<Recipe> getAllRecipes() {
         return recipeRepository.findAllByOrderByIdAsc();
     }
 
     @Override
-    public void saveRecipe(RecipeModel recipeModel, Authentication authentication) throws UserNotFoundException {
+    public void saveRecipe(RecipeModel recipeModel, Authentication authentication)
+            throws UserNotFoundException, ImageSizeLimitException {
         //Get current user
         AppUser currentUser = appUserService.findUserByUsername(authentication.getName());
 
-        System.out.println(currentUser);
-        System.out.println(recipeModel);
+        MultipartFile image = recipeModel.getImage();
+
+        //Check if uploaded image is smaller than 5mb
+        if (image.getSize() > 5e+6) {
+            throw new ImageSizeLimitException("Only 2mb image size is allowed");
+        }
+
+        //Creating recipe image name
+        String recipeImageName = recipeModel.getName().replaceAll(" ", "_").toLowerCase()
+                + "_" + StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
+
+        //Saving recipe image
+        try {
+            FileUtil.saveFile(FileUtil.recipeImageDir, recipeImageName, image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Creating recipe form recipe model
+        Recipe recipe = new Recipe();
+        recipe.setOwner(currentUser);
+        recipe.setName(recipeModel.getName());
+        recipe.setInstruction(recipeModel.getInstruction());
+        recipe.setPrepTime(recipeModel.getPrepTime());
+        recipe.setCookTime(recipeModel.getCookTime());
+        recipe.setServing(recipeModel.getServing());
+        recipe.setImage(recipeImageName);
+        recipe.setRecipeCategory(recipeCategoryService.getRecipeCategoryById(recipeModel.getRecipeCategoryId()));
+        recipe.setIngredients(ingredientService.getIngredientsByIds(recipeModel.getIngredientsIds()));
+
+        List<Recipe> recipes = new ArrayList<>();
+        recipes.add(recipe);
+        currentUser.setRecipes(recipes);
+
+        //Save recipe to database
+        recipeRepository.save(recipe);
     }
 
     @Override
@@ -44,7 +93,11 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     public void deleteRecipe(Integer recipeId) throws RecipeNotFoundException {
         Recipe recipe = getRecipeById(recipeId);
-        recipeRepository.delete(recipe);
+
+        recipeRepository.deleteRecipeById(recipeId);
+
+        //Delete recipe image
+        FileUtil.deleteFile(FileUtil.recipeImageDir + recipe.getImage());
     }
 
     @Override

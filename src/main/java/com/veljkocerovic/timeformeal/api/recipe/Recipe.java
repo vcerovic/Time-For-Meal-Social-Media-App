@@ -8,7 +8,7 @@ import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "recipes")
@@ -22,7 +22,9 @@ public class Recipe {
 
     //Reference to owner (user)
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(
+            name="user_id",
+            foreignKey=@ForeignKey(name = "FK_USER_ID"))
     private AppUser owner;
 
     //Basic info
@@ -40,8 +42,10 @@ public class Recipe {
     private String image;
 
     //Recipe category
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name="category_id",
+            foreignKey=@ForeignKey(name = "FK_RECIPE_CATEGORY"))
     private RecipeCategory recipeCategory;
 
 
@@ -51,21 +55,22 @@ public class Recipe {
             name = "recipe_ingredients",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
-    private Set<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
 
     //Reference to users that liked this recipe
     @ManyToMany(mappedBy = "recipesLikes")
-    private Set<AppUser> usersLikes;
+    private List<AppUser> usersLikes;
 
 
     //Recipe ratings
     @OneToMany(mappedBy = "recipe")
-    Set<RecipeRating> recipeRatings;
+    List<RecipeRating> recipeRatings;
 
 
     //Recipe comments
     @OneToMany(mappedBy = "recipe")
-    Set<RecipeComment> recipeComments;
+    List<RecipeComment> recipeComments;
+
 
 }

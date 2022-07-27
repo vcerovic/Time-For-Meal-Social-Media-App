@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -46,6 +47,6 @@ public class RecipeModel {
     private Integer recipeCategoryId;
 
     @NotNull(message = "You need to select ingredients for your recipe")
-    private Set<Integer> ingredientsIds;
+    private List<Integer> ingredientsIds;
 
 }

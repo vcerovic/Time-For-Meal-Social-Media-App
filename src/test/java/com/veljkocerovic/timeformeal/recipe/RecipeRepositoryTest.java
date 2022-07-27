@@ -6,21 +6,16 @@ import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientCategory;
 import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.api.user.models.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.annotation.Rollback;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @DataJpaTest
-@Rollback
 class RecipeRepositoryTest {
 
     @Autowired
@@ -38,7 +33,7 @@ class RecipeRepositoryTest {
         testAppUser.setPassword("veljko123");
         testAppUser.setImage("veljko_image.png");
         testAppUser.setEnabled(true);
-        testAppUser.setRole(UserRole.ADMIN);
+        testAppUser.setRole("ADMIN");
 
         //Recipe setup
         Recipe recipe = new Recipe();
@@ -62,7 +57,7 @@ class RecipeRepositoryTest {
         eggsCategory.setName("Dairy & Eggs");
         ingredient.setCategory(eggsCategory);
 
-        Set<Ingredient> ingredients = new HashSet<>();
+        List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(ingredient);
         recipe.setIngredients(ingredients);
 
