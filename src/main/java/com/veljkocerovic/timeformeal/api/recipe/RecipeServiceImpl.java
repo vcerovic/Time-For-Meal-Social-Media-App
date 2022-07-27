@@ -1,6 +1,5 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
-import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategoryService;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientService;
 import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
@@ -50,7 +49,7 @@ public class RecipeServiceImpl implements RecipeService{
 
         //Check if uploaded image is smaller than 5mb
         if (image.getSize() > 5e+6) {
-            throw new ImageSizeLimitException("Only 2mb image size is allowed");
+            throw new ImageSizeLimitException("Only 5mb image size is allowed");
         }
 
         //Creating recipe image name
@@ -66,15 +65,10 @@ public class RecipeServiceImpl implements RecipeService{
 
         //Creating recipe form recipe model
         Recipe recipe = new Recipe();
-        recipe.setOwner(currentUser);
-        recipe.setName(recipeModel.getName());
-        recipe.setInstruction(recipeModel.getInstruction());
-        recipe.setPrepTime(recipeModel.getPrepTime());
-        recipe.setCookTime(recipeModel.getCookTime());
-        recipe.setServing(recipeModel.getServing());
         recipe.setImage(recipeImageName);
-        recipe.setRecipeCategory(recipeCategoryService.getRecipeCategoryById(recipeModel.getRecipeCategoryId()));
-        recipe.setIngredients(ingredientService.getIngredientsByIds(recipeModel.getIngredientsIds()));
+        recipe.setOwner(currentUser);
+
+        swapModelToRecipe(recipeModel, recipe);
 
         List<Recipe> recipes = new ArrayList<>();
         recipes.add(recipe);
@@ -83,6 +77,7 @@ public class RecipeServiceImpl implements RecipeService{
         //Save recipe to database
         recipeRepository.save(recipe);
     }
+
 
     @Override
     public Recipe getRecipeById(Integer recipeId) throws RecipeNotFoundException {
@@ -101,7 +96,45 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public void updateRecipe(Integer recipeId, Recipe newRecipe) {
+    public void updateRecipe(Integer recipeId, RecipeModel newRecipeModel) throws RecipeNotFoundException, ImageSizeLimitException {
+        Recipe oldRecipe = getRecipeById(recipeId);
+        MultipartFile image = newRecipeModel.getImage();
 
+        //Check if uploaded image is smaller than 5mb
+        if (image.getSize() > 5e+6) {
+            throw new ImageSizeLimitException("Only 5mb image size is allowed");
+        }
+
+        //Check if new passed image doesn't equal to old one
+        if(!oldRecipe.getImage().equals(image.getName())){
+            //Renaming image file
+            String newRecipeImageName = newRecipeModel.getName().replaceAll(" ", "_").toLowerCase()
+                    + "_" + StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
+
+            //Deleting old image
+            FileUtil.deleteFile(FileUtil.recipeImageDir + oldRecipe.getImage());
+
+            try {
+                FileUtil.saveFile(FileUtil.recipeImageDir, newRecipeImageName, image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            oldRecipe.setImage(newRecipeImageName);
+        }
+
+        //Change other properties
+        swapModelToRecipe(newRecipeModel, oldRecipe);
+        recipeRepository.save(oldRecipe);
+    }
+
+    private void swapModelToRecipe(RecipeModel recipeModel, Recipe recipe) {
+        recipe.setName(recipeModel.getName());
+        recipe.setInstruction(recipeModel.getInstruction());
+        recipe.setPrepTime(recipeModel.getPrepTime());
+        recipe.setCookTime(recipeModel.getCookTime());
+        recipe.setServing(recipeModel.getServing());
+        recipe.setRecipeCategory(recipeCategoryService.getRecipeCategoryById(recipeModel.getRecipeCategoryId()));
+        recipe.setIngredients(ingredientService.getIngredientsByIds(recipeModel.getIngredientsIds()));
     }
 }

@@ -34,7 +34,8 @@ public class RecipeController {
 
     //GET RECIPE BY ID
     @GetMapping("/{id}")
-    public Recipe getRecipeById(@PathVariable(value = "id") Integer recipeId) throws RecipeNotFoundException {
+    public Recipe getRecipeById(@PathVariable(value = "id") Integer recipeId) throws
+            RecipeNotFoundException {
         return recipeService.getRecipeById(recipeId);
     }
 
@@ -48,10 +49,14 @@ public class RecipeController {
     }
 
     //UPDATE RECIPE
+    @PreAuthorize("@securityService.isRecipeOwner(#recipeId)")
     @PutMapping("/{id}")
-    public String updateRecipe(@PathVariable(value = "id") Integer recipeId, @Valid @RequestBody Recipe recipe){
-
-        return "";
+    public String updateRecipe(@PathVariable(value = "id") Integer recipeId,
+                               @Valid @ModelAttribute RecipeModel recipeModel) throws
+            RecipeNotFoundException,
+            ImageSizeLimitException {
+        recipeService.updateRecipe(recipeId, recipeModel);
+        return "Recipe successfully updated.";
     }
 
 }
