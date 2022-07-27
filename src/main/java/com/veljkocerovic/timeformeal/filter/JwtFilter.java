@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.filter;
 
 
-import com.veljkocerovic.timeformeal.api.user.auth.AuthService;
+import com.veljkocerovic.timeformeal.api.auth.AuthService;
 import com.veljkocerovic.timeformeal.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

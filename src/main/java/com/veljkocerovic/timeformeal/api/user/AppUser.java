@@ -1,8 +1,8 @@
 package com.veljkocerovic.timeformeal.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.veljkocerovic.timeformeal.api.recipe.comment.RecipeComment;
-import com.veljkocerovic.timeformeal.api.recipe.rating.RecipeRating;
+import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
+import com.veljkocerovic.timeformeal.api.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import lombok.Data;
 
@@ -49,13 +49,13 @@ public class AppUser {
 
 
     //Recipes that user liked
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "recipe_likes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     @JsonIgnore
-    private Set<Recipe> recipesLikes;
+    private List<Recipe> recipesLikes;
 
 
     //Recipe ratings

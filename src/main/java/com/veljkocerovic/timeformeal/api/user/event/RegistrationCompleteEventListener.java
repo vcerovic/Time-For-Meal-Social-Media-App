@@ -2,7 +2,7 @@ package com.veljkocerovic.timeformeal.api.user.event;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
-import com.veljkocerovic.timeformeal.api.user.registration.RegistrationService;
+import com.veljkocerovic.timeformeal.api.registration.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

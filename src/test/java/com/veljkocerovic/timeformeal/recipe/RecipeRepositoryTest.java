@@ -2,9 +2,9 @@ package com.veljkocerovic.timeformeal.recipe;
 
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import com.veljkocerovic.timeformeal.api.recipe.RecipeRepository;
-import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
-import com.veljkocerovic.timeformeal.api.recipe.ingredient.Ingredient;
-import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientCategory;
+import com.veljkocerovic.timeformeal.api.category.RecipeCategory;
+import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;
+import com.veljkocerovic.timeformeal.api.ingredient.IngredientCategory;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

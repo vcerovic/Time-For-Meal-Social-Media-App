@@ -1,9 +1,9 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
-import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
-import com.veljkocerovic.timeformeal.api.recipe.comment.RecipeComment;
-import com.veljkocerovic.timeformeal.api.recipe.ingredient.Ingredient;
-import com.veljkocerovic.timeformeal.api.recipe.rating.RecipeRating;
+import com.veljkocerovic.timeformeal.api.category.RecipeCategory;
+import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
+import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;
+import com.veljkocerovic.timeformeal.api.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.Data;
 
@@ -59,7 +59,7 @@ public class Recipe {
 
 
     //Reference to users that liked this recipe
-    @ManyToMany(mappedBy = "recipesLikes")
+    @ManyToMany(mappedBy = "recipesLikes", cascade = CascadeType.ALL)
     private List<AppUser> usersLikes;
 
 

@@ -1,10 +1,10 @@
 package com.veljkocerovic.timeformeal.api.user;
 
 import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
-import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetToken;
-import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetTokenRepository;
-import com.veljkocerovic.timeformeal.api.user.tokens.verification.VerificationToken;
-import com.veljkocerovic.timeformeal.api.user.tokens.verification.VerificationTokenRepository;
+import com.veljkocerovic.timeformeal.api.tokens.password.PasswordResetToken;
+import com.veljkocerovic.timeformeal.api.tokens.password.PasswordResetTokenRepository;
+import com.veljkocerovic.timeformeal.api.tokens.verification.VerificationToken;
+import com.veljkocerovic.timeformeal.api.tokens.verification.VerificationTokenRepository;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
