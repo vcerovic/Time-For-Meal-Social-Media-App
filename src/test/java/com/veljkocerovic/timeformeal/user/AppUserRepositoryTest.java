@@ -1,7 +1,8 @@
 package com.veljkocerovic.timeformeal.user;
 
-import com.veljkocerovic.timeformeal.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.user.models.UserRole;
+import com.veljkocerovic.timeformeal.api.user.UserRepository;
+import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.models.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
