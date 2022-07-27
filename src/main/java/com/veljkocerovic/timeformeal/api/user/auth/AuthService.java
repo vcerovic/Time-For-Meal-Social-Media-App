@@ -2,7 +2,7 @@ package com.veljkocerovic.timeformeal.api.user.auth;
 
 
 import com.veljkocerovic.timeformeal.api.user.UserRepository;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

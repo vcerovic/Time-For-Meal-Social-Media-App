@@ -2,8 +2,8 @@ package com.veljkocerovic.timeformeal.api.recipe;
 
 import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategoryService;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientService;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUserService;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUserService;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;

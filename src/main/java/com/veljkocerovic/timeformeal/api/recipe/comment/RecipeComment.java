@@ -1,7 +1,7 @@
 package com.veljkocerovic.timeformeal.api.recipe.comment;
 
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;

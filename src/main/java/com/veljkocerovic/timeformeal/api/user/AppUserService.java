@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.api.user.appuser;
+package com.veljkocerovic.timeformeal.api.user;
 
 import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;

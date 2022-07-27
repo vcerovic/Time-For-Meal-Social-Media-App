@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.api.recipe.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class RecipeCategory {
 
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "recipeCategory")
     private List<Recipe> recipes;
 

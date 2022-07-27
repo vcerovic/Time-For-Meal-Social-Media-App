@@ -1,5 +1,6 @@
-package com.veljkocerovic.timeformeal.api.user.appuser;
+package com.veljkocerovic.timeformeal.api.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.veljkocerovic.timeformeal.api.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.recipe.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
@@ -43,6 +44,7 @@ public class AppUser {
 
     //Recipes that user published
     @OneToMany(mappedBy = "owner")
+    @JsonIgnore
     private List<Recipe> recipes;
 
 
@@ -52,15 +54,18 @@ public class AppUser {
             name = "recipe_likes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+    @JsonIgnore
     private Set<Recipe> recipesLikes;
 
 
     //Recipe ratings
     @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
     Set<RecipeRating> userRatings;
 
     //Recipe comments
     @OneToMany(mappedBy = "appUser")
+    @JsonIgnore
     Set<RecipeComment> userComments;
 
 }

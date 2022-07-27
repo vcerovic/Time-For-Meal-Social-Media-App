@@ -1,6 +1,6 @@
 package com.veljkocerovic.timeformeal.api.user.tokens.password;
 
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

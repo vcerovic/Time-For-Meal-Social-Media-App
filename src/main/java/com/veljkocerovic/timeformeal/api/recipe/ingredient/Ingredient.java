@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.api.recipe.ingredient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Ingredient {
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     private IngredientCategory category;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "ingredients")
     private Set<Recipe> recipes;
 }

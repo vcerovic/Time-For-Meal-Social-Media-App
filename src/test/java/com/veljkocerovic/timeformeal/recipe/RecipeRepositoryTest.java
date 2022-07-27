@@ -5,7 +5,7 @@ import com.veljkocerovic.timeformeal.api.recipe.RecipeRepository;
 import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.IngredientCategory;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

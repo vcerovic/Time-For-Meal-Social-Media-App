@@ -1,13 +1,16 @@
 package com.veljkocerovic.timeformeal.api.recipe.rating;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class RecipeRatingKey implements Serializable {
 
     @Column(name = "user_id")

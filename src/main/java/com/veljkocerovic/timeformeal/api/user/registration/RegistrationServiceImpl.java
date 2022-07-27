@@ -1,8 +1,8 @@
 package com.veljkocerovic.timeformeal.api.user.registration;
 
 import com.veljkocerovic.timeformeal.api.user.UserRepository;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUserService;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUserService;
 import com.veljkocerovic.timeformeal.api.user.models.PasswordModel;
 import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetToken;
 import com.veljkocerovic.timeformeal.api.user.tokens.password.PasswordResetTokenRepository;

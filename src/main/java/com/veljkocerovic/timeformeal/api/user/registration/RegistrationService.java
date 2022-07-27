@@ -1,6 +1,6 @@
 package com.veljkocerovic.timeformeal.api.user.registration;
 
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import com.veljkocerovic.timeformeal.exceptions.TokenExpiredException;
 import com.veljkocerovic.timeformeal.exceptions.TokenNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;

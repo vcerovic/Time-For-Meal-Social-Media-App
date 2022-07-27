@@ -4,7 +4,7 @@ import com.veljkocerovic.timeformeal.api.recipe.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.recipe.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.recipe.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.api.recipe.rating.RecipeRating;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.Data;
 
 import javax.persistence.*;

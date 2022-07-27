@@ -2,17 +2,14 @@ package com.veljkocerovic.timeformeal.services;
 
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import com.veljkocerovic.timeformeal.api.recipe.RecipeService;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUser;
-import com.veljkocerovic.timeformeal.api.user.appuser.AppUserService;
+import com.veljkocerovic.timeformeal.api.user.AppUser;
+import com.veljkocerovic.timeformeal.api.user.AppUserService;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
-import java.util.Set;
 
 @Service("securityService")
 public class SecurityService {
