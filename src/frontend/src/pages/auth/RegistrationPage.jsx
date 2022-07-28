@@ -1,0 +1,59 @@
+import React from 'react'
+
+const RegistrationPage = () => {
+    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, email: email, password: password })
+        };
+
+        const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/registration/register`, 
+            requestOptions);
+
+        const data = await response.json();
+
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="username">Username</label>
+                <input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="email">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="password">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    );
+}
+
+export default RegistrationPage

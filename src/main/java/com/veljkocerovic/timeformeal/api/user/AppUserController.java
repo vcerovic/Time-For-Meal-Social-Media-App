@@ -1,14 +1,13 @@
 package com.veljkocerovic.timeformeal.api.user;
 
+import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
-import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
