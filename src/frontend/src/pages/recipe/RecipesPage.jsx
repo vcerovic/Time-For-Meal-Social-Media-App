@@ -17,7 +17,7 @@ const RecipePage = () => {
 
       setRecipes(data);
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
   }
 

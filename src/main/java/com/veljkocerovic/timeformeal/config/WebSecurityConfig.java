@@ -47,6 +47,8 @@ public class WebSecurityConfig {
 
         http
                 .csrf()
+                .and()
+                .cors()
                 .disable()
                 .authorizeRequests()
                 .antMatchers(WHITE_LIST_URLS).permitAll()

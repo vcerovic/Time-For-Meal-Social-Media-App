@@ -8,6 +8,6 @@ public class Helpers {
                 request.getServerName() +
                 ":" +
                 request.getServerPort() +
-                request.getContextPath() + "/registration";
+                request.getContextPath();
     }
 }

@@ -35,10 +35,12 @@ public class AppUser {
 
     @NotEmpty
     @Size(min = 4, max = 100, message = "Password must be between 4 and 50 characters")
+    @JsonIgnore
     private String password;
 
     private String image;
 
+    @JsonIgnore
     private boolean enabled = false;
 
 

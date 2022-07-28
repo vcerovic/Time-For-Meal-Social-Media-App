@@ -1,11 +1,12 @@
 import React from 'react'
+import { useCookies } from 'react-cookie';
 
-const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/register';
+const LOGIN_PATH = process.env.REACT_APP_API_URL + '/login';
 
-const RegistrationPage = () => {
+const LoginPage = () => {
     const [username, setUsername] = React.useState('');
-    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [cookies, setCookie] = useCookies(['jwt']);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -16,20 +17,23 @@ const RegistrationPage = () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: username, email: email, password: password })
+            body: JSON.stringify({ username: username, password: password })
         };
 
         
 
         try{
-            const response = await fetch(REGISTRATION_PATH, requestOptions);
+            const response = await fetch(LOGIN_PATH, requestOptions);
             const data = await response.json();
+    
             
             if (!response.ok) {
                 throw new Error(data.message);
             }
             
-            alert(data.message)
+            setCookie('JWT', 'Bearer ' + data.jwtToken, 
+            { path: '/', maxAge: 259200, sameSite: 'none' })
+
         } catch(err){
             alert(err.message);
         }
@@ -48,15 +52,6 @@ const RegistrationPage = () => {
                 />
             </div>
             <div>
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </div>
-            <div>
                 <label htmlFor="password">Password</label>
                 <input
                     id="password"
@@ -70,4 +65,4 @@ const RegistrationPage = () => {
     );
 }
 
-export default RegistrationPage
+export default LoginPage
