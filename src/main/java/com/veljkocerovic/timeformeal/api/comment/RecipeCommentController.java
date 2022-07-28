@@ -2,7 +2,10 @@ package com.veljkocerovic.timeformeal.api.comment;
 
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +25,15 @@ public class RecipeCommentController {
 
     //COMMENT RECIPE
     @PostMapping("/{id}/comment")
-    public String commentRecipe(@PathVariable(value = "id") Integer recipeId,
-                                @RequestParam String comment) throws
+    public ResponseEntity<ResponseMessage> commentRecipe(@PathVariable(value = "id") Integer recipeId,
+                                                         @RequestParam String comment) throws
             UserNotFoundException, RecipeNotFoundException {
         commentService.commentRecipe(recipeId, comment);
-        return "Comment successfully created.";
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseMessage(
+                        "Comment successfully created."));
     }
 
 }

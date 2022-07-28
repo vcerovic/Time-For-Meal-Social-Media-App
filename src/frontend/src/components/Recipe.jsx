@@ -6,19 +6,32 @@ const Recipe = ({ recipeId }) => {
     const [recipeImage, setRecipeImage] = useState();
 
     const getRecipe = async () => {
-        const response =
-            await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}`);
-        const data = await response.json();
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}`);
+            const data = await response.json();
 
-        setRecipe(data);
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+
+            setRecipe(data);
+        } catch (err) {
+            alert(err);
+        }
+
     }
 
     const getRecipeImage = async () => {
-        const response =
-            await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}/image`);
-        const imageBlob = await response.blob();
-        const imageObjectURL = await URL.createObjectURL(imageBlob);
-        setRecipeImage(imageObjectURL);
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}/image`);
+            const imageBlob = await response.blob();
+            const imageObjectURL = await URL.createObjectURL(imageBlob);
+            
+            setRecipeImage(imageObjectURL);
+        } catch (err) {
+            alert(err);
+        }
+
     }
 
 

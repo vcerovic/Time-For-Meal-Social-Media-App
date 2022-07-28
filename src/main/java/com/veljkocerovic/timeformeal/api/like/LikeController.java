@@ -3,7 +3,10 @@ package com.veljkocerovic.timeformeal.api.like;
 
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,9 +23,11 @@ public class LikeController {
     }
 
     @PostMapping("/{id}/like")
-    public String likeRecipe(@PathVariable(value = "id") Integer recipeId)
+    public ResponseEntity<ResponseMessage> likeRecipe(@PathVariable(value = "id") Integer recipeId)
             throws UserNotFoundException, RecipeNotFoundException {
         likeService.likeRecipe(recipeId);
-        return "Successfully liked";
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseMessage("Successfully liked"));
     }
 }

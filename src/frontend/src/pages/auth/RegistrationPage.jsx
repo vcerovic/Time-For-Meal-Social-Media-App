@@ -7,19 +7,33 @@ const RegistrationPage = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
+        registerUser();
+    }
 
+    const registerUser = async () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: username, email: email, password: password })
         };
 
-        const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/registration/register`, 
-            requestOptions);
+        
 
-        const data = await response.json();
+        try{
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/registration/register`, requestOptions);
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+            
+            console.log(response);
 
+            alert(data.message)
+        } catch(err){
+            alert(err.message);
+        }
+       
     }
 
     return (

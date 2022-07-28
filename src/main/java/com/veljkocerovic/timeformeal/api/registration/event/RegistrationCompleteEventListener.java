@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.api.user.event;
+package com.veljkocerovic.timeformeal.api.registration.event;
 
 import com.veljkocerovic.timeformeal.services.EmailSenderService;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Component
@@ -18,6 +19,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     @Autowired
     private EmailSenderService emailSenderService;
 
+    @Transactional
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
         //Create verification token with link for appUser

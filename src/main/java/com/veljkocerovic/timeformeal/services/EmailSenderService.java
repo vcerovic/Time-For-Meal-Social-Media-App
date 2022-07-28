@@ -2,10 +2,13 @@ package com.veljkocerovic.timeformeal.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -14,6 +17,8 @@ import java.io.File;
 import java.util.Objects;
 
 @Service
+@Configuration
+@EnableAsync
 public class EmailSenderService {
 
     @Value("${spring.mail.username}")
@@ -21,6 +26,7 @@ public class EmailSenderService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Async
     public void sendSimpleEmail(String toEmail,
                                 String body,
                                 String subject) {
@@ -35,6 +41,7 @@ public class EmailSenderService {
         System.out.println("Mail Send...");
     }
 
+    @Async
     public void sendEmailWithAttachment(String toEmail,
                                         String body,
                                         String subject,

@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.error;
+package com.veljkocerovic.timeformeal.response;
 
 
 import com.veljkocerovic.timeformeal.exceptions.*;
@@ -22,51 +22,51 @@ import java.util.Map;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecipeNotFoundException.class)
-    public ResponseEntity<ErrorMessage> recipeNotFoundException(RecipeNotFoundException exception,
-                                                              WebRequest request) {
+    public ResponseEntity<ResponseMessage> recipeNotFoundException(RecipeNotFoundException exception,
+                                                                   WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorMessage> userNotFoundException(UserNotFoundException exception,
-                                                              WebRequest request) {
+    public ResponseEntity<ResponseMessage> userNotFoundException(UserNotFoundException exception,
+                                                                 WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorMessage> userAlreadyExistsException(UserAlreadyExistsException exception,
-                                                              WebRequest request) {
+    public ResponseEntity<ResponseMessage> userAlreadyExistsException(UserAlreadyExistsException exception,
+                                                                      WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(TokenNotFoundException.class)
-    public ResponseEntity<ErrorMessage> tokenNotFoundException(TokenNotFoundException exception,
-                                                                           WebRequest request) {
+    public ResponseEntity<ResponseMessage> tokenNotFoundException(TokenNotFoundException exception,
+                                                                  WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<ErrorMessage> tokenExpiredException(TokenExpiredException exception,
-                                                                          WebRequest request) {
+    public ResponseEntity<ResponseMessage> tokenExpiredException(TokenExpiredException exception,
+                                                                 WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorMessage(HttpStatus.UNAUTHORIZED, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(WrongPasswordException.class)
-    public ResponseEntity<ErrorMessage> wrongPasswordException(WrongPasswordException exception,
-                                                              WebRequest request) {
+    public ResponseEntity<ResponseMessage> wrongPasswordException(WrongPasswordException exception,
+                                                                  WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(new ErrorMessage(HttpStatus.CONFLICT, exception.getMessage()));
+                .body(new ResponseMessage(exception.getMessage()));
     }
 
 

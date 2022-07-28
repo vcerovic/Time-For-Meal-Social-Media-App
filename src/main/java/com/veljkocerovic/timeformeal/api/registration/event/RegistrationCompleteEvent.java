@@ -1,4 +1,4 @@
-package com.veljkocerovic.timeformeal.api.user.event;
+package com.veljkocerovic.timeformeal.api.registration.event;
 
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.Getter;

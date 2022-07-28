@@ -3,7 +3,10 @@ package com.veljkocerovic.timeformeal.api.rating;
 
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
+import com.veljkocerovic.timeformeal.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +26,12 @@ public class RecipeRatingController {
 
     //RATE RECIPE
     @PostMapping("/{id}/rate")
-    public String rateRecipe(@PathVariable(value = "id") Integer recipeId,
-                             @RequestParam Integer rating) throws UserNotFoundException, RecipeNotFoundException {
+    public ResponseEntity<ResponseMessage> rateRecipe(@PathVariable(value = "id") Integer recipeId,
+                                                      @RequestParam Integer rating) throws UserNotFoundException, RecipeNotFoundException {
         recipeRatingService.rateRecipe(recipeId, rating);
-        return "Recipe successfully rated.";
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseMessage("Recipe successfully rated."));
     }
 
 }

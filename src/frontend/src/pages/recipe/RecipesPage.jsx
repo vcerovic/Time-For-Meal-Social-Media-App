@@ -7,10 +7,18 @@ const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
 
   const getAllRecipes = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes`);
-    const data = await response.json();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes`);
+      const data = await response.json();
 
-    setRecipes(data);
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      setRecipes(data);
+    } catch (err) {
+      alert(err);
+    }
   }
 
   useEffect(() => {
@@ -23,11 +31,11 @@ const RecipePage = () => {
     return (
       <div>
         {recipes.map(recipe => (
-          <Link 
-          to={`/recipes/${recipe.id}`}
-          key={recipe.id}
+          <Link
+            to={`/recipes/${recipe.id}`}
+            key={recipe.id}
           >
-          {recipe.name}
+            {recipe.name}
           </Link>
         ))}
       </div>

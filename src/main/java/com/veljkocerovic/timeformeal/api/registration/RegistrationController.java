@@ -2,12 +2,15 @@ package com.veljkocerovic.timeformeal.api.registration;
 
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import com.veljkocerovic.timeformeal.api.user.AppUserService;
-import com.veljkocerovic.timeformeal.api.user.event.RegistrationCompleteEvent;
+import com.veljkocerovic.timeformeal.api.registration.event.RegistrationCompleteEvent;
 import com.veljkocerovic.timeformeal.api.user.models.PasswordModel;
 import com.veljkocerovic.timeformeal.exceptions.*;
+import com.veljkocerovic.timeformeal.response.ResponseMessage;
 import com.veljkocerovic.timeformeal.utils.Helpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/registration")
+
 public class RegistrationController {
 
     @Autowired
@@ -29,7 +33,7 @@ public class RegistrationController {
 
     //REGISTER USER
     @PostMapping("/register")
-    public String registerUser(@Valid @RequestBody AppUser appUser, final HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody AppUser appUser, final HttpServletRequest request)
             throws UserAlreadyExistsException {
         appUserService.saveUser(appUser);
 
@@ -39,40 +43,55 @@ public class RegistrationController {
                 Helpers.createAppUrl(request)
         ));
 
-        return "Successfully registered new user";
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ResponseMessage(
+                        "User successfully created, please check your email for verification link."));
+
     }
 
     //VERIFY REGISTRATION
     @GetMapping("/verifyRegistration")
-    public String verifyRegistration(@RequestParam(name = "token") String token) throws
+    public ResponseEntity<ResponseMessage> verifyRegistration(@RequestParam(name = "token") String token) throws
             TokenExpiredException,
             TokenNotFoundException {
 
         registrationService.validateVerificationToken(token);
-        return "User verified successfully";
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage("User verified successfully."));
     }
 
     //RESEND VERIFICATION TOKEN
     @GetMapping("/resendVerificationToken")
-    public String resendVerificationToken(@RequestParam(name = "token") String oldToken, HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> resendVerificationToken(@RequestParam(name = "token") String oldToken, HttpServletRequest request)
             throws TokenNotFoundException {
 
         registrationService.resendVerificationToken(oldToken, request);
-        return "Verification link sent";
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage("Verification link sent"));
     }
 
 
     //RESET PASSWORD
     @PostMapping("/resetPassword")
-    public String resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request)
+    public ResponseEntity<ResponseMessage> resetPassword(@RequestBody PasswordModel passwordModel, HttpServletRequest request)
             throws UserNotFoundException {
         registrationService.saveAndSendPasswordResetToken(passwordModel, request);
-        return "Reset password link has been sent to " + passwordModel.getEmail() + " mail.";
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage(
+                        "Reset password link has been sent to " + passwordModel.getEmail() + " mail."
+                ));
     }
 
     //SAVE PASSWORD
     @PostMapping("/savePassword")
-    public String savePassword(@RequestParam("token") String token,
+    public ResponseEntity<ResponseMessage> savePassword(@RequestParam("token") String token,
                                @RequestBody PasswordModel passwordModel) throws
             TokenExpiredException,
             TokenNotFoundException {
@@ -86,14 +105,19 @@ public class RegistrationController {
         //Change password
         registrationService.updatePassword(appUser, passwordModel.getNewPassword());
 
-        return "Password reset successfully";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage("Password reset successfully"));
     }
 
     //CHANGE PASSWORD
     @PostMapping("/changePassword")
-    public String changePassword(@RequestBody PasswordModel passwordModel) throws
+    public ResponseEntity<ResponseMessage> changePassword(@RequestBody PasswordModel passwordModel) throws
             UserNotFoundException, WrongPasswordException {
         registrationService.changePassword(passwordModel);
-        return "Password Changed Successfully";
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage("Password Changed Successfully"));
     }
 }
