@@ -9,13 +9,16 @@ import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.utils.FileUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -151,5 +154,18 @@ public class AppUserServiceImpl implements AppUserService {
         Optional<AppUser> optionalUser = userRepository.findByUsername(username);
 
         return optionalUser.orElseThrow(() -> new UserNotFoundException("User with " + username + " doesn't exist."));
+    }
+
+    @Override
+    public byte[] getUserImage(Integer userId) throws UserNotFoundException {
+        AppUser user = findUserById(userId);
+        byte[] image;
+       try(InputStream inputStream =  new FileInputStream(FileUtil.userImageDir + user.getImage())){
+           image = IOUtils.toByteArray(inputStream);
+       } catch (IOException exc){
+           throw new RuntimeException(exc);
+       }
+
+        return image;
     }
 }

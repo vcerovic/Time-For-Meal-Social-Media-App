@@ -5,8 +5,10 @@ import com.veljkocerovic.timeformeal.exceptions.UserAlreadyExistsException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -43,6 +45,15 @@ public class AppUserController {
             UserNotFoundException, UserAlreadyExistsException, ImageSizeLimitException {
         appUserService.updateUser(userId, user);
         return "User successfully updated.";
+    }
+
+    //GET USER IMAGE
+    @GetMapping(
+            value = "/{id}/image",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE}
+    )
+    public @ResponseBody byte[] getUserImage(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
+            return appUserService.getUserImage(userId);
     }
 
 }

@@ -21,4 +21,5 @@ public interface RecipeService {
     void updateRecipe(Integer recipeId, RecipeModel newRecipe) throws RecipeNotFoundException, ImageSizeLimitException;
 
 
+    byte[] getRecipeImage(Integer recipeId) throws RecipeNotFoundException;
 }

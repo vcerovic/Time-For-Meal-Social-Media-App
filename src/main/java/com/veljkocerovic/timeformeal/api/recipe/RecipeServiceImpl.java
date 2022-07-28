@@ -8,13 +8,16 @@ import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import com.veljkocerovic.timeformeal.utils.FileUtil;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -126,6 +129,20 @@ public class RecipeServiceImpl implements RecipeService{
         //Change other properties
         swapModelToRecipe(newRecipeModel, oldRecipe);
         recipeRepository.save(oldRecipe);
+    }
+
+    @Override
+    public byte[] getRecipeImage(Integer recipeId) throws RecipeNotFoundException {
+        Recipe recipe = getRecipeById(recipeId);
+
+        byte[] image;
+        try(InputStream inputStream =  new FileInputStream(FileUtil.recipeImageDir + recipe.getImage())){
+            image = IOUtils.toByteArray(inputStream);
+        } catch (IOException exc){
+            throw new RuntimeException(exc);
+        }
+
+        return image;
     }
 
     private void swapModelToRecipe(RecipeModel recipeModel, Recipe recipe) {

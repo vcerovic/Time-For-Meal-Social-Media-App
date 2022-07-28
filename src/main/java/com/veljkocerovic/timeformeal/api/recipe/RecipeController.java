@@ -4,6 +4,7 @@ import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,15 @@ public class RecipeController {
             ImageSizeLimitException {
         recipeService.updateRecipe(recipeId, recipeModel);
         return "Recipe successfully updated.";
+    }
+
+    @GetMapping(
+            value = "/{id}/image",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE}
+    )
+    public @ResponseBody byte[] getRecipeImage(@PathVariable(value = "id") Integer recipeId)
+            throws RecipeNotFoundException {
+        return recipeService.getRecipeImage(recipeId);
     }
 
 }
