@@ -3,17 +3,20 @@ import { useParams } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
 import { useCookies } from "react-cookie";
 
-    
+
 const UserPage = () => {
   const [user, setUser] = useState({});
   const [userImage, setUserImage] = useState();
   const [cookies, setCookie] = useCookies();
   let params = useParams();
-  let currentUsername = jwt_decode(cookies.JWT);
+  let currentUsername = "";
+  if (cookies.JWT != null) {
+    currentUsername = jwt_decode(cookies.JWT);
+  }
 
   const getUser = async () => {
     try {
-      const response = await fetch( `${process.env.REACT_APP_API_URL}/api/v1/users/${params.userId}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/users/${params.userId}`);
       const data = await response.json();
 
       if (!response.ok) {

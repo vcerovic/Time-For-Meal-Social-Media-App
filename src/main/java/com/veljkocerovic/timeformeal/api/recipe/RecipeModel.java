@@ -19,10 +19,12 @@ import java.util.Set;
 @ControllerAdvice
 public class RecipeModel {
 
+    @NotNull
     @NotEmpty
     @Size(min = 4, max = 50, message = "Name must be between 4 and 50 characters")
     private String name;
 
+    @NotNull
     @NotEmpty
     @Size(min = 40, message = "Instructions must have at least 40 characters")
     private String instruction;

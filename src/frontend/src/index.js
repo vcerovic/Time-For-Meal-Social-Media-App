@@ -12,6 +12,7 @@ import RegistrationPage from './pages/auth/RegistrationPage.jsx';
 import RecipesPage from './pages/recipe/RecipesPage';
 import SingleRecipePage from './pages/recipe/SingleRecipePage.jsx';
 import UserPage from './pages/user/UserPage.jsx';
+import NewRecipePage from './pages/recipe/NewRecipePage.jsx';
 
 const root = ReactDOM.createRoot(
     document.getElementById("root")
@@ -25,6 +26,7 @@ root.render(
                 <Route path='register' element={<RegistrationPage />} />
                 <Route path='login' element={<LoginPage />} />
                 <Route path="recipes" element={<RecipesPage />} />
+                <Route path="recipes/new" element={<NewRecipePage />} />
                 <Route path="recipes/:recipeId" element={<SingleRecipePage />} />
                 <Route path="users/:userId" element={<UserPage />} />
                 <Route

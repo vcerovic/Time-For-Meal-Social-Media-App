@@ -22,4 +22,9 @@ public class IngredientServiceImpl implements IngredientService{
 
         return ingredients;
     }
+
+    @Override
+    public List<Ingredient> getAllIngredientsByLetter(String prefix) {
+        return ingredientRepository.findByNameStartingWith(prefix);
+    }
 }

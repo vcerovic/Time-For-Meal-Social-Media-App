@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping()
-
+@RequestMapping("/registration")
 public class RegistrationController {
 
     @Autowired

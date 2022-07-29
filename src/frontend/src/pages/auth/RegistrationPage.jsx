@@ -1,6 +1,6 @@
 import React from 'react'
 
-const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/register';
+const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration/register';
 
 const RegistrationPage = () => {
     const [username, setUsername] = React.useState('');

@@ -5,4 +5,6 @@ import java.util.List;
 public interface IngredientService {
 
     List<Ingredient> getIngredientsByIds(List<Integer> ids);
+
+    List<Ingredient> getAllIngredientsByLetter(String prefix);
 }
