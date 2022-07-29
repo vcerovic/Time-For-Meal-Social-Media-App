@@ -15,10 +15,10 @@ const NewRecipePage = () => {
     }
 
     const nameRef = useRef();
-    const prepTime = useRef();
-    const cookTime = useRef();
-    const serving = useRef();
-    const image = useRef();
+    const prepTimeRef = useRef();
+    const cookTimeRef = useRef();
+    const servingRef = useRef();
+    const imageRef = useRef();
     const recipeCategoryRef = useRef();
     const ingredientsSearchRef = useRef();
     const ingredientsRef = useRef();
@@ -26,8 +26,46 @@ const NewRecipePage = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        console.log('name:', nameRef.current.value);
-        console.log(recipeCategoryRef.current.value);
+        createNewRecipe();
+    }
+
+    const createNewRecipe = async () => {
+        const ingredientsIdsToSend = [];
+        selectedIngredients.forEach(ing => ingredientsIdsToSend.push(ing.value));
+
+        const formData  = new FormData();
+        formData.append('name', nameRef.current.value);
+        formData.append('instruction', instructionRef.current.value);
+        formData.append('prepTime', prepTimeRef.current.value);
+        formData.append('cookTime', cookTimeRef.current.value);
+        formData.append('serving', servingRef.current.value);
+        formData.append('recipeCategoryId', recipeCategoryRef.current.value);
+        formData.append('image', imageRef.current.files[0]);
+        formData.append('ingredientsIds', ingredientsIdsToSend);
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: { 
+                'Authorization': cookies.JWT
+            },
+            body: formData
+        };
+
+        formData.forEach(data => console.log(data));
+
+        try{
+            const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/recipes', requestOptions);
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
+            
+            alert(data.message)
+        } catch(err){
+            alert(err.message);
+        }
     }
 
     const getAllRecipeCategories = async () => {
@@ -95,18 +133,18 @@ const NewRecipePage = () => {
                 </div>
                 <div>
                     <label htmlFor="prepTime">Preparation time:</label>
-                    <input id="prepTime" type="number" ref={prepTime} />
+                    <input id="prepTime" type="number" ref={prepTimeRef} />
                 </div>
                 <div>
                     <label htmlFor="cookTime">Cook time:</label>
-                    <input id="cookTime" type="number" ref={cookTime} />
+                    <input id="cookTime" type="number" ref={cookTimeRef} />
                 </div>
                 <div>
                     <label htmlFor="serving">Serving:</label>
-                    <input id="serving" type="number" ref={serving} />
+                    <input id="serving" type="number" ref={servingRef} />
                 </div>
                 <div>
-                    <input type="file" id="image" ref={image} accept="image/png, image/jpeg" className="input_file" />
+                    <input type="file" id="image" ref={imageRef} accept="image/png, image/jpeg" className="input_file" />
                     <label htmlFor="image">Choose a image:</label>
                 </div>
                 <div>

@@ -19,8 +19,7 @@ const RegistrationPage = () => {
             body: JSON.stringify({ username: username, email: email, password: password })
         };
 
-        
-
+    
         try{
             const response = await fetch(REGISTRATION_PATH, requestOptions);
             const data = await response.json();
