@@ -28,6 +28,10 @@ public class AppUserController {
         return appUserService.findUserById(userId);
     }
 
+    @GetMapping
+    public AppUser getUserByUsername(@RequestParam(value = "username") String username) throws UserNotFoundException {
+        return appUserService.findUserByUsername(username);
+    }
 
     //DELETE USER
     @PreAuthorize("@securityService.isOwner(#userId)")

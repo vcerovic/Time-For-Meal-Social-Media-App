@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
+import styles from './assets/styles/style.css'
 
 
 import App from './App.js';
@@ -13,6 +14,7 @@ import RecipesPage from './pages/recipe/RecipesPage';
 import SingleRecipePage from './pages/recipe/SingleRecipePage.jsx';
 import UserPage from './pages/user/UserPage.jsx';
 import NewRecipePage from './pages/recipe/NewRecipePage.jsx';
+import Navbar from './components/Navbar';
 
 const root = ReactDOM.createRoot(
     document.getElementById("root")
@@ -21,7 +23,8 @@ const root = ReactDOM.createRoot(
 root.render(
     <CookiesProvider>
         <BrowserRouter>
-            <Routes>
+            <Navbar />
+            <Routes >
                 <Route path="/" element={<App />} />
                 <Route path='register' element={<RegistrationPage />} />
                 <Route path='login' element={<LoginPage />} />

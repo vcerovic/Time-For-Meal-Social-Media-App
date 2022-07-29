@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import RecipeCard from '../../components/RecipeCard';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -29,15 +29,8 @@ const RecipePage = () => {
     return <p>waiting...</p>
   } else {
     return (
-      <div>
-        {recipes.map(recipe => (
-          <Link
-            to={`/recipes/${recipe.id}`}
-            key={recipe.id}
-          >
-            {recipe.name}
-          </Link>
-        ))}
+      <div id='recipePage'>
+        {recipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
       </div>
     )
   }

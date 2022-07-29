@@ -46,11 +46,9 @@ const Recipe = ({ recipeId }) => {
         return <p>waiting...</p>
     } else {
         return (
-            <div>
-                <img src={recipeImage} alt={recipe.name} />
-                <h1>{recipe.name}</h1>
-                <p>{recipe.serving}</p>
-            </div>
+           <div>
+            hello
+           </div>
         )
     }
 }
