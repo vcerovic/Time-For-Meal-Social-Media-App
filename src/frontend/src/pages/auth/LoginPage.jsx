@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useCookies } from 'react-cookie';
 import jwt_decode from "jwt-decode";
 
@@ -8,15 +8,33 @@ const LoginPage = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [cookies, setCookie] = useCookies(['jwt']);
-    let currentUsername = "";
-    if (cookies.JWT != null) {
-        currentUsername = jwt_decode(cookies.JWT);
-    }
-
+    const [isLogged, setIsLogged] = React.useState(false);
 
     function handleSubmit(event) {
         event.preventDefault();
         loginUser();
+    }
+
+    const validateUserToken = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': cookies.JWT
+            }
+        };
+
+        try {
+            const response = await fetch(process.env.REACT_APP_API_URL + '/auth/validate', requestOptions);
+
+            if (!response.ok) {
+                throw new Error(response);
+            }
+
+            setIsLogged(true);
+        } catch (err) {
+            setIsLogged(false);
+        
+        }
     }
 
     const loginUser = async () => {
@@ -38,15 +56,20 @@ const LoginPage = () => {
             }
 
             setCookie('JWT', 'Bearer ' + data.jwtToken,
-                { path: '/', maxAge: 259200, sameSite: 'none', secure:'None' })
+                { path: '/', maxAge: 259200, sameSite: 'none', secure: 'None' })
 
         } catch (err) {
             alert(err.message);
         }
-
     }
 
-    if (currentUsername !== "") {
+    useEffect(() => {
+        if (cookies.JWT != null) {
+            validateUserToken();
+        }
+    }, []);
+
+    if (isLogged) {
         return <p>You are already logged in</p>
     } else {
         return (

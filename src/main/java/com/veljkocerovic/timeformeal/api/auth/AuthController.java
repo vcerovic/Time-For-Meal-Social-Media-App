@@ -52,5 +52,8 @@ public class AuthController {
         return new JwtResponseModel(token);
     }
 
-
+    @PostMapping("/validate")
+    public boolean checkIfUserTokenIsStillValid(){
+        return true;
+    }
 }

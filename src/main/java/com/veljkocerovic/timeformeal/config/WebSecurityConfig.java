@@ -30,7 +30,7 @@ public class WebSecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-    private final String[] WHITE_LIST_URLS = {"/auth/**", "/registration/**"};
+    private final String[] WHITE_LIST_URLS = {"/auth/login", "/registration/**"};
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(11);
@@ -55,6 +55,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/**").authenticated()
+                .antMatchers("/auth/validate").authenticated()
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()

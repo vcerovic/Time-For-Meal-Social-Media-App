@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #191b23;
+  background-color: #0f111c;
   font-family: "Montserrat", sans-serif;
   color: #ffffff;
   text-decoration: none;
@@ -22,7 +22,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 80%;
+  width: 70%;
   margin: 25px auto;
 }
 
@@ -33,6 +33,10 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.navbar div:first-child h1 {
+  font-size: 2em;
 }
 
 .navbar div:first-child a {
@@ -48,7 +52,7 @@ body {
 }
 
 .navbar img {
-  height: 50px;
+  height: 70px;
   margin-right: 20px;
 }
 
@@ -81,7 +85,7 @@ body {
 }
 
 .navbar ul li img {
-  height: 40px;
+  height: 38px;
   border-radius: 50%;
 }
 
@@ -95,7 +99,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 80vh;
+  height: 100vh;
 }
 
 #home div {
@@ -199,8 +203,6 @@ body {
 
 .recipeBtn {
   background-image: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
-  -webkit-box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-          box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
   font-size: 20px;
   color: #ffffff;
   display: -webkit-box;
@@ -220,8 +222,8 @@ body {
 }
 
 .recipeBtn:hover {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
 }
 
 .linkBtn {
@@ -235,7 +237,7 @@ body {
   color: #ffffff;
   font-size: 20px;
   line-height: 1em;
-  font-weight: 500;
+  font-weight: 600;
   max-width: 100%;
   min-width: 140px;
   display: -webkit-box;
@@ -262,7 +264,7 @@ body {
 }
 
 .linkBtn:hover {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
 }
 /*# sourceMappingURL=style.css.map */
