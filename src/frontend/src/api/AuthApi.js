@@ -1,4 +1,5 @@
 const LOGIN_PATH = process.env.REACT_APP_API_URL + '/auth/login';
+const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration/register';
 
 export const loginUser = async (username, password) => {
     const requestOptions = {
@@ -22,7 +23,27 @@ export const loginUser = async (username, password) => {
     }
 }
 
+export const registerUser = async (username, email, password) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, email: email, password: password })
+    };
 
+
+    try{
+        const response = await fetch(REGISTRATION_PATH, requestOptions);
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+        
+        alert(data.message)
+    } catch(err){
+        alert(err.message);
+    }
+}
 
 export const validateUserToken = async (jwt) => {
     const requestOptions = {

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { validateUserToken, loginUser } from '../../api/AuthApi';
 
 const LoginPage = () => {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [cookies, setCookie] = useCookies(['jwt']);
-    const [isLogged, setIsLogged] = React.useState(false);
+    const [isLogged, setIsLogged] = useState(false);
 
     function handleSubmit(event) {
         event.preventDefault();

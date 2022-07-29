@@ -1,53 +1,31 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { useCookies } from "react-cookie";
+import { getRecipe, getRecipeImage } from '../api/RecipeApi';
 
 const Recipe = ({ recipeId }) => {
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState();
-    const [cookies, setCookie] = useCookies();
-
-    const getRecipe = async () => {
-        try {
-            const response = await fetch(
-                `${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message);
-            }
-
-            setRecipe(data);
-        } catch (err) {
-            alert(err.message);
-        }
-    }
-
-    const getRecipeImage = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipeId}/image`);
-            const imageBlob = await response.blob();
-            const imageObjectURL = await URL.createObjectURL(imageBlob);
-
-            setRecipeImage(imageObjectURL);
-        } catch (err) {
-            alert(err);
-        }
-
-    }
+    const [hasLoaded, setHasLoaded] = useState(false);
 
 
     useEffect(() => {
-        getRecipe();
-        getRecipeImage();
+        getRecipe(recipeId)
+        .then(data => setRecipe(data))
+        .then(() => {
+            getRecipeImage(recipeId)
+            .then(image => setRecipeImage(image))
+        })
+        .finally(setHasLoaded(true))
+ 
     }, []);
 
-    if (recipe == null || recipeImage == null) {
-        return <p>waiting...</p>
+    if (!hasLoaded) {
+        return <p>Loading...</p>
     } else {
         return (
            <div>
-            hello
+            <h1>{recipe.name}</h1>
+            <img src={recipeImage} alt={recipe.name} />
            </div>
         )
     }

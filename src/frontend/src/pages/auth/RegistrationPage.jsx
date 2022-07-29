@@ -1,39 +1,16 @@
-import React from 'react'
-
-const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration/register';
+import React, { useState } from 'react'
+import { registerUser } from '../../api/AuthApi';
 
 const RegistrationPage = () => {
-    const [username, setUsername] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     function handleSubmit(event) {
         event.preventDefault();
-        registerUser();
+        registerUser(username, email, password);
     }
 
-    const registerUser = async () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: username, email: email, password: password })
-        };
-
-    
-        try{
-            const response = await fetch(REGISTRATION_PATH, requestOptions);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message);
-            }
-            
-            alert(data.message)
-        } catch(err){
-            alert(err.message);
-        }
-       
-    }
 
     return (
         <form onSubmit={handleSubmit}>
