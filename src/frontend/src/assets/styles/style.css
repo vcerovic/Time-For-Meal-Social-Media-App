@@ -74,6 +74,11 @@ body {
   transition: 200ms;
 }
 
+.navbar ul li .recipeBtn {
+  background: #11bb8d;
+  font-weight: 700;
+}
+
 .navbar ul li a {
   text-decoration: none;
   color: white;
@@ -88,6 +93,12 @@ body {
 .navbar ul li:hover a,
 .navbar ul li:hover button {
   color: #11bb8d;
+}
+
+.navbar ul li:hover .recipeBtn {
+  color: white;
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
 }
 
 .navbar ul li button {
@@ -222,7 +233,7 @@ body {
   width: 50%;
 }
 
-#AuthPage {
+#formPage {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -232,11 +243,37 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-top: 100px;
+  margin-top: 100px !important;
+  width: 25%;
+  margin: 0 auto;
+}
+
+#recipePage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 60px !important;
+  width: 70%;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  margin: 0 auto;
+}
+
+#recipePage .form-container {
+  width: 35% !important;
+}
+
+#recipePage .form-container .field {
+  height: 46px;
 }
 
 .form-container {
-  width: 25%;
+  width: 100%;
   background: #fff;
   overflow: hidden;
   -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
@@ -285,9 +322,85 @@ body {
   padding: 20px 30px 5px 30px;
 }
 
+.form-container .recipeCategory {
+  margin-top: 20px;
+}
+
+.form-container .recipeCategory label {
+  color: #126f56;
+  padding-left: 5px;
+}
+
+.form-container .recipeCategory select {
+  width: 100%;
+  margin-bottom: 30px;
+  margin-top: 5px;
+  height: 50px;
+  border: none;
+  padding: 0 10px;
+  border-radius: 14px;
+}
+
+.form-container #instructionLbl {
+  color: #126f56;
+  padding-left: 5px;
+}
+
+.form-container #instruction {
+  margin-top: 5px;
+  height: 100%;
+  width: 92%;
+  outline: none;
+  font-size: 17px;
+  padding: 10px 20px;
+  border: 1px solid lightgrey;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  resize: vertical;
+  border-radius: 14px;
+}
+
+.form-container #instruction:focus {
+  border-color: #126f56;
+}
+
+.form-container #ingredients {
+  width: 100%;
+  margin-top: 20px;
+  height: 150px;
+  background-color: #e6e6e6;
+  border: none;
+  padding: 0 10px;
+  border-radius: 14px;
+}
+
+.form-container .selectedIng {
+  color: #262626;
+}
+
+.form-container .selectedIng div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.form-container .selectedIng div button {
+  color: white;
+  border: none;
+  background: #11bb8d;
+  border-radius: 14px;
+  font-weight: 500;
+  font-size: 1.1em;
+  padding: 5px 10px;
+  margin: 0 5px 5px 0;
+  font-family: inherit;
+}
+
 .form-container .field {
   height: 50px;
-  width: 100%;
+  width: 98%;
   margin-top: 30px;
   position: relative;
 }
@@ -377,7 +490,9 @@ body {
 }
 
 .form-container .image-field {
-  height: 60px !important;
+  color: #262626;
+  height: 25px !important;
+  margin-bottom: 66px !important;
 }
 
 .form-container .image-field input {
@@ -450,8 +565,8 @@ body {
   display: block;
   background-image: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
   border: 0;
-  -webkit-box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-          box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  -webkit-box-shadow: rgba(54, 226, 114, 0.2) 0 15px 30px -5px;
+          box-shadow: rgba(54, 226, 114, 0.2) 0 15px 30px -5px;
   color: #ffffff;
   font-size: 20px;
   line-height: 1em;

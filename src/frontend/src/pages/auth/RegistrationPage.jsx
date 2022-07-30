@@ -27,7 +27,7 @@ const RegistrationPage = () => {
         if(isLogged) return <div>You are already registerd.</div>
         else
         return (
-            <div id='AuthPage'>
+            <div id='formPage'>
                 <div className='form-container'>
                     <h1 className='title'>Register</h1>
                     <form onSubmit={handleSubmit}>

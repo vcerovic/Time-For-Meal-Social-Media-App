@@ -33,7 +33,7 @@ const LoginPage = () => {
             return <p>You are already logged in</p>
         } else {
             return (
-                <div id='AuthPage'>
+                <div id='formPage'>
                     <div className='form-container'>
                         <h1 className='title'>Login</h1>
                         <form onSubmit={handleSubmit}>

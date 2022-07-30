@@ -37,3 +37,81 @@ export const getRecipeImage = async (recipeId) => {
     }
 
 }
+
+export const createNewRecipe = async (formData, selectedIngredients, jwt) => {
+    const ingredientsIdsToSend = [];
+    selectedIngredients.forEach(ing => ingredientsIdsToSend.push(ing.value));
+    formData.append('ingredientsIds', ingredientsIdsToSend);
+
+
+    const requestOptions = {
+        method: 'POST',
+        headers: { 
+            'Authorization': jwt
+        },
+        body: formData
+    };
+
+    try{
+        const response = await fetch(RECIPE_API_PATH, requestOptions);
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+        
+        Swal.fire({
+            title: 'Success',
+            type: 'success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch(err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+export const getAllRecipeCategories = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/categories`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+   
+
+export const getAllIngredients = async (prefix) => {
+    try {
+        const response =
+            await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/ingredients?prefix=${prefix}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}

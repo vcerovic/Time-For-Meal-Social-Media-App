@@ -60,6 +60,11 @@ body {
       font-size: 1.2em;
       transition: 200ms;
 
+      .recipeBtn{
+        background: $primary-color;
+        font-weight: 700;
+      }
+
       a {
         text-decoration: none;
         color: white;
@@ -72,6 +77,11 @@ body {
         button {
           color: $primary-color;
         }
+
+        .recipeBtn{
+          color: white;
+          transform: scale(0.95);
+        }
       }
 
       button {
@@ -82,6 +92,7 @@ body {
         font-size: inherit;
         margin: 0 20px;
         cursor: pointer;
+        
       }
 
       img {
@@ -185,14 +196,34 @@ body {
   }
 }
 
-#AuthPage {
+#formPage {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
-}
-.form-container {
+  margin-top: 100px !important;
   width: 25%;
+  margin: 0 auto;
+}
+
+#recipePage {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 60px !important;
+  width: 70%;
+  flex-wrap: nowrap;
+  margin: 0 auto;
+  .form-container {
+    width: 35% !important;
+
+    .field{
+      height: 46px;
+    }
+  }
+}
+
+.form-container {
+  width: 100%;
   background: #fff;
   overflow: hidden;
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
@@ -221,7 +252,7 @@ body {
     font-weight: 400;
     text-align: center;
     margin: 20px 0;
-    a{
+    a {
       text-decoration: none;
       color: $primary-color;
       font-weight: 500;
@@ -233,9 +264,78 @@ body {
     padding: 20px 30px 5px 30px;
   }
 
+  .recipeCategory {
+    margin-top: 20px;
+    label {
+      color: #126f56;
+      padding-left: 5px;
+    }
+    select {
+      width: 100%;
+      margin-bottom: 30px;
+      margin-top: 5px;
+      height: 50px;
+      border: none;
+      padding: 0 10px;
+      border-radius: 14px;
+    }
+  }
+
+  #instructionLbl{
+    color: #126f56;
+    padding-left: 5px;
+  }
+
+  #instruction {
+    margin-top: 5px;
+    height: 100%;
+    width: 92%;
+    outline: none;
+    font-size: 17px;
+    padding: 10px 20px;
+    border: 1px solid lightgrey;
+    transition: 200ms;
+    resize: vertical;
+    border-radius: 14px;
+    &:focus {
+      border-color: $active;
+    }
+  }
+
+  #ingredients{
+    width: 100%;
+    margin-top: 20px;
+    height: 150px;
+    background-color: #e6e6e6;
+    border: none;
+    padding: 0 10px;
+    border-radius: 14px;
+  }
+
+  .selectedIng{
+    color: #262626;
+
+    div{
+      display: flex;
+      flex-wrap: wrap;
+
+      button{
+        color: white;
+        border:none;
+        background: $primary-color;
+        border-radius: 14px;
+        font-weight: 500;
+        font-size: 1.1em;
+        padding: 5px 10px;
+        margin: 0 5px 5px 0;
+        font-family: inherit;
+      }
+    }
+  }
+
   .field {
     height: 50px;
-    width: 100%;
+    width: 98%;
     margin-top: 30px;
     position: relative;
 
@@ -320,8 +420,9 @@ body {
   }
 
   .image-field {
-    height: 60px !important;
-
+    color: #262626;
+    height: 25px !important;
+    margin-bottom: 66px !important;
     input {
       padding: 17px 22px !important;
     }
@@ -376,7 +477,7 @@ body {
   display: block;
   background-image: $main-gradient;
   border: 0;
-  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-shadow: rgba(54, 226, 114, 0.2) 0 15px 30px -5px;
   color: #ffffff;
   font-size: 20px;
   line-height: 1em;

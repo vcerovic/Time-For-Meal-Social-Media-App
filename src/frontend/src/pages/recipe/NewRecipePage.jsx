@@ -1,7 +1,10 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
+import { createNewRecipe, getAllRecipeCategories, getAllIngredients } from '../../api/RecipeApi';
+import { validateUser } from '../../api/AuthApi';
 import { useCookies } from "react-cookie";
 import { capitalizeFirstLetter } from '../../utils/StringUtils';
+import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 
 const NewRecipePage = () => {
@@ -9,10 +12,10 @@ const NewRecipePage = () => {
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [cookies, setCookie] = useCookies();
-    let currentUsername = "";
-    if (cookies.JWT != null) {
-        currentUsername = jwt_decode(cookies.JWT);
-    }
+    const [isLogged, setIsLogged] = useState(false);
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const navigate = useNavigate();
+
 
     const nameRef = useRef();
     const prepTimeRef = useRef();
@@ -26,14 +29,8 @@ const NewRecipePage = () => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        createNewRecipe();
-    }
 
-    const createNewRecipe = async () => {
-        const ingredientsIdsToSend = [];
-        selectedIngredients.forEach(ing => ingredientsIdsToSend.push(ing.value));
-
-        const formData  = new FormData();
+        const formData = new FormData();
         formData.append('name', nameRef.current.value);
         formData.append('instruction', instructionRef.current.value);
         formData.append('prepTime', prepTimeRef.current.value);
@@ -41,75 +38,24 @@ const NewRecipePage = () => {
         formData.append('serving', servingRef.current.value);
         formData.append('recipeCategoryId', recipeCategoryRef.current.value);
         formData.append('image', imageRef.current.files[0]);
-        formData.append('ingredientsIds', ingredientsIdsToSend);
 
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 
-                'Authorization': cookies.JWT
-            },
-            body: formData
-        };
-
-        formData.forEach(data => console.log(data));
-
-        try{
-            const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/recipes', requestOptions);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message);
-            }
-            
-            alert(data.message)
-        } catch(err){
-            alert(err.message);
-        }
+        createNewRecipe(formData, selectedIngredients, cookies.JWT)
+        .then(() => navigate('/recipes'))
     }
 
-    const getAllRecipeCategories = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/categories`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message);
-            }
-
-            setCategories(data);
-        } catch (err) {
-            alert(err.message);
-        }
-    }
-
-    const getAllIngredients = async (prefix) => {
-        try {
-            const response =
-                await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/ingredients?prefix=${prefix}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message);
-            }
-
-            setIngredients(data);
-        } catch (err) {
-            alert(err.message);
-        }
-    }
 
 
     const searchIngredients = () => {
         if (ingredientsSearchRef.current.value.length > 2) {
-            getAllIngredients(ingredientsSearchRef.current.value);
+            getAllIngredients(ingredientsSearchRef.current.value)
+                .then(ingredients => setIngredients(ingredients));
         }
     }
 
     const handleSelectIngredients = e => {
         let options = e.target.options;
         for (var i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
+            if (options[i].selected && !selectedIngredients.find(ing => ing.value === options[i].value)) {
                 setSelectedIngredients([...selectedIngredients, {
                     "value": options[i].value,
                     "name": options[i].innerText
@@ -118,78 +64,109 @@ const NewRecipePage = () => {
         }
     }
 
+    const handleRemoveIngredinet = e => {
+        e.preventDefault();
+        setSelectedIngredients(selectedIngredients.filter(ing => ing.name !== e.target.innerText))
+    }
+
     useEffect(() => {
-        getAllRecipeCategories();
+        getAllRecipeCategories()
+            .then(data => setCategories(data))
+
+        validateUser(cookies)
+            .then(isValid => setIsLogged(isValid))
+            .finally(setHasLoaded(true));
+
     }, []);
 
-    if (currentUsername === "") {
-        return <p>You must log in!</p>
+    if (!hasLoaded) {
+        return <p>Loading!</p>
     } else {
-        return (
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input id="name" type="text" ref={nameRef} />
-                </div>
-                <div>
-                    <label htmlFor="prepTime">Preparation time:</label>
-                    <input id="prepTime" type="number" ref={prepTimeRef} />
-                </div>
-                <div>
-                    <label htmlFor="cookTime">Cook time:</label>
-                    <input id="cookTime" type="number" ref={cookTimeRef} />
-                </div>
-                <div>
-                    <label htmlFor="serving">Serving:</label>
-                    <input id="serving" type="number" ref={servingRef} />
-                </div>
-                <div>
-                    <input type="file" id="image" ref={imageRef} accept="image/png, image/jpeg" className="input_file" />
-                    <label htmlFor="image">Choose a image:</label>
-                </div>
-                <div>
-                    <label htmlFor="recipeCategoryId">Category:</label>
-                    <select id='recipeCategoryId' ref={recipeCategoryRef}>
-                        {categories.map(category =>
-                            <option
-                                key={category.id}
-                                value={category.id}>{capitalizeFirstLetter(category.name)}
-                            </option>
-                        )}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="ingredientsIds">Ingredients:</label>
-                    <div>
-                        <p>Search for ingredients</p>
-                        <input type="text" id="ingredientsSearch"
-                            ref={ingredientsSearchRef}
-                            onChange={searchIngredients} />
-                        <select id='ingredients' ref={ingredientsRef} onChange={handleSelectIngredients} multiple>
-                            {ingredients.map(ingredient =>
-                                <option
-                                    key={ingredient.id}
-                                    value={ingredient.id}>{capitalizeFirstLetter(ingredient.name)}
-                                </option>
-                            )}
-                        </select>
+        if (!isLogged) return <p>You must log in to create new recipe</p>
+        else
+            return (
+                <div id='recipePage'>
+                    <div className='form-container'>
+                        <h1 className='title'>New recipe</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className='field'>
+                                <input id="name" type="text" placeholder=' ' ref={nameRef} />
+                                <label htmlFor="name">Name:</label>
+                            </div>
+                            <div className='field'>
+                                <input id="prepTime" type="number" placeholder=' ' ref={prepTimeRef} />
+                                <label htmlFor="prepTime">Preparation time:</label>
+                            </div>
+                            <div className='field'>
+                                <input id="cookTime" type="number" placeholder=' ' ref={cookTimeRef} />
+                                <label htmlFor="cookTime">Cook time:</label>
+                            </div>
+                            <div className='field'>
+                                <input id="serving" type="number" placeholder=' ' ref={servingRef} />
+                                <label htmlFor="serving">Serving:</label>
+                            </div>
+                            <div className='field image-field'>
+                                <input type="file" id="image" placeholder=' ' ref={imageRef} accept="image/png, image/jpeg" className="input_file" />
+                                <label htmlFor="image">Choose a image:</label>
+                            </div>
+
+                            <label id="instructionLbl" htmlFor="instruction">Instructions:</label>
+                            <textarea id="instruction" placeholder=' ' ref={instructionRef} />
+
+                            <button className='linkBtn' type="submit">Submit</button>
+                        </form>
                     </div>
+
+                    <div className='form-container'>
+                        <h1 className='title'>Info</h1>
+                        <form>
+                            <div className='field'>
+                                <input type="text" id="ingredientsSearch"
+                                    placeholder=' ' ref={ingredientsSearchRef}
+                                    onChange={searchIngredients} />
+                                <label htmlFor="ingredientsSearch">Search for ingredeints:</label>
+                            </div>
+                            <div>
+                                <select id='ingredients' ref={ingredientsRef} onChange={handleSelectIngredients} multiple>
+                                    {ingredients.map(ingredient =>
+                                        <option
+                                            key={ingredient.id}
+                                            value={ingredient.id}>{capitalizeFirstLetter(ingredient.name)}
+                                        </option>
+                                    )}
+                                </select>
+                                <label htmlFor="ingredients">Ingredeints:</label>
+                            </div>
+                            <div className='selectedIng'>
+                                <h3>Selected:</h3>
+                                <div>
+                                    {
+                                        selectedIngredients.map(selectedIng =>
+                                            <button onClick={handleRemoveIngredinet}
+                                                key={selectedIng.value}>{selectedIng.name}
+                                            </button>)
+                                    }
+                                </div>
+                            </div>
+
+                            <div className='recipeCategory'>
+                                <label htmlFor="recipeCategoryId">Category:</label>
+                                <select id='recipeCategoryId' ref={recipeCategoryRef}>
+                                    {categories.map(category =>
+                                        <option
+                                            key={category.id}
+                                            value={category.id}>{capitalizeFirstLetter(category.name)}
+                                        </option>
+                                    )}
+                                </select>
+                            </div>
+                        </form>
+
+                    </div>
+
                 </div>
-                <div>
-                    Selected ingredients:
-                    {
-                        selectedIngredients.map(selectedIng => 
-                        <p key={selectedIng.value}>{selectedIng.name}
-                        </p>)
-                    }
-                </div>
-                <div>
-                    <label htmlFor="instruction">Instructions:</label>
-                    <textarea id="instruction" ref={instructionRef} />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        );
+
+            );
     }
 }
 

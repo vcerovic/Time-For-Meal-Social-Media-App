@@ -66,6 +66,7 @@ const Navbar = () => {
                             <Link to={'/'}><h1>Time for meal</h1></Link>
                         </div>
                         <ul>
+                            <li><Link className='recipeBtn'  to={'/recipes/new'}>Post a recipe</Link></li>
                             <li><button onClick={() => handleLogout()}>Logout</button></li>
                             <li><Link to={`users/${user.id}`}>{user.username}</Link></li>
                             <li><Link to={`users/${user.id}`}><img src={userImage} alt={user.username} /></Link></li>
