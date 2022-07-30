@@ -1,54 +1,75 @@
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { validateUserToken, loginUser } from '../../api/AuthApi';
+import { Link, useNavigate } from 'react-router-dom';
+import { validateUser, loginUser } from '../../api/AuthApi';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [cookies, setCookie] = useCookies(['jwt']);
+    const [cookies, setCookie] = useCookies();
     const [isLogged, setIsLogged] = useState(false);
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const navigate = useNavigate();
 
     function handleSubmit(event) {
         event.preventDefault();
         loginUser(username, password)
-        .then(data => {
-            setCookie('JWT', 'Bearer ' + data.jwtToken,
-            { path: '/', maxAge: 259200, sameSite: 'none', secure: 'None' })
-        })
+            .then(data => {
+                setCookie('JWT', 'Bearer ' + data.jwtToken,
+                    { path: '/', maxAge: 259200, sameSite: 'none', secure: 'None' })
+            })
+            .then(() => navigate('/recipes'));
     }
 
     useEffect(() => {
-        if (cookies.JWT != null) {
-            setIsLogged(validateUserToken(cookies.JWT));
-        }
+        validateUser(cookies)
+        .then(isValid => setIsLogged(isValid))
+        .finally(setHasLoaded(true));
     }, []);
 
-    if (isLogged) {
-        return <p>You are already logged in</p>
-    } else {
-        return (
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+    if (!hasLoaded) return <div>Loading...</div>
+    else {
+        if (isLogged) {
+            return <p>You are already logged in</p>
+        } else {
+            return (
+                <div id='AuthPage'>
+                    <div className='form-container'>
+                        <h1 className='title'>Login</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className='field'>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    value={username}
+                                    placeholder=" "
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <label htmlFor="username">Username</label>
+                            </div>
+                            <div className='field'>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    value={password}
+                                    placeholder=" "
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label htmlFor="password">Password</label>
+                            </div>
+                            <div className='options'>
+                                <Link to={'/resetPassword'}>Forgot Password?</Link>
+                            </div>
+                            <button className='linkBtn' type="submit">Submit</button>
+                            <div className='options'>
+                                Not a member? <Link to="/register">Register</Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        );
+
+            );
+        }
     }
 }
 

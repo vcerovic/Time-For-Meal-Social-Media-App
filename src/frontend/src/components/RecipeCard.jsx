@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { getRecipeImage } from '../api/RecipeApi';
 
 const RecipeCard = ({ recipe }) => {
     const [recipeImage, setRecipeImage] = useState();
 
-    const getRecipeImage = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/${recipe.id}/image`);
-            const imageBlob = await response.blob();
-            const imageObjectURL = await URL.createObjectURL(imageBlob);
-
-            setRecipeImage(imageObjectURL);
-        } catch (err) {
-            alert(err);
-        }
-
-    }
-
     useEffect(() => {
-        getRecipeImage();
+        getRecipeImage(recipe.id)
+        .then(image => setRecipeImage(image));
     }, []);
 
 

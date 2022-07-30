@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 const RECIPE_API_PATH = process.env.REACT_APP_API_URL + '/api/v1/recipes/';
+
 
 export const getRecipe = async (recipeId) => {
     try {
@@ -11,7 +13,11 @@ export const getRecipe = async (recipeId) => {
 
         return data;
     } catch (err) {
-        alert(err.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }
 
@@ -23,7 +29,11 @@ export const getRecipeImage = async (recipeId) => {
 
         return imageObjectURL;
     } catch (err) {
-        alert(err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 
 }

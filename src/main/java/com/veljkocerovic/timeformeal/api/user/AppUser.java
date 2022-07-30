@@ -1,6 +1,7 @@
 package com.veljkocerovic.timeformeal.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
@@ -35,7 +36,7 @@ public class AppUser {
 
     @NotEmpty
     @Size(min = 4, max = 100, message = "Password must be between 4 and 50 characters")
-    @JsonIgnore
+    @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String image;

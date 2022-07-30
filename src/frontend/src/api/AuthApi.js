@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const LOGIN_PATH = process.env.REACT_APP_API_URL + '/auth/login';
 const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration/register';
 
@@ -19,7 +21,11 @@ export const loginUser = async (username, password) => {
 
         return data;
     } catch (err) {
-        alert(err.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }
 
@@ -31,37 +37,49 @@ export const registerUser = async (username, email, password) => {
     };
 
 
-    try{
+    try {
         const response = await fetch(REGISTRATION_PATH, requestOptions);
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message);
         }
-        
-        alert(data.message)
-    } catch(err){
-        alert(err.message);
+
+        Swal.fire({
+            title: 'Success',
+            type: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }
 
-export const validateUserToken = async (jwt) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Authorization': jwt
+export const validateUser = async (cookies) => {
+    if (cookies.JWT != null) {
+        try {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Authorization': cookies.JWT
+                }
+            };
+
+            const response = await fetch(process.env.REACT_APP_API_URL + '/auth/validate', requestOptions);
+    
+            if (!response.ok) {
+                throw new Error(response);
+            }
+    
+            return true;
+        } catch (err) {
+            return false;
         }
-    };
-
-    try {
-        const response = await fetch(process.env.REACT_APP_API_URL + '/auth/validate', requestOptions);
-
-        if (!response.ok) {
-            throw new Error(response);
-        }
-
-        return true;
-    } catch (err) {
+    } else {
         return false;
     }
 }

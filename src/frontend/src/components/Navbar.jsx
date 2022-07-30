@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { validateUserToken } from '../api/AuthApi';
+import { validateUser } from '../api/AuthApi';
 import { getUserByUsername, getUserImage } from '../api/UserApi';
 
 import jwt_decode from "jwt-decode";
 import logo from '../assets/images/time2meal_logo.png'
 
 const Navbar = () => {
-    const [cookies, setCookie] = useCookies(['jwt']);
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [hasLoaded, setHasLoaded] = useState(false);
     const [user, setUser] = useState();
     const [userImage, setUserImage] = useState();
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
+        navigate('/login');
+    }
 
     useEffect(() => {
-        if (cookies.JWT != null) {
-            validateUserToken(cookies.JWT)
-                .then(isValid => {
-                    if (isValid) {
-                        let decoded = jwt_decode(cookies.JWT);
-                        getUserByUsername(decoded.sub)
-                            .then(data => {
-                                setUser(data)
-                                getUserImage(data.id)
-                                    .then(image => setUserImage(image))
-                            })
 
-                    }
-                })
-                .finally(setHasLoaded(true));
-        }
-
-    }, []);
+        validateUser(cookies)
+            .then(isValid => {
+                if (isValid) {
+                    let decoded = jwt_decode(cookies.JWT);
+                    getUserByUsername(decoded.sub)
+                        .then(data => {
+                            setUser(data)
+                            getUserImage(data.id)
+                                .then(image => setUserImage(image))
+                        })
+                } else {
+                    setUser(null)
+                    setUserImage(null);
+                }
+            })
+            .finally(setHasLoaded(true));
+    }, [location]);
 
 
     if (location.pathname === "/") {
@@ -60,6 +66,7 @@ const Navbar = () => {
                             <Link to={'/'}><h1>Time for meal</h1></Link>
                         </div>
                         <ul>
+                            <li><button onClick={() => handleLogout()}>Logout</button></li>
                             <li><Link to={`users/${user.id}`}>{user.username}</Link></li>
                             <li><Link to={`users/${user.id}`}><img src={userImage} alt={user.username} /></Link></li>
                         </ul>

@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 const USER_API_PATH = process.env.REACT_APP_API_URL + '/api/v1/users';
 
 export const getUserByUsername = async (currentUsername) => {
@@ -11,7 +12,11 @@ export const getUserByUsername = async (currentUsername) => {
 
         return data;
     } catch (err) {
-        alert(err.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }
 
@@ -24,6 +29,10 @@ export const getUserImage = async (userId) => {
 
         return imageObjectURL;
     } catch (err) {
-        alert(err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }

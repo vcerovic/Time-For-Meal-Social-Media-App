@@ -2,6 +2,7 @@ package com.veljkocerovic.timeformeal.response;
 
 
 import com.veljkocerovic.timeformeal.exceptions.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ResponseMessage(exception.getMessage()));
     }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ResponseMessage> expiredJwtException(ExpiredJwtException exception,
+                                                                   WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ResponseMessage(exception.getMessage()));
+    }
+
+
 
 
     @ExceptionHandler(UserAlreadyExistsException.class)

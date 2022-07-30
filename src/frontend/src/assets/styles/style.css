@@ -47,8 +47,8 @@ body {
 }
 
 .navbar div:first-child a:hover {
-  -webkit-transform: scale(1.05);
-          transform: scale(1.05);
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
 }
 
 .navbar img {
@@ -67,26 +67,43 @@ body {
 }
 
 .navbar ul li {
-  margin-left: 10px;
+  margin-left: 15px;
   font-weight: 500;
   font-size: 1.2em;
   -webkit-transition: 200ms;
   transition: 200ms;
 }
 
-.navbar ul li:hover {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
-}
-
 .navbar ul li a {
   text-decoration: none;
   color: white;
+  font-size: inherit;
+}
+
+.navbar ul li:hover {
+  -webkit-transform: scale(1.08);
+          transform: scale(1.08);
+}
+
+.navbar ul li:hover a,
+.navbar ul li:hover button {
+  color: #11bb8d;
+}
+
+.navbar ul li button {
+  background: none;
+  color: white;
+  border: none;
+  font-weight: 500;
+  font-size: inherit;
+  margin: 0 20px;
+  cursor: pointer;
 }
 
 .navbar ul li img {
-  height: 38px;
+  height: 40px;
   border-radius: 50%;
+  border: 3px solid #11bb8d;
 }
 
 #home {
@@ -187,22 +204,220 @@ body {
 
 #recipePage .recipe-card .content ul li i:first-child {
   margin-right: 5px;
-  font-weight: 500;
+  font-weight: 300;
   font-size: 1.2em;
 }
 
+#recipePage .recipe-card .content ul li p {
+  font-weight: 300;
+}
+
 #recipePage .recipe-card .content ul li span {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 1.2em;
 }
 
 #recipePage .recipe-card .content .content__footer {
   margin: 10px 0;
-  width: 60%;
+  width: 50%;
+}
+
+#AuthPage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 100px;
+}
+
+.form-container {
+  width: 25%;
+  background: #fff;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+}
+
+.form-container .linkBtn {
+  width: 100%;
+  background: #11bb8d !important;
+}
+
+.form-container .linkBtn:hover {
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+}
+
+.form-container .title {
+  font-size: 2.2em;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.7em 0;
+  color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
+}
+
+.form-container .options {
+  color: #262626;
+  font-weight: 400;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.form-container .options a {
+  text-decoration: none;
+  color: #11bb8d;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+.form-container form {
+  padding: 20px 30px 5px 30px;
+}
+
+.form-container .field {
+  height: 50px;
+  width: 100%;
+  margin-top: 30px;
+  position: relative;
+}
+
+.form-container .field:first-child {
+  margin-top: 0;
+  margin-top: 20px;
+}
+
+.form-container .field input,
+.form-container .field textarea {
+  height: 100%;
+  width: 92%;
+  outline: none;
+  font-size: 17px;
+  padding: 0 20px;
+  border: 1px solid lightgrey;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  border-radius: 14px;
+}
+
+.form-container .field input:focus,
+.form-container .field textarea:focus {
+  border-color: #126f56;
+}
+
+.form-container .field input:focus ~ label,
+.form-container .field input:not(:placeholder-shown) ~ label,
+.form-container .field textarea:focus ~ label,
+.form-container .field textarea:not(:placeholder-shown) ~ label {
+  top: 0%;
+  font-size: 16px;
+  color: #126f56;
+  background: #fff;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.form-container .field.success input,
+.form-container .field.success textarea {
+  border-color: #24ae36;
+}
+
+.form-container .field.success:not(:placeholder-shown) label {
+  color: #24ae36;
+}
+
+.form-container .field.error input,
+.form-container .field.error textarea {
+  border-color: #d61717;
+}
+
+.form-container .field.error:not(:placeholder-shown) label {
+  color: #d61717 !important;
+}
+
+.form-container .field .error {
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  padding-top: 5px;
+  color: #d61717;
+}
+
+.form-container .field label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.form-container .textarea-field {
+  height: 130px !important;
+}
+
+.form-container .textarea-field textarea {
+  font-family: "Montserrat", sans-serif !important;
+  resize: none;
+  padding: 20px;
+}
+
+.form-container .image-field {
+  height: 60px !important;
+}
+
+.form-container .image-field input {
+  padding: 17px 22px !important;
+}
+
+.form-container .content {
+  margin: 2em 0;
+  padding: 0 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  font-size: 1em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.form-container .content input {
+  width: 15px;
+  height: 15px;
+  background: red;
+}
+
+.form-container .content label {
+  color: #262626;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  padding-left: 5px;
 }
 
 .recipeBtn {
   background-image: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
+  font-family: "Montserrat", sans-serif;
   font-size: 20px;
   color: #ffffff;
   display: -webkit-box;
@@ -214,11 +429,13 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 10px 15px;
+  padding: 10px 7px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  border-radius: 12px;
   -webkit-transition: 200ms;
   transition: 200ms;
+  width: 100%;
 }
 
 .recipeBtn:hover {
@@ -227,6 +444,7 @@ body {
 }
 
 .linkBtn {
+  border-radius: 14px;
   margin: 20px 0;
   width: 10%;
   display: block;
@@ -239,7 +457,7 @@ body {
   line-height: 1em;
   font-weight: 600;
   max-width: 100%;
-  min-width: 140px;
+  min-width: 160px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -261,6 +479,7 @@ body {
   cursor: pointer;
   -webkit-transition: 200ms;
   transition: 200ms;
+  font-family: "Montserrat", sans-serif;
 }
 
 .linkBtn:hover {
