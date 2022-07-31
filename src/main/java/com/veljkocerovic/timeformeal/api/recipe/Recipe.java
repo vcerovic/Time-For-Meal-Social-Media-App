@@ -1,6 +1,7 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.veljkocerovic.timeformeal.api.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;
@@ -61,16 +62,19 @@ public class Recipe {
 
     //Reference to users that liked this recipe
     @ManyToMany(mappedBy = "recipesLikes", cascade = CascadeType.ALL)
+    @JsonProperty(value = "likes")
     private List<AppUser> usersLikes;
 
 
     //Recipe ratings
     @OneToMany(mappedBy = "recipe")
+    @JsonProperty(value = "ratings")
     List<RecipeRating> recipeRatings;
 
 
     //Recipe comments
     @OneToMany(mappedBy = "recipe")
+    @JsonProperty(value = "comments")
     List<RecipeComment> recipeComments;
 
 

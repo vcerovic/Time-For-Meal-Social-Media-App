@@ -5,4 +5,8 @@ export function capitalizeFirstLetter(string) {
 export function replaceWithBr(text) {
     return text.replace(/\n/g, "<br />")
   }
+
+export function removeChar(text, char){
+    return text.replaceAll(char, " ")
+}
   

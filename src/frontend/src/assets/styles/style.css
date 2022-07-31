@@ -613,11 +613,11 @@ body {
   margin: 80px auto;
 }
 
-.single-recipe div:first-child {
+.single-recipe > div:first-child {
   width: 16%;
 }
 
-.single-recipe div:first-child .title {
+.single-recipe > div:first-child .title {
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
@@ -631,7 +631,7 @@ body {
   width: 100%;
 }
 
-.single-recipe div:first-child .author {
+.single-recipe > div:first-child .author {
   width: 100%;
   background-color: #20253c;
   border-radius: 14px;
@@ -639,7 +639,7 @@ body {
   margin-bottom: 50px;
 }
 
-.single-recipe div:first-child .author div {
+.single-recipe > div:first-child .author div {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -659,30 +659,30 @@ body {
           align-items: center;
 }
 
-.single-recipe div:first-child .author div h1 {
+.single-recipe > div:first-child .author div h1 {
   font-size: 1.4em;
   font-weight: 600;
 }
 
-.single-recipe div:first-child .author div img {
+.single-recipe > div:first-child .author div img {
   height: 50px;
   border-radius: 50%;
 }
 
-.single-recipe div:first-child .ingredients {
+.single-recipe > div:first-child .ingredients {
   background-color: #20253c;
   border-radius: 14px;
   overflow: hidden;
 }
 
-.single-recipe div:first-child .ingredients div {
+.single-recipe > div:first-child .ingredients div {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   padding: 15px 20px;
 }
 
-.single-recipe div:first-child .ingredients div p {
+.single-recipe > div:first-child .ingredients div p {
   text-align: center;
   margin: 5px 0;
 }
@@ -733,6 +733,73 @@ body {
 .single-recipe .content ul li span {
   font-weight: 500;
   font-size: 1.2em;
+}
+
+.comments div form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.comments div form textarea {
+  width: 75%;
+  resize: vertical;
+  border: none;
+  border-radius: 14px;
+  font-family: "Montserrat", sans-serif;
+  padding: 10px;
+  color: #262626;
+}
+
+.comments div form textarea:focus {
+  outline: #11bb8d;
+}
+
+.comments div form .linkBtn {
+  width: 20%;
+}
+
+.comments .comment {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 10px 0;
+}
+
+.comments .comment h3 {
+  -webkit-transition: 150ms;
+  transition: 150ms;
+}
+
+.comments .comment h3:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.comments .comment a {
+  text-decoration: none;
+  color: #11bb8d;
+  font-weight: 500;
+}
+
+hr {
+  background-color: white;
+  border: 2px solid white;
+  margin: 10px 0 15px 0;
+  border-radius: 14px;
 }
 
 .red {

@@ -506,7 +506,7 @@ body {
   width: 70%;
   margin: 80px auto;
 
-  div:first-child {
+  & > div:first-child {
     width: 16%;
 
     .title {
@@ -533,7 +533,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        h1{
+        h1 {
           font-size: 1.4em;
           font-weight: 600;
         }
@@ -553,7 +553,7 @@ body {
         height: fit-content;
         padding: 15px 20px;
 
-        p{
+        p {
           text-align: center;
           margin: 5px 0;
         }
@@ -561,16 +561,16 @@ body {
     }
   }
 
-  .content{
+  .content {
     width: 60%;
     background-color: $content-bg;
     border-radius: 14px;
     overflow: hidden;
-    img{
+    img {
       width: 100%;
     }
 
-    & > div{
+    & > div {
       padding: 25px 35px;
     }
 
@@ -598,32 +598,85 @@ body {
         }
       }
     }
-
   }
 }
 
+.comments {
+  div {
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      textarea {
+        width: 75%;
+        resize: vertical;
+        border: none;
+        border-radius: 14px;
+        font-family: "Montserrat", sans-serif;
+        padding: 10px;
+        color: #262626;
+
+        &:focus {
+          outline: #11bb8d;
+        }
+      }
+
+      .linkBtn {
+        width: 20%;
+      }
+    }
+  }
+
+  .comment {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+
+    h3 {
+      transition: 150ms;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    a {
+      text-decoration: none;
+      color: #11bb8d;
+      font-weight: 500;
+    }
+  }
+}
+
+hr {
+  background-color: white;
+  border: 2px solid white;
+  margin: 10px 0 15px 0;
+  border-radius: 14px;
+}
 .red {
   color: #d61717;
 }
 
-.green{
+.green {
   color: #43c755;
 }
 
-.yellow{
+.yellow {
   color: rgb(255, 213, 47);
 }
 
-.orange{
-  color:rgb(238, 158, 67)
+.orange {
+  color: rgb(238, 158, 67);
 }
 
 .blue {
-  color:rgb(43, 184, 227)
+  color: rgb(43, 184, 227);
 }
 
 .purple {
-  color:rgb(217, 92, 255)
+  color: rgb(217, 92, 255);
 }
 
 //Preloader

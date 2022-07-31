@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { getUserImage } from '../api/UserApi';
-import { getRecipe, getRecipeImage, getAllRecipeComments } from '../api/RecipeApi';
+import { useCookies } from 'react-cookie';
+import { validateUser } from '../api/AuthApi';
+import { getRecipe, getRecipeImage, calculateRating } from '../api/RecipeApi';
 import { capitalizeFirstLetter, replaceWithBr } from '../utils/StringUtils';
 import Comment from './Comment.jsx';
 
 const Recipe = ({ recipeId }) => {
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [recipe, setRecipe] = useState({});
-    const [comments, setComments] = useState([]);
     const [recipeImage, setRecipeImage] = useState();
     const [userImage, setUserImage] = useState();
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [isLogged, setIsLogged] = useState(false);
+
 
 
     useEffect(() => {
@@ -22,9 +26,10 @@ const Recipe = ({ recipeId }) => {
                         setUserImage(image)
                         getRecipeImage(recipeId)
                             .then(image => setRecipeImage(image))
-                            .then(() => getAllRecipeComments(recipeId))
-                            .then(comments => setComments(comments))
-                            .finally(setHasLoaded(true))
+
+                        validateUser(cookies)
+                            .then(isValid => setIsLogged(isValid))
+                            .finally(setHasLoaded(true));
                     });
             })
 
@@ -81,33 +86,38 @@ const Recipe = ({ recipeId }) => {
                             </li>
                             <li className="recipe-details-item time">
                                 <i className="fa-regular fa-heart green"></i>
-                                <span className="value green">{recipe.cookTime + recipe.prepTime}</span>
+                                <span className="value green">{recipe.likes.length}</span>
                                 <p className="title">Likes</p>
                             </li>
                             <li className="recipe-details-item time ">
                                 <i className="fa-regular fa-star yellow"></i>
-                                <span className="value yellow">{recipe.cookTime + recipe.prepTime}</span>
+                                <span className="value yellow">{calculateRating(recipe.ratings)}</span>
                                 <p className="title">Rating</p>
                             </li>
                             <li className="recipe-details-item time">
                                 <i className="fa-regular fa-comment  red"></i>
-                                <span className="value red">{recipe.cookTime + recipe.prepTime}</span>
+                                <span className="value red">{recipe.comments.length}</span>
                                 <p className="title">Comments</p>
                             </li>
                         </ul>
                         <div>
-                            <h3>Insturcitons:</h3>
+                            <h2>Insturcitons:</h2>
+                            <hr></hr>
                             <p dangerouslySetInnerHTML={{ __html: replaceWithBr(recipe.instruction) }} />
                         </div>
                     </div>
 
                     <div className='comments'>
-                        <h1>Comments:</h1>
+                        <h2>Comments:</h2>
                         <hr></hr>
                         <div>
-                            {comments != null ? 
-                            comments.map(comment => <Comment key={comment.id} comment={comment}/>)
-                            : <div>No comments </div>}
+                            <form>                       
+                                <textarea name="commentText" id="commentText" cols="30" rows="2"></textarea>
+                                <input className='linkBtn' type="submit" value="Comment" />
+                            </form>
+                            {recipe.comments != null ?
+                                recipe.comments.map(comment => <Comment key={comment.id} comment={comment} />)
+                                : <div>No comments </div>}
                         </div>
                     </div>
                 </div>
