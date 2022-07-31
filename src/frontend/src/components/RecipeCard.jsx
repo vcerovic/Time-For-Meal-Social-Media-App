@@ -7,7 +7,7 @@ const RecipeCard = ({ recipe }) => {
 
     useEffect(() => {
         getRecipeImage(recipe.id)
-        .then(image => setRecipeImage(image));
+            .then(image => setRecipeImage(image));
     }, []);
 
 
@@ -24,18 +24,18 @@ const RecipeCard = ({ recipe }) => {
                     </div>
                     <ul className="recipe-details">
                         <li className="recipe-details-item time">
-                            <i className="fa-solid fa-clock"></i>
-                            <span className="value">{recipe.cookTime + recipe.prepTime}</span>
+                            <i className="fa-solid fa-clock blue"></i>
+                            <span className="value blue">{recipe.cookTime + recipe.prepTime}</span>
                             <p className="title">Minutes</p>
                         </li>
                         <li className="recipe-details-item ingredients">
-                            <i className="fa-solid fa-lemon"></i>
-                            <span className="value">{recipe.ingredients.length}</span>
+                            <i className="fa-solid fa-lemon purple"></i>
+                            <span className="value purple">{recipe.ingredients.length}</span>
                             <p className="title">Ingredients</p>
                         </li>
                         <li className="recipe-details-item servings">
-                            <i className="fa-solid fa-user"></i>
-                            <span className="value">{recipe.serving}</span>
+                            <i className="fa-solid fa-user orange"></i>
+                            <span className="value orange">{recipe.serving}</span>
                             <p className="title">Serving</p>
                         </li>
                     </ul>

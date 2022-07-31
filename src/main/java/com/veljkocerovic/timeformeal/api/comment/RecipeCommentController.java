@@ -11,20 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/recipe")
+@RequestMapping("/api/v1/recipes")
 public class RecipeCommentController {
 
     @Autowired
     private RecipeCommentService commentService;
 
-    //GET ALL COMMENTS
-    @GetMapping("/{id}/comments")
-    public List<RecipeComment> getAllRecipeComments(@PathVariable(value = "id") Integer recipeId){
-        return commentService.getAllComments(recipeId);
-    }
 
     //COMMENT RECIPE
-    @PostMapping("/{id}/comment")
+    @PostMapping("/{id}/comments")
     public ResponseEntity<ResponseMessage> commentRecipe(@PathVariable(value = "id") Integer recipeId,
                                                          @RequestParam String comment) throws
             UserNotFoundException, RecipeNotFoundException {
@@ -34,6 +29,13 @@ public class RecipeCommentController {
                 .status(HttpStatus.CREATED)
                 .body(new ResponseMessage(
                         "Comment successfully created."));
+    }
+
+
+    //GET ALL COMMENTS
+    @GetMapping("/{id}/comments")
+    public List<RecipeComment> getAllRecipeComments(@PathVariable(value = "id") Integer recipeId){
+        return commentService.getAllComments(recipeId);
     }
 
 }

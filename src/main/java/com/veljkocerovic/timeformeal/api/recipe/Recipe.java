@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.veljkocerovic.timeformeal.api.category.RecipeCategory;
 import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;

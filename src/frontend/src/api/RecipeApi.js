@@ -13,11 +13,7 @@ export const getRecipe = async (recipeId) => {
 
         return data;
     } catch (err) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.message,
-        });
+        console.log(err);
     }
 }
 
@@ -29,11 +25,7 @@ export const getRecipeImage = async (recipeId) => {
 
         return imageObjectURL;
     } catch (err) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.message,
-        });
+        console.log(err);
     }
 
 }
@@ -46,27 +38,27 @@ export const createNewRecipe = async (formData, selectedIngredients, jwt) => {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 
+        headers: {
             'Authorization': jwt
         },
         body: formData
     };
 
-    try{
+    try {
         const response = await fetch(RECIPE_API_PATH, requestOptions);
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message);
         }
-        
+
         Swal.fire({
             title: 'Success',
             type: 'success',
             icon: 'success',
             text: data.message,
         });
-    } catch(err){
+    } catch (err) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -86,15 +78,10 @@ export const getAllRecipeCategories = async () => {
 
         return data;
     } catch (err) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.message,
-        });
+        console.log(err);
     }
 }
 
-   
 
 export const getAllIngredients = async (prefix) => {
     try {
@@ -108,10 +95,21 @@ export const getAllIngredients = async (prefix) => {
 
         return data;
     } catch (err) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.message,
-        });
+        console.log(err);
+    }
+}
+
+export const getAllRecipeComments = async (recipeId) => {
+    try {
+        const response = await fetch(`${RECIPE_API_PATH}${recipeId}/comments`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        console.log(err);
     }
 }

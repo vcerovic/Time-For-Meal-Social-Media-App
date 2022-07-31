@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class RecipeRatingKey implements Serializable {
 
     @Column(name = "user_id")

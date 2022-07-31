@@ -26,7 +26,11 @@ const RecipePage = () => {
   }, []);
 
   if (recipes.length < 1) {
-    return <p>waiting...</p>
+    return (
+      <div id="preloader">
+        <div id="loader"></div>
+      </div>
+    )
   } else {
     return (
       <div id='recipePage'>

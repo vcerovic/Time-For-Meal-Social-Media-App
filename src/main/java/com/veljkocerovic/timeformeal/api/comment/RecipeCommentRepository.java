@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface RecipeCommentRepository extends JpaRepository<RecipeComment, RecipeCommentKey> {
+public interface RecipeCommentRepository extends JpaRepository<RecipeComment, Integer> {
     @Query("FROM RecipeComment as r where r.recipe.id = :recipeId")
     List<RecipeComment> findAllByRecipeId(@Param("recipeId") Integer recipeId);
 }

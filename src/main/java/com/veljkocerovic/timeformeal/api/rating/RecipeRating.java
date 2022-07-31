@@ -1,6 +1,7 @@
 package com.veljkocerovic.timeformeal.api.rating;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import lombok.AllArgsConstructor;
@@ -19,16 +20,15 @@ public class RecipeRating {
     @EmbeddedId
     private RecipeRatingKey id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private AppUser appUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Recipe recipe;
 
 

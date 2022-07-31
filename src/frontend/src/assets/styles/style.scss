@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900");
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
@@ -40,7 +41,7 @@ body {
       transition: 200ms;
 
       &:hover {
-        transform: scale(1.03);
+        transform: scale(1.02);
       }
     }
   }
@@ -60,7 +61,7 @@ body {
       font-size: 1.2em;
       transition: 200ms;
 
-      .recipeBtn{
+      .recipeBtn {
         background: $primary-color;
         font-weight: 700;
       }
@@ -78,7 +79,7 @@ body {
           color: $primary-color;
         }
 
-        .recipeBtn{
+        .recipeBtn {
           color: white;
           transform: scale(0.95);
         }
@@ -92,7 +93,6 @@ body {
         font-size: inherit;
         margin: 0 20px;
         cursor: pointer;
-        
       }
 
       img {
@@ -216,7 +216,7 @@ body {
   .form-container {
     width: 35% !important;
 
-    .field{
+    .field {
       height: 46px;
     }
   }
@@ -281,7 +281,7 @@ body {
     }
   }
 
-  #instructionLbl{
+  #instructionLbl {
     color: #126f56;
     padding-left: 5px;
   }
@@ -289,7 +289,7 @@ body {
   #instruction {
     margin-top: 5px;
     height: 100%;
-    width: 92%;
+    width: 100%;
     outline: none;
     font-size: 17px;
     padding: 10px 20px;
@@ -302,7 +302,7 @@ body {
     }
   }
 
-  #ingredients{
+  #ingredients {
     width: 100%;
     margin-top: 20px;
     height: 150px;
@@ -312,16 +312,16 @@ body {
     border-radius: 14px;
   }
 
-  .selectedIng{
+  .selectedIng {
     color: #262626;
 
-    div{
+    div {
       display: flex;
       flex-wrap: wrap;
 
-      button{
+      button {
         color: white;
-        border:none;
+        border: none;
         background: $primary-color;
         border-radius: 14px;
         font-weight: 500;
@@ -347,7 +347,7 @@ body {
     input,
     textarea {
       height: 100%;
-      width: 92%;
+      width: 100%;
       outline: none;
       font-size: 17px;
       padding: 0 20px;
@@ -421,8 +421,8 @@ body {
 
   .image-field {
     color: #262626;
-    height: 25px !important;
-    margin-bottom: 66px !important;
+    height: 62px !important;
+    margin-bottom: 20px !important;
     input {
       padding: 17px 22px !important;
     }
@@ -459,7 +459,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 7px;
+  padding: 10px 15px;
   text-decoration: none;
   font-weight: 600;
   border-radius: 12px;
@@ -481,12 +481,11 @@ body {
   color: #ffffff;
   font-size: 20px;
   line-height: 1em;
-  font-weight: 600;
-  max-width: 100%;
-  min-width: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 27%;
+  font-weight: 600;
   padding: 19px 24px;
   text-decoration: none;
   user-select: none;
@@ -498,5 +497,196 @@ body {
 
   &:hover {
     transform: scale(1.05);
+  }
+}
+
+.single-recipe {
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+  margin: 80px auto;
+
+  div:first-child {
+    width: 16%;
+
+    .title {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      padding: 0.7em 0.4em;
+      color: #fff;
+      user-select: none;
+      background: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
+      width: 100%;
+    }
+    .author {
+      width: 100%;
+      background-color: $content-bg;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 50px;
+
+      div {
+        height: fit-content;
+        padding: 15px 20px;
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h1{
+          font-size: 1.4em;
+          font-weight: 600;
+        }
+        img {
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .ingredients {
+      background-color: $content-bg;
+      border-radius: 14px;
+      overflow: hidden;
+
+      div {
+        height: fit-content;
+        padding: 15px 20px;
+
+        p{
+          text-align: center;
+          margin: 5px 0;
+        }
+      }
+    }
+  }
+
+  .content{
+    width: 60%;
+    background-color: $content-bg;
+    border-radius: 14px;
+    overflow: hidden;
+    img{
+      width: 100%;
+    }
+
+    & > div{
+      padding: 25px 35px;
+    }
+
+    ul {
+      margin: 15px 0;
+      list-style-type: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      li {
+        margin-right: 30px;
+        i:first-child {
+          margin-right: 5px;
+          font-weight: 300;
+          font-size: 1.2em;
+        }
+
+        p {
+          font-weight: 500;
+        }
+
+        span {
+          font-weight: 500;
+          font-size: 1.2em;
+        }
+      }
+    }
+
+  }
+}
+
+.red {
+  color: #d61717;
+}
+
+.green{
+  color: #43c755;
+}
+
+.yellow{
+  color: rgb(255, 213, 47);
+}
+
+.orange{
+  color:rgb(238, 158, 67)
+}
+
+.blue {
+  color:rgb(43, 184, 227)
+}
+
+.purple {
+  color:rgb(217, 92, 255)
+}
+
+//Preloader
+#preloader {
+  background: #0f111c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  width: 100%;
+  height: 100%;
+  transition: 200ms;
+
+  #loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: rgba($color: $active, $alpha: 1);
+    animation: spin 2s linear infinite;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: rgba($color: #586fe6, $alpha: 1);
+      animation: spin 3s linear infinite;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: white;
+      animation: spin 1.5s linear infinite;
+    }
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

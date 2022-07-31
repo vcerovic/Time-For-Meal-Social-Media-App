@@ -49,8 +49,8 @@ const Navbar = () => {
                 return (
                     <div className='navbar'>
                         <div>
-                            <Link to={'/'}><img className='logo' src={logo} alt="Time for meal logo" /></Link>
-                            <Link to={'/'}><h1>Time for meal</h1></Link>
+                            <Link to={'/recipes'}><img className='logo' src={logo} alt="Time for meal logo" /></Link>
+                            <Link to={'/recipes'}><h1>Time for meal</h1></Link>
                         </div>
                         <ul>
                             <li><Link to={'/register'}>Register</Link></li>
@@ -62,8 +62,8 @@ const Navbar = () => {
                 return (
                     <div className='navbar'>
                         <div>
-                            <Link to={'/'}><img className='logo' src={logo} alt="Time for meal logo" /></Link>
-                            <Link to={'/'}><h1>Time for meal</h1></Link>
+                            <Link to={'/recipes'}><img className='logo' src={logo} alt="Time for meal logo" /></Link>
+                            <Link to={'/recipes'}><h1>Time for meal</h1></Link>
                         </div>
                         <ul>
                             <li><Link className='recipeBtn'  to={'/recipes/new'}>Post a recipe</Link></li>

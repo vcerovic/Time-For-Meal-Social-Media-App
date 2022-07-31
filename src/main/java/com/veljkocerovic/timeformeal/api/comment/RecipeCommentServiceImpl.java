@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,12 +36,12 @@ public class RecipeCommentServiceImpl implements RecipeCommentService{
         Recipe recipe = recipeService.getRecipeById(recipeId);
 
         //Create comment
-        RecipeComment recipeComment = new RecipeComment(
-                new RecipeCommentKey(user.getId(), recipeId),
-                user,
-                recipe,
-                comment
-        );
+        RecipeComment recipeComment = new RecipeComment();
+        recipeComment.setAppUser(user);
+        recipeComment.setRecipe(recipe);
+        recipeComment.setComment(comment);
+        recipeComment.setCreatedAt(LocalDateTime.now());
+
 
         //Save comment
         commentRepository.save(recipeComment);
@@ -54,8 +55,6 @@ public class RecipeCommentServiceImpl implements RecipeCommentService{
 
         //Get recipe
         Recipe recipe = recipeService.getRecipeById(recipeId);
-
-        commentRepository.deleteById(new RecipeCommentKey(user.getId(), recipeId));
     }
 
     @Override

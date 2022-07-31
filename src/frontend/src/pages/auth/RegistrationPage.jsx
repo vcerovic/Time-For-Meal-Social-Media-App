@@ -22,51 +22,58 @@ const RegistrationPage = () => {
             .finally(setHasLoaded(true));
     }, []);
 
-    if (!hasLoaded) return <div>Loading...</div>
+    if (!hasLoaded) return (
+        <div id="preloader">
+            <div id="loader"></div>
+        </div>
+    )
     else {
-        if(isLogged) return <div>You are already registerd.</div>
+        if (isLogged) return <div>You are already registerd.</div>
         else
-        return (
-            <div id='formPage'>
-                <div className='form-container'>
-                    <h1 className='title'>Register</h1>
-                    <form onSubmit={handleSubmit}>
-                        <div className='field'>
-                            <input
-                                id="username"
-                                type="text"
-                                placeholder=' '
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <label htmlFor="username">Username</label>
-                        </div>
-                        <div className='field'>
-                            <input
-                                id="email"
-                                type="email"
-                                placeholder=' '
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <label htmlFor="email">Email</label>
-                        </div>
-                        <div className='field'>
-                            <input
-                                id="password"
-                                type="password"
-                                placeholder=' '
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <label htmlFor="password">Password</label>
-                        </div>
-                        <button className='linkBtn' type="submit">Submit</button>
-                    </form>
-                </div>
-            </div>
+            return (
+                <div id='formPage'>
+                    <div className='form-container'>
+                        <h1 className='title'>Register</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className='field'>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    placeholder=' '
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <label htmlFor="username">Username</label>
+                            </div>
+                            <div className='field'>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    placeholder=' '
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <label htmlFor="email">Email</label>
+                            </div>
+                            <div className='field'>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    placeholder=' '
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label htmlFor="password">Password</label>
+                            </div>
+                            <div className='content'>
 
-        )
+                            </div>
+                            <button className='linkBtn' type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+            )
     }
 }
 

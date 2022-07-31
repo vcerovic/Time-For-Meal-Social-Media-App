@@ -80,7 +80,11 @@ const NewRecipePage = () => {
     }, []);
 
     if (!hasLoaded) {
-        return <p>Loading!</p>
+        return (
+            <div id="preloader">
+              <div id="loader"></div>
+            </div>
+          )
     } else {
         if (!isLogged) return <p>You must log in to create new recipe</p>
         else

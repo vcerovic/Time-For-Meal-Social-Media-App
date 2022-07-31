@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/recipe")
+@RequestMapping("/api/v1/recipes")
 public class LikeController {
 
     @Autowired

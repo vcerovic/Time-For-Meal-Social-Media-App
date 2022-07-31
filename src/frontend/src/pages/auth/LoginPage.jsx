@@ -23,11 +23,15 @@ const LoginPage = () => {
 
     useEffect(() => {
         validateUser(cookies)
-        .then(isValid => setIsLogged(isValid))
-        .finally(setHasLoaded(true));
+            .then(isValid => setIsLogged(isValid))
+            .finally(setHasLoaded(true));
     }, []);
 
-    if (!hasLoaded) return <div>Loading...</div>
+    if (!hasLoaded) return(
+        <div id="preloader">
+            <div id="loader"></div>
+        </div>
+    )
     else {
         if (isLogged) {
             return <p>You are already logged in</p>

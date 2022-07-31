@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900");
 * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
@@ -47,8 +49,8 @@ body {
 }
 
 .navbar div:first-child a:hover {
-  -webkit-transform: scale(1.03);
-          transform: scale(1.03);
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
 }
 
 .navbar img {
@@ -349,7 +351,7 @@ body {
 .form-container #instruction {
   margin-top: 5px;
   height: 100%;
-  width: 92%;
+  width: 100%;
   outline: none;
   font-size: 17px;
   padding: 10px 20px;
@@ -413,7 +415,7 @@ body {
 .form-container .field input,
 .form-container .field textarea {
   height: 100%;
-  width: 92%;
+  width: 100%;
   outline: none;
   font-size: 17px;
   padding: 0 20px;
@@ -491,8 +493,8 @@ body {
 
 .form-container .image-field {
   color: #262626;
-  height: 25px !important;
-  margin-bottom: 66px !important;
+  height: 62px !important;
+  margin-bottom: 20px !important;
 }
 
 .form-container .image-field input {
@@ -544,7 +546,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 10px 7px;
+  padding: 10px 15px;
   text-decoration: none;
   font-weight: 600;
   border-radius: 12px;
@@ -570,9 +572,6 @@ body {
   color: #ffffff;
   font-size: 20px;
   line-height: 1em;
-  font-weight: 600;
-  max-width: 100%;
-  min-width: 160px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -582,6 +581,8 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 27%;
+  font-weight: 600;
   padding: 19px 24px;
   text-decoration: none;
   -webkit-user-select: none;
@@ -600,5 +601,242 @@ body {
 .linkBtn:hover {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
+}
+
+.single-recipe {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 70%;
+  margin: 80px auto;
+}
+
+.single-recipe div:first-child {
+  width: 16%;
+}
+
+.single-recipe div:first-child .title {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.7em 0.4em;
+  color: #fff;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
+  width: 100%;
+}
+
+.single-recipe div:first-child .author {
+  width: 100%;
+  background-color: #20253c;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.single-recipe div:first-child .author div {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 15px 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.single-recipe div:first-child .author div h1 {
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.single-recipe div:first-child .author div img {
+  height: 50px;
+  border-radius: 50%;
+}
+
+.single-recipe div:first-child .ingredients {
+  background-color: #20253c;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.single-recipe div:first-child .ingredients div {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 15px 20px;
+}
+
+.single-recipe div:first-child .ingredients div p {
+  text-align: center;
+  margin: 5px 0;
+}
+
+.single-recipe .content {
+  width: 60%;
+  background-color: #20253c;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.single-recipe .content img {
+  width: 100%;
+}
+
+.single-recipe .content > div {
+  padding: 25px 35px;
+}
+
+.single-recipe .content ul {
+  margin: 15px 0;
+  list-style-type: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.single-recipe .content ul li {
+  margin-right: 30px;
+}
+
+.single-recipe .content ul li i:first-child {
+  margin-right: 5px;
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+.single-recipe .content ul li p {
+  font-weight: 500;
+}
+
+.single-recipe .content ul li span {
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
+.red {
+  color: #d61717;
+}
+
+.green {
+  color: #43c755;
+}
+
+.yellow {
+  color: #ffd52f;
+}
+
+.orange {
+  color: #ee9e43;
+}
+
+.blue {
+  color: #2bb8e3;
+}
+
+.purple {
+  color: #d95cff;
+}
+
+#preloader {
+  background: #0f111c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999999;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+#preloader #loader {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #126f56;
+  -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+}
+
+#preloader #loader:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #586fe6;
+  -webkit-animation: spin 3s linear infinite;
+          animation: spin 3s linear infinite;
+}
+
+#preloader #loader:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: white;
+  -webkit-animation: spin 1.5s linear infinite;
+          animation: spin 1.5s linear infinite;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }
 /*# sourceMappingURL=style.css.map */
