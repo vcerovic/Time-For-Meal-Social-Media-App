@@ -265,6 +265,8 @@ export const rateRecipe = async (recipeId, formData, jwt) => {
             icon: 'success',
             text: data.message,
         });
+
+        return true;
     } catch (err) {
         Swal.fire({
             icon: 'error',
@@ -299,6 +301,8 @@ export const likeRecipe = async (recipeId, jwt) => {
         if (!response.ok) {
             throw new Error(data.message);
         }
+
+        return true;
 
     } catch (err) {
         Swal.fire({

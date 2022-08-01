@@ -159,4 +159,5 @@ public class RecipeServiceImpl implements RecipeService{
         recipe.setRecipeCategory(recipeCategoryService.getRecipeCategoryById(recipeModel.getRecipeCategoryId()));
         recipe.setIngredients(ingredientService.getIngredientsByIds(recipeModel.getIngredientsIds()));
     }
+
 }

@@ -11,10 +11,11 @@ $primary-color: #11bb8d;
 $active: #126f56;
 $main-gradient: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
 $content-bg: #20253c;
+$main-bg: #0f111c;
 $shadow: 0px 10px 5px rgba(46, 187, 161, 0.05);
 
 body {
-  background-color: #0f111c;
+  background-color: $main-bg;
   font-family: "Montserrat", sans-serif;
   color: #ffffff;
   text-decoration: none;
@@ -189,64 +190,65 @@ body {
     flex-wrap: wrap;
     width: 100%;
     margin: 0 auto;
+  }
+}
 
-    .recipe-card {
-      width: 350px;
-      margin: 50px;
-      overflow: hidden;
+.recipe-card {
+  width: 350px;
+  margin: 50px;
+  overflow: hidden;
 
-      .thumb {
-        height: 200px;
-        img {
-          width: 100%;
-          height: 100%;
+  .thumb {
+    height: 200px;
+    img {
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .content {
+    background-color: $content-bg;
+    border-bottom: 3px solid $primary-color;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 25px 10px 10px;
+    box-shadow: $shadow;
+    .header {
+      width: 100%;
+    }
+
+    ul {
+      margin: 15px 0;
+      list-style-type: none;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      li {
+        i:first-child {
+          margin-right: 5px;
+          font-weight: 300;
+          font-size: 1.2em;
+        }
+
+        p {
+          font-weight: 300;
+        }
+
+        span {
+          font-weight: 400;
+          font-size: 1.2em;
         }
       }
+    }
 
-      .content {
-        background-color: $content-bg;
-        border-bottom: 3px solid #11bb8d;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 18px 25px 10px 10px;
-        box-shadow: $shadow;
-
-        .header {
-          width: 100%;
-        }
-
-        ul {
-          margin: 15px 0;
-          list-style-type: none;
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          li {
-            i:first-child {
-              margin-right: 5px;
-              font-weight: 300;
-              font-size: 1.2em;
-            }
-
-            p {
-              font-weight: 300;
-            }
-
-            span {
-              font-weight: 400;
-              font-size: 1.2em;
-            }
-          }
-        }
-
-        .content__footer {
-          margin: 10px 0;
-          width: 50%;
-        }
-      }
+    .content__footer {
+      margin: 10px 0;
+      width: 50%;
     }
   }
 }
@@ -264,10 +266,9 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 60px !important;
   width: 70%;
   flex-wrap: nowrap;
-  margin: 0 auto;
+  margin: 40px auto;
   .form-container {
     width: 35% !important;
 
@@ -282,11 +283,14 @@ body {
   background: $content-bg;
   overflow: hidden;
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 14px;
+  border-bottom: 3px solid $primary-color;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
 
   .linkBtn {
     width: 100%;
     background: $primary-color !important;
+    margin: 30px 0;
     &:hover {
       transform: scale(1.02);
     }
@@ -333,7 +337,7 @@ body {
       border: none;
       padding: 0 10px;
       border-radius: 14px;
-      background-color: #0f111c;
+      background-color: $main-bg;
       color: white;
     }
   }
@@ -351,7 +355,7 @@ body {
     font-size: 17px;
     padding: 10px 20px;
     border: none;
-    background-color: #0f111c;
+    background-color: $main-bg;
     transition: 200ms;
     resize: vertical;
     border-radius: 14px;
@@ -371,7 +375,7 @@ body {
     width: 100%;
     margin-top: 5px;
     height: 150px;
-    background-color: #0f111c;
+    background-color: $main-bg;
     color: white;
     border: none;
     padding: 0 10px;
@@ -419,7 +423,7 @@ body {
       font-size: 17px;
       padding: 0 20px;
       border: none;
-      background-color: #0f111c;
+      background-color: $main-bg;
       transition: 200ms;
       border-radius: 50px;
       &:focus {
@@ -577,10 +581,10 @@ body {
     width: 16%;
 
     .title {
-      font-size: 1.5em;
+      font-size: 1.3em;
       font-weight: bold;
       text-align: center;
-      padding: 0.7em 0.4em;
+      padding: 0.5em 0.4em;
       color: #fff;
       user-select: none;
       background: linear-gradient(144deg, #7cbc55, #11bb8d 50%, #00ddeb);
@@ -615,7 +619,7 @@ body {
       background-color: $content-bg;
       border-radius: 14px;
       overflow: hidden;
-
+      margin-bottom: 50px;
       div {
         height: fit-content;
         padding: 15px 20px;
@@ -646,7 +650,9 @@ body {
   .content {
     width: 60%;
     background-color: $content-bg;
-    border-radius: 14px;
+    border-bottom: 3px solid $primary-color;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
     overflow: hidden;
 
     .thumbnail {
@@ -658,7 +664,7 @@ body {
       }
 
       div {
-        background-color: #0f111c;
+        background-color: $main-bg;
         border-top-left-radius: 25%;
         border-bottom-left-radius: 25%;
         position: absolute;
@@ -715,7 +721,8 @@ body {
         border-radius: 14px;
         font-family: "Montserrat", sans-serif;
         padding: 10px;
-        color: #262626;
+        color: white;
+        background-color: $main-bg;
 
         &:focus {
           outline: #11bb8d;
@@ -772,6 +779,83 @@ body {
   }
 }
 
+.editBtn {
+  background-color: #11bb8d;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 7px 12px;
+  transition: 200ms;
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  text-decoration: none;
+  color: white;
+}
+
+.deleteBtn {
+  background-color: #d61717;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 7px 12px;
+  color: white;
+  font-family: inherit;
+  transition: 200ms;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+#userPage {
+  display: flex;
+  width: 70%;
+  margin: 100px auto;
+  justify-content: space-between;
+
+  .userCard {
+    background-color: $content-bg;
+    overflow: hidden;
+    height: 35%;
+    border-bottom: 3px solid $primary-color;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+
+    img {
+      width: 100%;
+      height: 250px;
+    }
+
+    .info {
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .actions {
+      padding-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      width: 70%;
+      margin: 0 auto;
+    }
+  }
+
+  .recipes {
+    width: 80%;
+    text-align: center;
+
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
+
 hr {
   background: none;
   opacity: 0;
@@ -802,7 +886,7 @@ hr {
 
 //Preloader
 #preloader {
-  background: #0f111c;
+  background: $main-bg;
   position: fixed;
   top: 0;
   left: 0;

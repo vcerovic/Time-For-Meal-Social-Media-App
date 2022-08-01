@@ -14,6 +14,9 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
     List<Recipe> findAllByOrderByIdAsc();
 
+    @Query("FROM Recipe as r where r.owner.id = :userId")
+    List<Recipe> findAllByUserId(Integer userId);
+
     List<Recipe> findByNameContaining(String infix);
     Optional<Recipe> findByName(String name);
 

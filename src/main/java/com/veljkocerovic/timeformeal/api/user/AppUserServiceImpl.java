@@ -1,5 +1,7 @@
 package com.veljkocerovic.timeformeal.api.user;
 
+import com.veljkocerovic.timeformeal.api.recipe.Recipe;
+import com.veljkocerovic.timeformeal.api.recipe.RecipeRepository;
 import com.veljkocerovic.timeformeal.api.user.models.UserUpdateModel;
 import com.veljkocerovic.timeformeal.api.tokens.password.PasswordResetToken;
 import com.veljkocerovic.timeformeal.api.tokens.password.PasswordResetTokenRepository;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,6 +29,9 @@ import java.util.Optional;
 public class AppUserServiceImpl implements AppUserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RecipeRepository recipeRepository;
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
@@ -83,9 +89,10 @@ public class AppUserServiceImpl implements AppUserService {
                 .delete(passwordResetToken));
 
         //Delete his image
-        FileUtil.deleteFile(FileUtil.userImageDir + user.getImage());
+        if(!user.getImage().equals("no_user_image.jpg"))
+            FileUtil.deleteFile(FileUtil.userImageDir + user.getImage());
 
-        userRepository.delete(user);
+        userRepository.deleteUserById(user.getId());
     }
 
     @Override
@@ -167,5 +174,11 @@ public class AppUserServiceImpl implements AppUserService {
        }
 
         return image;
+    }
+
+    @Override
+    public List<Recipe> getAllUserRecipes(Integer userId) throws UserNotFoundException {
+        AppUser user = findUserById(userId);
+        return recipeRepository.findAllByUserId(user.getId());
     }
 }

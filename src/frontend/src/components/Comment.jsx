@@ -24,7 +24,7 @@ const Comment = ({updateRecipe, comment }) => {
             if (result.isConfirmed) {
                 deleteComment(params.recipeId, comment.id, cookies.JWT)
                 .then(() => updateRecipe())
-            } else if (result.isDenied) {
+            } else {
                 Swal.fire('Okay!', '', 'info')
             }
         })
