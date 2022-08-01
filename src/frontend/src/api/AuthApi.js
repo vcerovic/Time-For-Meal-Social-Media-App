@@ -47,7 +47,6 @@ export const registerUser = async (username, email, password) => {
 
         Swal.fire({
             title: 'Success',
-            type: 'success',
             icon: 'success',
             text: data.message,
         });

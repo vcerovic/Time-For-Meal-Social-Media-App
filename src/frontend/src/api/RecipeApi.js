@@ -54,7 +54,6 @@ export const createNewRecipe = async (formData, selectedIngredients, jwt) => {
 
         Swal.fire({
             title: 'Success',
-            type: 'success',
             icon: 'success',
             text: data.message,
         });
@@ -115,11 +114,127 @@ export const getAllRecipeComments = async (recipeId) => {
 }
 
 export const calculateRating = (ratings) => {
-    if(ratings.length === 0){
+    if (ratings.length === 0) {
         return 0;
     }
     let total = 0;
     ratings.forEach(rating => total += rating.rating);
 
-    return total/ratings.length;
+    return total / ratings.length;
+}
+
+export const createComment = async (recipeId, formData, jwt) => {
+
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Authorization': jwt
+        },
+        body: formData
+    };
+
+    try {
+        const response = await fetch(RECIPE_API_PATH + `${recipeId}/comments`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+export const rateRecipe = async (recipeId, formData, jwt) => {
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Authorization': jwt
+        },
+        body: formData
+    };
+
+    try {
+        const response = await fetch(RECIPE_API_PATH + `${recipeId}/rate`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+
+}
+
+export const likeRecipe = async (recipeId, jwt) => {
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Authorization': jwt
+        }
+    };
+
+    try {
+        const response = await fetch(RECIPE_API_PATH + `${recipeId}/like`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
 }

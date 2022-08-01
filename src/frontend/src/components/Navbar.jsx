@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate, } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { validateUser } from '../api/AuthApi';
 import { getUserByUsername, getUserImage } from '../api/UserApi';
-
 import jwt_decode from "jwt-decode";
 import logo from '../assets/images/time2meal_logo.png'
 
