@@ -47,6 +47,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .body(new ResponseMessage(exception.getMessage()));
     }
 
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<ResponseMessage> commentNotFoundException(CommentNotFoundException exception,
+                                                                   WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ResponseMessage(exception.getMessage()));
+    }
+
+
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ResponseMessage> expiredJwtException(ExpiredJwtException exception,
                                                                    WebRequest request) {

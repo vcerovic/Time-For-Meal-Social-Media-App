@@ -64,11 +64,11 @@ public class AppUser {
     //Recipe ratings
     @OneToMany(mappedBy = "appUser")
     @JsonIgnore
-    Set<RecipeRating> userRatings;
+    List<RecipeRating> userRatings;
 
     //Recipe comments
     @OneToMany(mappedBy = "appUser")
     @JsonIgnore
-    Set<RecipeComment> userComments;
+    List<RecipeComment> userComments;
 
 }

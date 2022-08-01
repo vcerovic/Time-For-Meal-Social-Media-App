@@ -4,6 +4,7 @@ import com.veljkocerovic.timeformeal.api.recipe.Recipe;
 import com.veljkocerovic.timeformeal.api.recipe.RecipeService;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
 import com.veljkocerovic.timeformeal.api.user.AppUserService;
+import com.veljkocerovic.timeformeal.exceptions.CommentNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeCommentServiceImpl implements RecipeCommentService{
@@ -48,13 +50,22 @@ public class RecipeCommentServiceImpl implements RecipeCommentService{
     }
 
     @Override
-    public void deleteComment(Integer recipeId) throws UserNotFoundException, RecipeNotFoundException {
-        //Get active user
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AppUser user = appUserService.findUserByUsername(authentication.getName());
-
-        //Get recipe
+    public void deleteComment(Integer recipeId, Integer commentId) throws RecipeNotFoundException, CommentNotFoundException {
         Recipe recipe = recipeService.getRecipeById(recipeId);
+        RecipeComment comment = findCommentById(commentId);
+
+        if(recipe.getRecipeComments().contains(comment)){
+            commentRepository.delete(comment);
+        } else {
+            throw new CommentNotFoundException("Comment doesn't exist on that recipe");
+        }
+    }
+
+    @Override
+    public RecipeComment findCommentById(Integer commentId) throws CommentNotFoundException {
+        Optional<RecipeComment> optional = commentRepository.findById(commentId);
+
+        return optional.orElseThrow(() -> new CommentNotFoundException("Comment with " + commentId + " doesn't exist."));
     }
 
     @Override
