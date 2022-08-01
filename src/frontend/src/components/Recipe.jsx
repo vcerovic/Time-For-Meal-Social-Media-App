@@ -17,7 +17,7 @@ const Recipe = ({ recipeId }) => {
     const [hasLoaded, setHasLoaded] = useState(false);
     const [isLogged, setIsLogged] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(null);
     const [rating, setRating] = useState(0)
     const [isExecuted, setIsExecuted] = useState(false);
 
@@ -49,33 +49,39 @@ const Recipe = ({ recipeId }) => {
             .then(() => { getRecipe(recipeId).then(data => setRecipe(data)) })
     }
 
-    useEffect(() => {
+    const updateRecipe = () => {
         getRecipe(recipeId)
             .then(data => {
                 setRecipe(data)
-                getUserImage(data.owner.id)
-                    .then(image => {
-                        setUserImage(image)
-                        getRecipeImage(recipeId)
-                            .then(image => setRecipeImage(image))
-                            .finally(setHasLoaded(true))
-                    })
-
             })
-            .then(() => {
-                validateUser(cookies)
-                    .then(isValid => {
-                        setIsLogged(isValid)
-                        if (isValid) {
-                            let decoded = jwt_decode(cookies.JWT);
-                            getUserByUsername(decoded.sub)
-                                .then(data => {
-                                    setUser(data)
-                                })
-                        }
-                    })
-            })
+    }
 
+    useEffect(() => {
+        getRecipe(recipeId)
+        .then(data => {
+            setRecipe(data)
+            getUserImage(data.owner.id)
+                .then(image => {
+                    setUserImage(image)
+                    getRecipeImage(recipeId)
+                        .then(image => setRecipeImage(image))
+                        .finally(setHasLoaded(true))
+                })
+
+        })
+        .then(() => {
+            validateUser(cookies)
+                .then(isValid => {
+                    setIsLogged(isValid)
+                    if (isValid) {
+                        let decoded = jwt_decode(cookies.JWT);
+                        getUserByUsername(decoded.sub)
+                            .then(data => {
+                                setUser(data)
+                            })
+                    }
+                })
+        })
     }, []);
 
     if (hasLoaded && user && recipe && !isExecuted) {
@@ -86,12 +92,14 @@ const Recipe = ({ recipeId }) => {
 
 
     if (!hasLoaded) {
+        console.log("2")
         return (
             <div id="preloader">
                 <div id="loader"></div>
             </div>
         )
     } else {
+        console.log("3")
         return (
             <div className='single-recipe'>
                 <div>
@@ -176,7 +184,7 @@ const Recipe = ({ recipeId }) => {
                                 : <div></div>}
 
                             {recipe.comments != null ?
-                                recipe.comments.map(comment => <Comment key={comment.id} comment={comment} />)
+                                recipe.comments.map(comment => <Comment key={comment.id} updateRecipe={updateRecipe} comment={comment} />)
                                 : <div>No comments </div>}
                         </div>
                     </div>

@@ -40,7 +40,7 @@ const NewRecipePage = () => {
         formData.append('image', imageRef.current.files[0]);
 
         createNewRecipe(formData, selectedIngredients, cookies.JWT)
-        .then(() => navigate('/recipes'))
+            .then(() => navigate('/recipes'))
     }
 
 
@@ -82,9 +82,9 @@ const NewRecipePage = () => {
     if (!hasLoaded) {
         return (
             <div id="preloader">
-              <div id="loader"></div>
+                <div id="loader"></div>
             </div>
-          )
+        )
     } else {
         if (!isLogged) return <p>You must log in to create new recipe</p>
         else
@@ -98,15 +98,15 @@ const NewRecipePage = () => {
                                 <label htmlFor="name">Name:</label>
                             </div>
                             <div className='field'>
-                                <input id="prepTime" type="number" placeholder=' ' ref={prepTimeRef} />
+                                <input id="prepTime" type="text" placeholder=' ' ref={prepTimeRef} />
                                 <label htmlFor="prepTime">Preparation time:</label>
                             </div>
                             <div className='field'>
-                                <input id="cookTime" type="number" placeholder=' ' ref={cookTimeRef} />
+                                <input id="cookTime" type="text" placeholder=' ' ref={cookTimeRef} />
                                 <label htmlFor="cookTime">Cook time:</label>
                             </div>
                             <div className='field'>
-                                <input id="serving" type="number" placeholder=' ' ref={servingRef} />
+                                <input id="serving" type="text" placeholder=' ' ref={servingRef} />
                                 <label htmlFor="serving">Serving:</label>
                             </div>
                             <div className='field image-field'>
@@ -130,7 +130,8 @@ const NewRecipePage = () => {
                                     onChange={searchIngredients} />
                                 <label htmlFor="ingredientsSearch">Search for ingredeints:</label>
                             </div>
-                            <div>
+                            <div className='ingDiv'>
+                                <label htmlFor="ingredients">Ingredeints:</label>
                                 <select id='ingredients' ref={ingredientsRef} onChange={handleSelectIngredients} multiple>
                                     {ingredients.map(ingredient =>
                                         <option
@@ -139,10 +140,8 @@ const NewRecipePage = () => {
                                         </option>
                                     )}
                                 </select>
-                                <label htmlFor="ingredients">Ingredeints:</label>
                             </div>
                             <div className='selectedIng'>
-                                <h3>Selected:</h3>
                                 <div>
                                     {
                                         selectedIngredients.map(selectedIng =>

@@ -60,26 +60,26 @@ export const registerUser = async (username, email, password) => {
 }
 
 export const validateUser = async (cookies) => {
-    if (cookies.JWT != null) {
-        try {
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Authorization': cookies.JWT
-                }
-            };
+    if (!cookies.JWT) {
+        return false;
+    }
 
-            const response = await fetch(process.env.REACT_APP_API_URL + '/auth/validate', requestOptions);
-    
-            if (!response.ok) {
-                throw new Error(response);
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': cookies.JWT
             }
-    
-            return true;
-        } catch (err) {
-            return false;
+        };
+
+        const response = await fetch(process.env.REACT_APP_API_URL + '/auth/validate', requestOptions);
+
+        if (!response.ok) {
+            throw new Error(response);
         }
-    } else {
+
+        return true;
+    } catch (err) {
         return false;
     }
 }

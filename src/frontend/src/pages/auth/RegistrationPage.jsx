@@ -65,9 +65,7 @@ const RegistrationPage = () => {
                                 />
                                 <label htmlFor="password">Password</label>
                             </div>
-                            <div className='content'>
-
-                            </div>
+                            <br></br>
                             <button className='linkBtn' type="submit">Submit</button>
                         </form>
                     </div>

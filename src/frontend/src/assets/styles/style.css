@@ -151,32 +151,102 @@ body {
   height: 400px;
 }
 
-#recipePage {
+#recipesPage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 72%;
+  margin: 70px auto;
+}
+
+#recipesPage .search-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#recipesPage .search-form form {
+  background: #20253c;
+  border-radius: 50px;
+}
+
+#recipesPage .search-form form input {
+  padding: 15px 23px;
+  font-size: 14px;
+  border: none;
+  float: left;
+  width: 80%;
+  background: transparent;
+  color: white;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#recipesPage .search-form form input:focus {
+  outline: none;
+}
+
+#recipesPage .search-form form button {
+  float: left;
+  width: 20%;
+  padding: 5px 4px 3px 15px;
+  background: transparent;
+  color: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+#recipesPage .search-form form button i {
+  padding: 12px;
+  background: #11bb8d;
+  border-radius: 29px;
+  color: #fff;
+  font-size: 14px;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+#recipesPage .search-form form button i:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+#recipesPage .recipes {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
 }
 
-#recipePage .recipe-card {
+#recipesPage .recipes .recipe-card {
   width: 350px;
   margin: 50px;
   overflow: hidden;
 }
 
-#recipePage .recipe-card .thumb {
+#recipesPage .recipes .recipe-card .thumb {
   height: 200px;
 }
 
-#recipePage .recipe-card .thumb img {
+#recipesPage .recipes .recipe-card .thumb img {
   width: 100%;
   height: 100%;
 }
 
-#recipePage .recipe-card .content {
+#recipesPage .recipes .recipe-card .content {
   background-color: #20253c;
   border-bottom: 3px solid #11bb8d;
   text-align: center;
@@ -198,11 +268,11 @@ body {
           box-shadow: 0px 10px 5px rgba(46, 187, 161, 0.05);
 }
 
-#recipePage .recipe-card .content .header {
+#recipesPage .recipes .recipe-card .content .header {
   width: 100%;
 }
 
-#recipePage .recipe-card .content ul {
+#recipesPage .recipes .recipe-card .content ul {
   margin: 15px 0;
   list-style-type: none;
   display: -webkit-box;
@@ -215,22 +285,22 @@ body {
           align-items: center;
 }
 
-#recipePage .recipe-card .content ul li i:first-child {
+#recipesPage .recipes .recipe-card .content ul li i:first-child {
   margin-right: 5px;
   font-weight: 300;
   font-size: 1.2em;
 }
 
-#recipePage .recipe-card .content ul li p {
+#recipesPage .recipes .recipe-card .content ul li p {
   font-weight: 300;
 }
 
-#recipePage .recipe-card .content ul li span {
+#recipesPage .recipes .recipe-card .content ul li span {
   font-weight: 400;
   font-size: 1.2em;
 }
 
-#recipePage .recipe-card .content .content__footer {
+#recipesPage .recipes .recipe-card .content .content__footer {
   margin: 10px 0;
   width: 50%;
 }
@@ -276,7 +346,7 @@ body {
 
 .form-container {
   width: 100%;
-  background: #fff;
+  background: #20253c;
   overflow: hidden;
   -webkit-box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
@@ -307,7 +377,7 @@ body {
 }
 
 .form-container .options {
-  color: #262626;
+  color: white;
   font-weight: 400;
   text-align: center;
   margin: 20px 0;
@@ -329,7 +399,7 @@ body {
 }
 
 .form-container .recipeCategory label {
-  color: #126f56;
+  color: #11bb8d;
   padding-left: 5px;
 }
 
@@ -341,10 +411,12 @@ body {
   border: none;
   padding: 0 10px;
   border-radius: 14px;
+  background-color: #0f111c;
+  color: white;
 }
 
 .form-container #instructionLbl {
-  color: #126f56;
+  color: #11bb8d;
   padding-left: 5px;
 }
 
@@ -355,22 +427,30 @@ body {
   outline: none;
   font-size: 17px;
   padding: 10px 20px;
-  border: 1px solid lightgrey;
+  border: none;
+  background-color: #0f111c;
   -webkit-transition: 200ms;
   transition: 200ms;
   resize: vertical;
   border-radius: 14px;
+  color: white;
+  font-family: inherit;
 }
 
-.form-container #instruction:focus {
-  border-color: #126f56;
+.form-container .ingDiv {
+  margin: 20px 0;
+}
+
+.form-container .ingDiv label {
+  color: #11bb8d;
 }
 
 .form-container #ingredients {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 5px;
   height: 150px;
-  background-color: #e6e6e6;
+  background-color: #0f111c;
+  color: white;
   border: none;
   padding: 0 10px;
   border-radius: 14px;
@@ -414,15 +494,17 @@ body {
 
 .form-container .field input,
 .form-container .field textarea {
+  color: white;
   height: 100%;
   width: 100%;
   outline: none;
   font-size: 17px;
   padding: 0 20px;
-  border: 1px solid lightgrey;
+  border: none;
+  background-color: #0f111c;
   -webkit-transition: 200ms;
   transition: 200ms;
-  border-radius: 14px;
+  border-radius: 50px;
 }
 
 .form-container .field input:focus,
@@ -436,8 +518,7 @@ body {
 .form-container .field textarea:not(:placeholder-shown) ~ label {
   top: 0%;
   font-size: 16px;
-  color: #126f56;
-  background: #fff;
+  color: #11bb8d;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
@@ -839,6 +920,36 @@ body {
   text-decoration: none;
   color: #11bb8d;
   font-weight: 500;
+}
+
+.comments .comment .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.comments .comment .actions button {
+  background-color: #d61717;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+}
+
+.comments .comment .actions button:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.comments .comment .actions i {
+  color: white;
+  font-size: 1.5em;
 }
 
 hr {

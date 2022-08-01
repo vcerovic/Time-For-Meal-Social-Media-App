@@ -16,7 +16,7 @@ public class IngredientController {
     @Autowired
     public IngredientService ingredientService;
 
-    @GetMapping
+    @GetMapping("/search")
     public List<Ingredient> getAllIngredientsByLetter(@RequestParam("prefix") String prefix){
         return ingredientService.getAllIngredientsByLetter(prefix);
     }

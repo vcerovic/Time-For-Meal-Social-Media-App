@@ -1,6 +1,20 @@
 import Swal from "sweetalert2";
 const RECIPE_API_PATH = process.env.REACT_APP_API_URL + '/api/v1/recipes/';
 
+export const getAllRecipes = async () => {
+    try {
+        const response = await fetch(RECIPE_API_PATH);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 export const getRecipe = async (recipeId) => {
     try {
@@ -68,7 +82,7 @@ export const createNewRecipe = async (formData, selectedIngredients, jwt) => {
 
 export const getAllRecipeCategories = async () => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/categories`);
+        const response = await fetch(`${RECIPE_API_PATH}categories`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -85,7 +99,23 @@ export const getAllRecipeCategories = async () => {
 export const getAllIngredients = async (prefix) => {
     try {
         const response =
-            await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes/ingredients?prefix=${prefix}`);
+            await fetch(`${RECIPE_API_PATH}ingredients/search?prefix=${prefix}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const getAllRecipesByName = async (infix) => {
+    try {
+        const response =
+            await fetch(`${RECIPE_API_PATH}search?infix=${infix}`);
         const data = await response.json();
 
         if (!response.ok) {
@@ -144,6 +174,46 @@ export const createComment = async (recipeId, formData, jwt) => {
 
     try {
         const response = await fetch(RECIPE_API_PATH + `${recipeId}/comments`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+export const deleteComment = async (recipeId, commentId, jwt) => {
+
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': jwt
+        },
+    };
+
+    try {
+        const response = await fetch(RECIPE_API_PATH + `${recipeId}/comments/${commentId}`, requestOptions);
         const data = await response.json();
 
         if (!response.ok) {

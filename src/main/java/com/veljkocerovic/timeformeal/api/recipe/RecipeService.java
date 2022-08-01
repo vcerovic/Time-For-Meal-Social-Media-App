@@ -22,4 +22,6 @@ public interface RecipeService {
 
 
     byte[] getRecipeImage(Integer recipeId) throws RecipeNotFoundException;
+
+    List<Recipe> getAllRecipesByName(String infix);
 }

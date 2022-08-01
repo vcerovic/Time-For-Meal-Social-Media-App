@@ -1,31 +1,27 @@
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
+import { getAllRecipes, getAllRecipesByName } from '../../api/RecipeApi';
 import RecipeCard from '../../components/RecipeCard';
 
 const RecipePage = () => {
   const [recipes, setRecipes] = useState([]);
+  const searchTextRef = useRef();
 
-  const getAllRecipes = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/recipes`);
-      const data = await response.json();
+  const handleSearch = e => {
+    e.preventDefault();
 
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-
-      setRecipes(data);
-    } catch (err) {
-      alert(err.message);
-    }
+    getAllRecipesByName(searchTextRef.current.value)
+    .then(data => setRecipes(data));
   }
 
   useEffect(() => {
-    getAllRecipes();
+    getAllRecipes()
+      .then(data => setRecipes(data));
   }, []);
+  
 
-  if (recipes.length < 1) {
+  if (recipes == null) {
     return (
       <div id="preloader">
         <div id="loader"></div>
@@ -33,8 +29,17 @@ const RecipePage = () => {
     )
   } else {
     return (
-      <div id='recipePage'>
-        {recipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
+      <div id='recipesPage'>
+        <div className="search-form">
+          <form onSubmit={handleSearch}>
+            <input type="text" ref={searchTextRef} onChange={handleSearch} placeholder='Search recipes...'/>
+            <button type="submit"><i className="fa fa-search"></i></button>
+          </form>
+        </div>
+        <div className='recipes'>
+          {recipes != null ? recipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />) : <div>No recipes found.</div>}
+        </div>
+
       </div>
     )
   }

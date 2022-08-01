@@ -145,6 +145,11 @@ public class RecipeServiceImpl implements RecipeService{
         return image;
     }
 
+    @Override
+    public List<Recipe> getAllRecipesByName(String infix) {
+        return recipeRepository.findByNameContaining(infix);
+    }
+
     private void swapModelToRecipe(RecipeModel recipeModel, Recipe recipe) {
         recipe.setName(recipeModel.getName());
         recipe.setInstruction(recipeModel.getInstruction());

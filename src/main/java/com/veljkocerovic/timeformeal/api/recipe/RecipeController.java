@@ -1,5 +1,6 @@
 package com.veljkocerovic.timeformeal.api.recipe;
 
+import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.exceptions.ImageSizeLimitException;
 import com.veljkocerovic.timeformeal.exceptions.RecipeNotFoundException;
 import com.veljkocerovic.timeformeal.exceptions.UserNotFoundException;
@@ -26,6 +27,11 @@ public class RecipeController {
     @GetMapping
     public List<Recipe> getAllRecipes(){
         return recipeService.getAllRecipes();
+    }
+
+    @GetMapping("/search")
+    public List<Recipe> getAllRecipesByName(@RequestParam("infix") String infix){
+        return recipeService.getAllRecipesByName(infix);
     }
 
     //CREATE NEW RECIPE
