@@ -32,6 +32,7 @@ root.render(
                 <Route path="recipes/new" element={<NewRecipePage />} />
                 <Route path="recipes/:recipeId" element={<SingleRecipePage />} />
                 <Route path="users/:userId" element={<UserPage />} />
+                <Route path='users/:userId/edit' element={<RegistrationPage />} />
                 <Route
                     path="*"
                     element={

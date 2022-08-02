@@ -98,6 +98,7 @@ body {
 
       img {
         height: 40px;
+        width: 40px;
         border-radius: 50%;
         border: 3px solid #11bb8d;
       }
@@ -216,7 +217,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 18px 25px 10px 10px;
+    padding: 18px 25px 10px 18px;
     box-shadow: $shadow;
     .header {
       width: 100%;
@@ -248,7 +249,20 @@ body {
 
     .content__footer {
       margin: 10px 0;
-      width: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .actions{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 58%;
+        margin: 0 auto;
+      }
+
+      .recipeBtn{
+        width: 60%;
+      }
     }
   }
 }
@@ -846,7 +860,7 @@ body {
   }
 
   .recipes {
-    width: 80%;
+    width: 70%;
     text-align: center;
 
     .content {

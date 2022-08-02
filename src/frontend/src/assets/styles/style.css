@@ -115,6 +115,7 @@ body {
 
 .navbar ul li img {
   height: 40px;
+  width: 40px;
   border-radius: 50%;
   border: 3px solid #11bb8d;
 }
@@ -265,7 +266,7 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 18px 25px 10px 10px;
+  padding: 18px 25px 10px 18px;
   -webkit-box-shadow: 0px 10px 5px rgba(46, 187, 161, 0.05);
           box-shadow: 0px 10px 5px rgba(46, 187, 161, 0.05);
 }
@@ -304,7 +305,31 @@ body {
 
 .recipe-card .content .content__footer {
   margin: 10px 0;
-  width: 50%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.recipe-card .content .content__footer .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 58%;
+  margin: 0 auto;
+}
+
+.recipe-card .content .content__footer .recipeBtn {
+  width: 60%;
 }
 
 #formPage {
@@ -1040,7 +1065,7 @@ body {
 }
 
 #userPage .recipes {
-  width: 80%;
+  width: 70%;
   text-align: center;
 }
 

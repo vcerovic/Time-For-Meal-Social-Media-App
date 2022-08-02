@@ -154,7 +154,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
         //Send mail with reset token
-        String url = Helpers.createAppUrl(request) + "/savePassword?token=" + passwordResetToken.getToken();
+        String url = Helpers.createAppUrl(request) + "/registration/savePassword?token=" + passwordResetToken.getToken();
         emailSenderService.sendSimpleEmail(
                 appUser.getEmail(),
                 "Click the link to reset your password: " + url,

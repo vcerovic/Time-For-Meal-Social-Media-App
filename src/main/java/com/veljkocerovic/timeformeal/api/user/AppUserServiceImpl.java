@@ -92,6 +92,10 @@ public class AppUserServiceImpl implements AppUserService {
         if(!user.getImage().equals("no_user_image.jpg"))
             FileUtil.deleteFile(FileUtil.userImageDir + user.getImage());
 
+        //Delete all recipe images
+        user.getRecipes().forEach(recipe -> FileUtil.deleteFile(FileUtil.recipeImageDir + recipe.getImage()));
+
+
         userRepository.deleteUserById(user.getId());
     }
 

@@ -1,24 +1,73 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie';
+import { useParams, useNavigate } from 'react-router-dom'
 import { registerUser, validateUser } from '../../api/AuthApi';
+import { getUserById, getUserImage, updateUser, getUserImageFile } from '../../api/UserApi';
+import { blobToFile } from '../../utils/FileUtils';
 
 const RegistrationPage = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [cookies, setCookie] = useCookies();
-    const [password, setPassword] = useState('');
+    const [user, setUser] = useState({});
+    const [userImage, setUserImage] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies();
     const [isLogged, setIsLogged] = useState(false);
     const [hasLoaded, setHasLoaded] = useState(false);
 
+    const usernameRef = useRef();
+    const emailRef = useRef();
+    const imageRef = useRef();
+    const passwordRef = useRef();
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        registerUser(username, email, password);
+    let params = useParams();
+    const navigate = useNavigate();
+
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        registerUser(
+            usernameRef.current.value,
+            emailRef.current.value,
+            passwordRef.current.value
+        );
+    }
+
+    const handleUpdateUser = e => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('username', usernameRef.current.value);
+        formData.append('email', emailRef.current.value);
+
+        getUserImageFile(user.id)
+            .then(image => {
+                imageRef.current.files[0]
+                    ? formData.append('image', imageRef.current.files[0])
+                    : formData.append('image', blobToFile(image, user.image));
+
+                updateUser(user.id, formData, cookies)
+                    .then(success => {
+                        if (success) {
+                            removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
+                            navigate('/login');
+                        }
+                    })
+            })
+
+
     }
 
     useEffect(() => {
         validateUser(cookies)
-            .then(isValid => setIsLogged(isValid))
+            .then(isValid => {
+                setIsLogged(isValid)
+                if (isValid) {
+                    getUserById(params.userId)
+                        .then(data => {
+                            setUser(data)
+                            getUserImage(params.userId)
+                                .then(image => setUserImage(image))
+                        })
+                }
+            })
             .finally(setHasLoaded(true));
     }, []);
 
@@ -28,7 +77,39 @@ const RegistrationPage = () => {
         </div>
     )
     else {
-        if (isLogged) return <div>You are already registerd.</div>
+        if (isLogged) return (
+            <div id='formPage'>
+                <div className='form-container'>
+                    <h1 className='title'>Edit {user.username}</h1>
+                    <form onSubmit={handleUpdateUser}>
+                        <div className='field'>
+                            <input
+                                id="username"
+                                type="text"
+                                defaultValue={user.username}
+                                ref={usernameRef}
+                            />
+                            <label htmlFor="username">Username</label>
+                        </div>
+                        <div className='field'>
+                            <input
+                                id="email"
+                                type="email"
+                                defaultValue={user.email}
+                                ref={emailRef}
+                            />
+                            <label htmlFor="email">Email</label>
+                        </div>
+
+                        <div className='field image-field'>
+                            <input type="file" ref={imageRef} id="image-file" placeholder=' ' accept="image/png, image/jpeg" className="input_file" />
+                            <label htmlFor="image-file">Change {user.image} image</label>
+                        </div>
+                        <button className='linkBtn' type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        )
         else
             return (
                 <div id='formPage'>
@@ -40,8 +121,7 @@ const RegistrationPage = () => {
                                     id="username"
                                     type="text"
                                     placeholder=' '
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    ref={usernameRef}
                                 />
                                 <label htmlFor="username">Username</label>
                             </div>
@@ -50,8 +130,7 @@ const RegistrationPage = () => {
                                     id="email"
                                     type="email"
                                     placeholder=' '
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    ref={emailRef}
                                 />
                                 <label htmlFor="email">Email</label>
                             </div>
@@ -60,8 +139,7 @@ const RegistrationPage = () => {
                                     id="password"
                                     type="password"
                                     placeholder=' '
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    ref={passwordRef}
                                 />
                                 <label htmlFor="password">Password</label>
                             </div>

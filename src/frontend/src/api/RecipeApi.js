@@ -312,3 +312,49 @@ export const likeRecipe = async (recipeId, jwt) => {
         });
     }
 }
+
+export const deleteRecipe = async (recipeId, jwt) => {
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': jwt
+        }
+    };
+
+    try {
+        const response = await fetch(RECIPE_API_PATH + `${recipeId}`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+
+        return true;
+
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+
+        return false;
+    }
+    
+}

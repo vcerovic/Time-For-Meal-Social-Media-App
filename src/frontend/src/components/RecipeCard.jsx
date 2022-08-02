@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import { getRecipeImage } from '../api/RecipeApi';
+import { Link, useNavigate } from 'react-router-dom';
+import { getRecipeImage, deleteRecipe } from '../api/RecipeApi';
+import { useCookies } from "react-cookie";
+import Swal from "sweetalert2";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, currentUserId }) => {
     const [recipeImage, setRecipeImage] = useState();
     const [hasLoaded, setHasLoaded] = useState(false);
+    const [cookies, setCookie] = useCookies();
+    const navigate = useNavigate();
+
+    const handleDeleteRecipe = () => {
+        Swal.fire({
+            title: 'Are you sure you want to delete this recipe?',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            confirmButtonColor: '#d61717',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteRecipe(recipe.id, cookies.JWT)
+                    .then(success => success ? navigate('/recipes') : {})
+            } else {
+                Swal.fire('Okay!', '', 'info')
+            }
+        })
+
+    }
 
     useEffect(() => {
         getRecipeImage(recipe.id)
@@ -50,7 +71,13 @@ const RecipeCard = ({ recipe }) => {
                         </ul>
                     </header>
                     <footer className="content__footer">
-                        <Link className='recipeBtn' to={`/recipes/${recipe.id}`}>View recipe</Link>
+                        {currentUserId === recipe.owner.id ?
+                            <div className='actions'>
+                                <Link className='editBtn' to={`/recipes/${recipe.id}/edit`}>Edit</Link>
+                                <button onClick={handleDeleteRecipe} className='deleteBtn'>Delete</button>
+                            </div>
+                            : <Link className='recipeBtn' to={`/recipes/${recipe.id}`}>View recipe</Link>}
+
                     </footer>
                 </div>
             </div>

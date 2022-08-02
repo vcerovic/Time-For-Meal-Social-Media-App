@@ -67,6 +67,22 @@ export const getUserImage = async (userId) => {
     }
 }
 
+export const getUserImageFile = async (userId) => {
+    try {
+        const response =
+            await fetch(`${USER_API_PATH}/${userId}/image`);
+        const imageBlob = await response.blob();
+        return imageBlob;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+
 export const deleteUser = async (userId, cookies) =>{
     if (!cookies.JWT) {
         Swal.fire({
@@ -82,6 +98,49 @@ export const deleteUser = async (userId, cookies) =>{
         headers: {
             'Authorization': cookies.JWT
         },
+    };
+
+    try {
+        const response = await fetch(USER_API_PATH + `/${userId}`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+
+        return true;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+
+}
+
+export const updateUser = async (userId, formData, cookies) => {
+    if (!cookies.JWT) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Authorization': cookies.JWT
+        },
+        body: formData
     };
 
     try {

@@ -83,7 +83,7 @@ const UserPage = () => {
           <h1>{user.username}'s recipes</h1>
           <div className='content'>
             {userRecipes != null ? userRecipes.map(recipe =>
-              <RecipeCard key={recipe.id} recipe={recipe} />) : <div>No published recipes</div>}
+              <RecipeCard key={recipe.id} recipe={recipe} currentUserId={currentUser.id} />) : <div>No published recipes</div>}
           </div>
         </div>
       </div>
