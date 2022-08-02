@@ -16,6 +16,7 @@ import UserPage from './pages/user/UserPage.jsx';
 import NewRecipePage from './pages/recipe/NewRecipePage.jsx';
 import Navbar from './components/Navbar';
 import EditRecipePage from './pages/recipe/EditRecipePage';
+import EditPasswordPage from './pages/user/EditPasswordPage';
 
 
 const root = ReactDOM.createRoot(
@@ -36,6 +37,7 @@ root.render(
                 <Route path="recipes/:recipeId/edit" element={<EditRecipePage />} />
                 <Route path="users/:userId" element={<UserPage />} />
                 <Route path='users/:userId/edit' element={<RegistrationPage />} />
+                <Route path='users/:userId/changePassword' element={<EditPasswordPage />} />
                 <Route
                     path="*"
                     element={

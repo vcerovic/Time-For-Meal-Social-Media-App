@@ -985,6 +985,24 @@ body {
   font-size: 1.5em;
 }
 
+.passwordBtn {
+  background-color: #d95cff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 7px 12px;
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  text-decoration: none;
+  color: white;
+}
+
+.passwordBtn:hover {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
 .editBtn {
   background-color: #11bb8d;
   border: none;
@@ -1037,13 +1055,14 @@ body {
   background-color: #20253c;
   overflow: hidden;
   height: 35%;
+  width: 250px;
   border-bottom: 3px solid #11bb8d;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
 }
 
 #userPage .userCard img {
-  width: 250px;
+  width: 100%;
   height: 250px;
 }
 
@@ -1057,15 +1076,25 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  width: 70%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 100%;
   margin: 0 auto;
 }
 
+#userPage .userCard .actions .editBtn {
+  margin-right: 15px;
+}
+
+#userPage .userCard .actions .passwordBtn {
+  margin-top: 15px;
+}
+
 #userPage .recipes {
-  width: 70%;
+  width: 75%;
   text-align: center;
 }
 

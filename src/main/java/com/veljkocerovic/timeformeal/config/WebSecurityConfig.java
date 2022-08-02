@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "/api/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/**").authenticated()
                 .antMatchers("/auth/validate").authenticated()
+                .antMatchers("/registration/changePassword").authenticated()
                 .and()
                 .authenticationManager(authenticationManager)
                 .sessionManagement()

@@ -73,9 +73,10 @@ const UserPage = () => {
             <h1>{user.username}</h1>
           </div>
           {currentUser.id === user.id ?
-            <div className='actions'>
+            <div className='actions'>       
               <Link className='editBtn' to={`/users/${params.userId}/edit`}>Edit</Link>
               <button onClick={handleDeleteUser} className='deleteBtn'>Delete</button>
+              <Link className='passwordBtn' to={`/users/${params.userId}/changePassword`}>Change password</Link>
             </div> : null}
 
         </div>

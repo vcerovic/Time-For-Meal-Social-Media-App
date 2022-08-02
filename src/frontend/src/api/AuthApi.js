@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 const LOGIN_PATH = process.env.REACT_APP_API_URL + '/auth/login';
-const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration/register';
+const REGISTRATION_PATH = process.env.REACT_APP_API_URL + '/registration';
 
 export const loginUser = async (username, password) => {
     const requestOptions = {
@@ -38,7 +38,7 @@ export const registerUser = async (username, email, password) => {
 
 
     try {
-        const response = await fetch(REGISTRATION_PATH, requestOptions);
+        const response = await fetch(REGISTRATION_PATH + '/register', requestOptions);
         const data = await response.json();
 
         if (!response.ok) {
@@ -81,5 +81,54 @@ export const validateUser = async (cookies) => {
         return true;
     } catch (err) {
         return false;
+    }
+}
+
+export const changePassword = async (oldPassword, newPassword, email, cookies) => {
+    if (!cookies.JWT) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': cookies.JWT
+        },
+        body: JSON.stringify({
+            email: email,
+            oldPassword: oldPassword,
+            newPassword: newPassword
+        })
+    };
+
+
+    try {
+        const response = await fetch(REGISTRATION_PATH + '/changePassword', requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+
+
+        return true;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
     }
 }
