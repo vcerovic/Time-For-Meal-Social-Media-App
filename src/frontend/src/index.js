@@ -15,6 +15,8 @@ import SingleRecipePage from './pages/recipe/SingleRecipePage.jsx';
 import UserPage from './pages/user/UserPage.jsx';
 import NewRecipePage from './pages/recipe/NewRecipePage.jsx';
 import Navbar from './components/Navbar';
+import EditRecipePage from './pages/recipe/EditRecipePage';
+
 
 const root = ReactDOM.createRoot(
     document.getElementById("root")
@@ -31,6 +33,7 @@ root.render(
                 <Route path="recipes" element={<RecipesPage />} />
                 <Route path="recipes/new" element={<NewRecipePage />} />
                 <Route path="recipes/:recipeId" element={<SingleRecipePage />} />
+                <Route path="recipes/:recipeId/edit" element={<EditRecipePage />} />
                 <Route path="users/:userId" element={<UserPage />} />
                 <Route path='users/:userId/edit' element={<RegistrationPage />} />
                 <Route

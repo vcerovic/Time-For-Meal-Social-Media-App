@@ -1,23 +1,24 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { createNewRecipe, getAllRecipeCategories, getAllIngredients } from '../../api/RecipeApi';
+import { createNewRecipe, getAllRecipeCategories, getAllIngredients, getRecipe, getRecipeImage, updateRecipe, getRecipeImageFile } from '../../api/RecipeApi';
 import { validateUser } from '../../api/AuthApi';
 import { useCookies } from "react-cookie";
 import { capitalizeFirstLetter } from '../../utils/StringUtils';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import { getUserByUsername } from '../../api/UserApi';
+import { blobToFile } from '../../utils/FileUtils';
 
-const NewRecipePage = () => {
+const EditRecipePage = () => {
     const [categories, setCategories] = useState([]);
     const [user, setUser] = useState({});
+    const [recipe, setRecipe] = useState({});
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [cookies, setCookie] = useCookies();
-    const [isLogged, setIsLogged] = useState(false);
     const [hasLoaded, setHasLoaded] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
+    const params = useParams();
 
     const nameRef = useRef();
     const prepTimeRef = useRef();
@@ -28,22 +29,6 @@ const NewRecipePage = () => {
     const ingredientsSearchRef = useRef();
     const ingredientsRef = useRef();
     const instructionRef = useRef();
-
-    const handleSubmit = event => {
-        event.preventDefault();
-
-        const formData = new FormData();
-        formData.append('name', nameRef.current.value);
-        formData.append('instruction', instructionRef.current.value);
-        formData.append('prepTime', prepTimeRef.current.value);
-        formData.append('cookTime', cookTimeRef.current.value);
-        formData.append('serving', servingRef.current.value);
-        formData.append('recipeCategoryId', recipeCategoryRef.current.value);
-        formData.append('image', imageRef.current.files[0]);
-
-        createNewRecipe(formData, selectedIngredients, cookies.JWT)
-            .then(() => navigate('/recipes'))
-    }
 
     const searchIngredients = () => {
         if (ingredientsSearchRef.current.value.length > 2) {
@@ -69,18 +54,55 @@ const NewRecipePage = () => {
         setSelectedIngredients(selectedIngredients.filter(ing => ing.name !== e.target.innerText))
     }
 
+    const handleUpdateRecipe = e => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('name', nameRef.current.value);
+        formData.append('instruction', instructionRef.current.value);
+        formData.append('prepTime', prepTimeRef.current.value);
+        formData.append('cookTime', cookTimeRef.current.value);
+        formData.append('serving', servingRef.current.value);
+        formData.append('recipeCategoryId', recipeCategoryRef.current.value);
+
+        getRecipeImageFile(recipe.id)
+            .then(image => {
+                imageRef.current.files[0]
+                    ? formData.append('image', imageRef.current.files[0])
+                    : formData.append('image', blobToFile(image, recipe.name));
+
+                updateRecipe(recipe.id, formData, selectedIngredients, cookies.JWT)
+                    .then(success => success ? navigate(`/recipes/${recipe.id}`) : {});
+            })
+    }
+
     useEffect(() => {
         getAllRecipeCategories()
             .then(data => setCategories(data))
 
         validateUser(cookies)
             .then(isValid => {
-                setIsLogged(isValid)
-                let decoded = jwt_decode(cookies.JWT);
-                getUserByUsername(decoded.sub)
-                    .then(data => setUser(data))
+                if (isValid) {
+                    let decoded = jwt_decode(cookies.JWT);
+                    getUserByUsername(decoded.sub)
+                        .then(data => setUser(data))
+                }
             })
-            .finally(setHasLoaded(true));
+            .then(() => {
+                getRecipe(params.recipeId)
+                    .then(data => {
+                        setRecipe(data);
+                        let tempIng = []
+                        data.ingredients.map(ing => {
+                            tempIng.push({
+                                "value": ing.id,
+                                "name": capitalizeFirstLetter(ing.name)
+                            })
+                        })
+                        setSelectedIngredients(tempIng);
+                    })
+                    .finally(setHasLoaded(true));
+            })
 
     }, []);
 
@@ -91,37 +113,43 @@ const NewRecipePage = () => {
             </div>
         )
     } else {
-        if (location.pathname = "/recipes/new") {
-            if (!user) return <p>You must log in to create new recipe</p>
-            else
+        if (user && recipe.owner) {
+            if (user.id === recipe.owner.id) {
                 return (
                     <div id='recipePage'>
                         <div className='form-container'>
-                            <h1 className='title'>New recipe</h1>
-                            <form onSubmit={handleSubmit}>
+                            <h1 className='title'>Edit recipe</h1>
+                            <form onSubmit={handleUpdateRecipe}>
                                 <div className='field'>
-                                    <input id="name" type="text" placeholder=' ' ref={nameRef} />
+                                    <input id="name" type="text" placeholder=' '
+                                        defaultValue={recipe.name} ref={nameRef} />
                                     <label htmlFor="name">Name:</label>
                                 </div>
                                 <div className='field'>
-                                    <input id="prepTime" type="text" placeholder=' ' ref={prepTimeRef} />
+                                    <input id="prepTime" type="text" placeholder=' '
+                                        defaultValue={recipe.prepTime} ref={prepTimeRef} />
                                     <label htmlFor="prepTime">Preparation time:</label>
                                 </div>
                                 <div className='field'>
-                                    <input id="cookTime" type="text" placeholder=' ' ref={cookTimeRef} />
+                                    <input id="cookTime" type="text" placeholder=' '
+                                        defaultValue={recipe.cookTime} ref={cookTimeRef} />
                                     <label htmlFor="cookTime">Cook time:</label>
                                 </div>
                                 <div className='field'>
-                                    <input id="serving" type="text" placeholder=' ' ref={servingRef} />
+                                    <input id="serving" type="text" placeholder=' '
+                                        defaultValue={recipe.serving} ref={servingRef} />
                                     <label htmlFor="serving">Serving:</label>
                                 </div>
                                 <div className='field image-field'>
-                                    <input type="file" id="image" placeholder=' ' ref={imageRef} accept="image/png, image/jpeg" className="input_file" />
-                                    <label htmlFor="image">Choose a image:</label>
+                                    <input type="file" id="image" placeholder=" "
+                                        ref={imageRef} accept="image/png, image/jpeg"
+                                        className="input_file" />
+                                    <label htmlFor="image">Change {recipe.image}</label>
                                 </div>
 
                                 <label id="instructionLbl" htmlFor="instruction">Instructions:</label>
-                                <textarea id="instruction" placeholder=' ' ref={instructionRef} />
+                                <textarea id="instruction" placeholder=' ' ref={instructionRef}
+                                    defaultValue={recipe.instruction} />
 
                                 <button className='linkBtn' type="submit">Submit</button>
                             </form>
@@ -142,11 +170,13 @@ const NewRecipePage = () => {
                                         {ingredients.map(ingredient =>
                                             <option
                                                 key={ingredient.id}
-                                                value={ingredient.id}>{capitalizeFirstLetter(ingredient.name)}
+                                                value={ingredient.id}>
+                                                {capitalizeFirstLetter(ingredient.name)}
                                             </option>
                                         )}
                                     </select>
                                 </div>
+
                                 <div className='selectedIng'>
                                     <div>
                                         {
@@ -160,7 +190,7 @@ const NewRecipePage = () => {
 
                                 <div className='recipeCategory'>
                                     <label htmlFor="recipeCategoryId">Category:</label>
-                                    <select id='recipeCategoryId' ref={recipeCategoryRef}>
+                                    <select id='recipeCategoryId' ref={recipeCategoryRef} defaultValue={recipe.recipeCategory.id}>
                                         {categories.map(category =>
                                             <option
                                                 key={category.id}
@@ -174,12 +204,11 @@ const NewRecipePage = () => {
                         </div>
 
                     </div>
-                );
-        } else {
-            
-        }
+                )
+            }
 
+        }
     }
 }
 
-export default NewRecipePage
+export default EditRecipePage

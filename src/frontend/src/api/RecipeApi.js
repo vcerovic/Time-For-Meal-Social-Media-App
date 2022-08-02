@@ -43,6 +43,17 @@ export const getRecipeImage = async (recipeId) => {
     }
 
 }
+export const getRecipeImageFile = async (recipeId) => {
+    try {
+        const response = await fetch(`${RECIPE_API_PATH}${recipeId}/image`);
+        const imageBlob = await response.blob();
+
+        return imageBlob;
+    } catch (err) {
+        console.log(err);
+    }
+
+}
 
 export const createNewRecipe = async (formData, selectedIngredients, jwt) => {
     const ingredientsIdsToSend = [];
@@ -357,4 +368,51 @@ export const deleteRecipe = async (recipeId, jwt) => {
         return false;
     }
     
+}
+
+export const updateRecipe = async (recipeId, formData, selectedIngredients, jwt) => {
+    if (jwt == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "You must log in",
+        });
+        return false;
+    }
+
+    const ingredientsIdsToSend = [];
+    selectedIngredients.forEach(ing => ingredientsIdsToSend.push(ing.value));
+    formData.append('ingredientsIds', ingredientsIdsToSend);
+
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Authorization': jwt
+        },
+        body: formData
+    };
+
+    try {
+        const response = await fetch(`${RECIPE_API_PATH}${recipeId}`, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+
+        return true;
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
 }
