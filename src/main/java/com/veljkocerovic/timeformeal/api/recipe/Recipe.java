@@ -7,7 +7,10 @@ import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.ingredient.Ingredient;
 import com.veljkocerovic.timeformeal.api.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.user.AppUser;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "recipes")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Recipe {
 
     @Id

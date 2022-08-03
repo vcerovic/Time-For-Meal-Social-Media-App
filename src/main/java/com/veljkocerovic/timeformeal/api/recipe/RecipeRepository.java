@@ -18,6 +18,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     List<Recipe> findAllByUserId(Integer userId);
 
     List<Recipe> findByNameContaining(String infix);
+
     Optional<Recipe> findByName(String name);
 
     Optional<Recipe> findById(Integer id);
@@ -25,5 +26,5 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     @Modifying
     @Transactional
     @Query("delete from Recipe r where r.id = ?1")
-    void deleteRecipeById(Integer recipeId);
+    int deleteRecipeById(Integer recipeId);
 }

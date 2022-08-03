@@ -88,15 +88,19 @@ public class AppUserServiceImpl implements AppUserService {
         optionalPasswordResetToken.ifPresent(passwordResetToken -> passwordResetTokenRepository
                 .delete(passwordResetToken));
 
+
+        int changed = userRepository.deleteUserById(user.getId());
+
+        if(changed < 1){
+            throw new RuntimeException("Something went wrong, user is not deleted.");
+        }
+
         //Delete his image
         if(!user.getImage().equals("no_user_image.jpg"))
             FileUtil.deleteFile(FileUtil.userImageDir + user.getImage());
 
         //Delete all recipe images
         user.getRecipes().forEach(recipe -> FileUtil.deleteFile(FileUtil.recipeImageDir + recipe.getImage()));
-
-
-        userRepository.deleteUserById(user.getId());
     }
 
     @Override

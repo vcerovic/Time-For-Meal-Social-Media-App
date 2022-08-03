@@ -38,13 +38,8 @@ root.render(
                 <Route path="users/:userId" element={<UserPage />} />
                 <Route path='users/:userId/edit' element={<RegistrationPage />} />
                 <Route path='users/:userId/changePassword' element={<EditPasswordPage />} />
-                <Route
-                    path="*"
-                    element={
-                        <main style={{ padding: "1rem" }}>
-                            <p>There's nothing here!</p>
-                        </main>
-                    }
+                <Route path="*"
+                    element={<div className='page-not-found'>Page doesn't exist.</div>}
                 />
             </Routes>
         </BrowserRouter>

@@ -92,4 +92,14 @@ class RecipeRepositoryTest {
         //Check category
         Assertions.assertThat(recipe.getRecipeCategory().getName()).isEqualTo("Breakfast");
     }
+
+    @Test
+    void testDeleteRecipeById () {
+        Optional<Recipe> foundRecipe = recipeRepository.findByName("Chicken with eggs");
+        Recipe recipe = foundRecipe.orElseThrow(RuntimeException::new);
+
+        int changed = recipeRepository.deleteRecipeById(recipe.getId());
+
+        Assertions.assertThat(changed).isGreaterThan(0);
+    }
 }

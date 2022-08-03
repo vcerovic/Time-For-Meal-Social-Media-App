@@ -93,7 +93,11 @@ public class RecipeServiceImpl implements RecipeService{
     public void deleteRecipe(Integer recipeId) throws RecipeNotFoundException {
         Recipe recipe = getRecipeById(recipeId);
 
-        recipeRepository.deleteRecipeById(recipeId);
+        int changed = recipeRepository.deleteRecipeById(recipeId);
+
+        if(changed < 1){
+            throw new RuntimeException("Something went wrong, recipe is not deleted.");
+        }
 
         //Delete recipe image
         FileUtil.deleteFile(FileUtil.recipeImageDir + recipe.getImage());

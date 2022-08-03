@@ -628,6 +628,7 @@ body {
     transform: scale(1.05);
   }
 }
+
 .linkBtn {
   border-radius: 14px;
   margin: 20px 0;
@@ -1059,4 +1060,13 @@ hr {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.page-not-found{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  font-size: 3em;
+  font-weight: 700;
 }

@@ -5,18 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.veljkocerovic.timeformeal.api.comment.RecipeComment;
 import com.veljkocerovic.timeformeal.api.rating.RecipeRating;
 import com.veljkocerovic.timeformeal.api.recipe.Recipe;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AppUser {
 
     @Id
