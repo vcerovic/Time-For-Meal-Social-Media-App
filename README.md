@@ -74,7 +74,7 @@ Data is validated both on the front-end and back-end side.
 
 1. First go to `src/frontend` and in terminal run `npm install` to install all dependencies.
 2. Now create `.env` file and add `REACT_APP_API_URL=backend_url_here` replace property to match your backend url.
-3. Finally, you can start server by running `npm start`
+3. Finally, you can start server by running `npm start`.
 
 
 <br>
