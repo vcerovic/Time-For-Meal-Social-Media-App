@@ -171,4 +171,8 @@ Data is validated both on the front-end and back-end side.
 
 ![Database Diagram](https://imgur.com/m8zUCxL.png)
 
+<br>
+
+If you have any questions or ideas on how can i improve this project feel free to contact me!
+
 
