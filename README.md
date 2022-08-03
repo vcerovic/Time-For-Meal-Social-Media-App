@@ -1,4 +1,4 @@
-<h1 align="center">Time-For-Meal-Social-Media</h1>
+<h1 align="center">Time For Meal - Social Media App</h1>
 
 ![all-products](https://i.imgur.com/BAKDw0o.png)
 
