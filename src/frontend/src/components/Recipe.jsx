@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie';
 import { validateUser } from '../api/AuthApi';
 import { Rating } from 'react-simple-star-rating'
-import { getRecipe, getRecipeImage, calculateRating, createComment, rateRecipe, likeRecipe } from '../api/RecipeApi';
+import { getRecipe, getRecipeImage, createComment, rateRecipe, likeRecipe } from '../api/RecipeApi';
 import { capitalizeFirstLetter, replaceWithBr } from '../utils/StringUtils';
+import { calculateRating } from '../utils/MathUtils';
 import { getUserByUsername, getUserImage } from '../api/UserApi';
 import Heart from "react-animated-heart";
 import jwt_decode from "jwt-decode";
@@ -34,23 +35,27 @@ const Recipe = ({ recipeId }) => {
     }
 
     const handleLikeRecipe = () => {
-        likeRecipe(recipeId, cookies.JWT)
-            .then(isSuccess => {
-                if (isSuccess) setIsLiked(!isLiked);
-                getRecipe(recipeId).then(data => setRecipe(data))
-            })
+        if (user) {
+            likeRecipe(recipeId, cookies.JWT)
+                .then(isSuccess => {
+                    if (isSuccess) setIsLiked(!isLiked);
+                    getRecipe(recipeId).then(data => setRecipe(data))
+                })
+        }
     }
 
     const handleRating = rate => {
-        const formData = new FormData();
-        formData.append('rating', ((rate / 2) / 10));
-        rateRecipe(recipeId, formData, cookies.JWT)
-            .then(isSuccess => {
-                isSuccess ? setRating(rate) : setRating(0);
-                getRecipe(recipeId).then(data => setRecipe(data))
-            })
+        if (user) {
+            const formData = new FormData();
+            formData.append('rating', ((rate / 2) / 10));
+            rateRecipe(recipeId, formData, cookies.JWT)
+                .then(isSuccess => {
+                    isSuccess ? setRating(rate) : setRating(0);
+                    getRecipe(recipeId).then(data => setRecipe(data))
+                })
 
-        setRating(100);
+            setRating(100);
+        }
     }
 
     const updateRecipe = () => {

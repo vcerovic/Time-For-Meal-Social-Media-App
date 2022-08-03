@@ -22,7 +22,7 @@ const EditPasswordPage = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if(validateChangePassword({emailRef, oldPasswordRef, newPasswordRef})){
+    if (validateChangePassword({ emailRef, oldPasswordRef, newPasswordRef })) {
       changePassword(
         oldPasswordRef.current.value,
         newPasswordRef.current.value,
@@ -66,6 +66,7 @@ const EditPasswordPage = () => {
                 id="email"
                 type="email"
                 defaultValue={user.email}
+                placeholder=' '
                 ref={emailRef}
               />
               <label htmlFor="email">Email</label>
@@ -75,6 +76,7 @@ const EditPasswordPage = () => {
               <input
                 id="oldPassword"
                 type="password"
+                placeholder=' '
                 ref={oldPasswordRef}
               />
               <label htmlFor="oldPassword">Old password</label>
@@ -84,6 +86,7 @@ const EditPasswordPage = () => {
               <input
                 id="newPassword"
                 type="password"
+                placeholder=' '
                 ref={newPasswordRef}
               />
               <label htmlFor="newPassword">New password</label>

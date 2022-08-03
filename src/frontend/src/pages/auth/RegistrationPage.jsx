@@ -93,6 +93,7 @@ const RegistrationPage = () => {
                                 id="username"
                                 type="text"
                                 defaultValue={user.username}
+                                placeholder=' '
                                 ref={usernameRef}
                             />
                             <label htmlFor="username">Username</label>
@@ -103,6 +104,7 @@ const RegistrationPage = () => {
                                 id="email"
                                 type="text"
                                 defaultValue={user.email}
+                                placeholder=' '
                                 ref={emailRef}
                             />
                             <label htmlFor="email">Email</label>
@@ -119,7 +121,7 @@ const RegistrationPage = () => {
                 </div>
             </div>
         )
-        else if(location.pathname.endsWith("/register") && !isLogged)
+        else if (location.pathname.endsWith("/register") && !isLogged)
             return (
                 <div id='formPage'>
                     <div className='form-container'>

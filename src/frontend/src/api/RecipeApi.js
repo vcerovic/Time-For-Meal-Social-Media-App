@@ -154,16 +154,6 @@ export const getAllRecipeComments = async (recipeId) => {
     }
 }
 
-export const calculateRating = (ratings) => {
-    if (ratings.length === 0) {
-        return 0;
-    }
-    let total = 0;
-    ratings.forEach(rating => total += rating.rating);
-
-    return total / ratings.length;
-}
-
 export const createComment = async (recipeId, formData, jwt) => {
 
     if (jwt == null) {

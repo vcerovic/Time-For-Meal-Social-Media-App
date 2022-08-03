@@ -137,11 +137,12 @@ body {
   flex-direction: column;
   justify-content: center;
   width: 72%;
-  margin: 70px auto;
+  margin: 40px auto;
 
   .search-form {
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
     form {
       background: $content-bg;
       border-radius: 50px;
@@ -836,7 +837,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 10px 0;
+    margin: 20px 0;
 
     h3 {
       transition: 150ms;
@@ -967,7 +968,7 @@ body {
   }
 
   .recipes {
-    width: 75%;
+    width: 70%;
     text-align: center;
 
     .content {

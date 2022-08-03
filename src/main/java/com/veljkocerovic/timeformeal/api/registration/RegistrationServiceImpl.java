@@ -153,6 +153,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         String token = UUID.randomUUID().toString();
         PasswordResetToken passwordResetToken = new PasswordResetToken(appUser, token);
 
+        //Check if user already have password reset token
+        Optional<PasswordResetToken> optionalPasswordResetToken = passwordResetTokenRepository
+                .findTokenByUserId(appUser.getId());
+
+        //Delete old token
+        optionalPasswordResetToken
+                .ifPresent(passToken -> passwordResetTokenRepository
+                        .delete(passToken));
+
         //Save token to database
         passwordResetTokenRepository.save(passwordResetToken);
 

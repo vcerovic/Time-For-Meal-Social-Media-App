@@ -13,7 +13,7 @@ const UserPage = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [userRecipes, setUserRecipes] = useState([]);
   const [userImage, setUserImage] = useState();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const [hasLoaded, setHasLoaded] = useState(false);
 
   let params = useParams();
@@ -28,7 +28,12 @@ const UserPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteUser(params.userId, cookies)
-          .then(() => navigate('/recipes'))
+          .then(success => {
+            if (success) {
+              removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
+              navigate('/recipes')
+            }
+          })
       } else {
         Swal.fire('Okay!', '', 'info')
       }
@@ -73,7 +78,7 @@ const UserPage = () => {
             <h1>{user.username}</h1>
           </div>
           {currentUser.id === user.id ?
-            <div className='actions'>       
+            <div className='actions'>
               <Link className='editBtn' to={`/users/${params.userId}/edit`}>Edit</Link>
               <button onClick={handleDeleteUser} className='deleteBtn'>Delete</button>
               <Link className='passwordBtn' to={`/users/${params.userId}/changePassword`}>Change password</Link>
@@ -81,7 +86,9 @@ const UserPage = () => {
 
         </div>
         <div className='recipes'>
-          <h1>{user.username}'s recipes</h1>
+          {currentUser.id === user.id
+            ? <h1>Your recipes</h1> : <h1>{user.username}'s recipes</h1>}
+
           <div className='content'>
             {userRecipes != null ? userRecipes.map(recipe =>
               <RecipeCard key={recipe.id} recipe={recipe} currentUserId={currentUser.id} />) : <div>No published recipes</div>}
