@@ -15,6 +15,7 @@ import com.veljkocerovic.timeformeal.exceptions.WrongPasswordException;
 import com.veljkocerovic.timeformeal.api.tokens.verification.VerificationTokenRepository;
 import com.veljkocerovic.timeformeal.utils.Helpers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private EmailSenderService emailSenderService;
+
+    @Autowired
+    private Environment env;
 
     @Override
     public void saveUserVerificationToken(String token, AppUser appUser) {
@@ -154,7 +158,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 
         //Send mail with reset token
-        String url = Helpers.createAppUrl(request) + "/registration/savePassword?token=" + passwordResetToken.getToken();
+        String url = env.getProperty("frontend.url") + "resetPassword?token=" + passwordResetToken.getToken();
         emailSenderService.sendSimpleEmail(
                 appUser.getEmail(),
                 "Click the link to reset your password: " + url,

@@ -57,19 +57,6 @@ public class AppUserServiceImpl implements AppUserService {
         userRepository.save(appUser);
     }
 
-    private void checkIfEmailAlreadyExists(String email) throws UserAlreadyExistsException {
-        //Check if username already exists
-        Optional<AppUser> optionalUser = userRepository.findByEmail(email);
-        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User with " +
-                optionalUser.get().getEmail() + " email already exists.");
-    }
-
-    private void checkIfUsernameAlreadyExists(String username) throws UserAlreadyExistsException {
-        //Check if username already exists
-        Optional<AppUser> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User " +
-                optionalUser.get().getUsername() + " already exists.");
-    }
 
     @Override
     public void deleteUser(Integer userId) throws UserNotFoundException {
@@ -188,5 +175,19 @@ public class AppUserServiceImpl implements AppUserService {
     public List<Recipe> getAllUserRecipes(Integer userId) throws UserNotFoundException {
         AppUser user = findUserById(userId);
         return recipeRepository.findAllByUserId(user.getId());
+    }
+
+    private void checkIfEmailAlreadyExists(String email) throws UserAlreadyExistsException {
+        //Check if username already exists
+        Optional<AppUser> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User with " +
+                optionalUser.get().getEmail() + " email already exists.");
+    }
+
+    private void checkIfUsernameAlreadyExists(String username) throws UserAlreadyExistsException {
+        //Check if username already exists
+        Optional<AppUser> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) throw new UserAlreadyExistsException("User " +
+                optionalUser.get().getUsername() + " already exists.");
     }
 }

@@ -10,7 +10,7 @@ public interface RecipeCommentService {
 
     void commentRecipe(Integer recipeId, String comment) throws UserNotFoundException, RecipeNotFoundException;
 
-    void deleteComment(Integer recipeId, Integer commentId) throws UserNotFoundException, RecipeNotFoundException, CommentNotFoundException;
+    void deleteComment(Integer recipeId, Integer commentId) throws RecipeNotFoundException, CommentNotFoundException;
 
     RecipeComment findCommentById(Integer commentId) throws CommentNotFoundException;
 

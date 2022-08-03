@@ -17,6 +17,7 @@ import NewRecipePage from './pages/recipe/NewRecipePage.jsx';
 import Navbar from './components/Navbar';
 import EditRecipePage from './pages/recipe/EditRecipePage';
 import EditPasswordPage from './pages/user/EditPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 
 
 const root = ReactDOM.createRoot(
@@ -31,6 +32,7 @@ root.render(
                 <Route path="/" element={<App />} />
                 <Route path='register' element={<RegistrationPage />} />
                 <Route path='login' element={<LoginPage />} />
+                <Route path='resetPassword' element={<ResetPasswordPage />} />
                 <Route path="recipes" element={<RecipesPage />} />
                 <Route path="recipes/new" element={<NewRecipePage />} />
                 <Route path="recipes/:recipeId" element={<SingleRecipePage />} />

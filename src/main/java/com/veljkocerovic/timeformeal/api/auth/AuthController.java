@@ -54,6 +54,7 @@ public class AuthController {
 
     @PostMapping("/validate")
     public boolean checkIfUserTokenIsStillValid(){
+        //User can only access this route if he is logged in
         return true;
     }
 }

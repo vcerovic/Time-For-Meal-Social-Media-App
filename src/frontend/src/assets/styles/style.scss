@@ -327,9 +327,17 @@ body {
     margin: 20px 0;
     a {
       text-decoration: none;
+      border: none;
+      background: none;
       color: $primary-color;
       font-weight: 500;
       font-size: 1.1em;
+      padding-bottom: 5px;
+      cursor: pointer;
+
+      &:hover{
+        border-bottom: 1px solid $primary-color;
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { registerUser, validateUser } from '../../api/AuthApi';
 import { getUserById, getUserImage, updateUser, getUserImageFile } from '../../api/UserApi';
 import { blobToFile } from '../../utils/FileUtils';
@@ -17,6 +17,7 @@ const RegistrationPage = () => {
     const emailRef = useRef();
     const imageRef = useRef();
     const passwordRef = useRef();
+    const location = useLocation();
 
     let params = useParams();
     const navigate = useNavigate();
@@ -60,6 +61,7 @@ const RegistrationPage = () => {
     }
 
     useEffect(() => {
+        console.log(location);
         validateUser(cookies)
             .then(isValid => {
                 setIsLogged(isValid)
@@ -81,7 +83,7 @@ const RegistrationPage = () => {
         </div>
     )
     else {
-        if (isLogged) return (
+        if (location.pathname.endsWith("edit") && isLogged && user) return (
             <div id='formPage'>
                 <div className='form-container'>
                     <h1 className='title'>Edit {user.username}</h1>
@@ -117,7 +119,7 @@ const RegistrationPage = () => {
                 </div>
             </div>
         )
-        else
+        else if(location.pathname.endsWith("/register") && !isLogged)
             return (
                 <div id='formPage'>
                     <div className='form-container'>
@@ -160,6 +162,9 @@ const RegistrationPage = () => {
                 </div>
 
             )
+        else {
+            return <div></div>
+        }
     }
 }
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
-import { validateUser, loginUser } from '../../api/AuthApi';
+import { validateUser, loginUser, sendResetPasswordRequest } from '../../api/AuthApi';
 import { validateUserLogin } from '../../utils/ValidationUtils';
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
     const [cookies, setCookie] = useCookies();
@@ -13,16 +14,37 @@ const LoginPage = () => {
     const usernameRef = useRef();
     const passwordRef = useRef();
 
-    function handleSubmit(event) {
+    const handleSubmit = event => {
         event.preventDefault();
-        if(validateUserLogin({usernameRef, passwordRef})){
+
+        if (validateUserLogin({ usernameRef, passwordRef })) {
             loginUser(usernameRef.current.value, passwordRef.current.value)
-            .then(data => {
-                setCookie('JWT', 'Bearer ' + data.jwtToken,
-                    { path: '/', maxAge: 259200, sameSite: 'none', secure: 'None' })
-            })
-            .then(() => navigate('/recipes'));
+                .then(data => {
+                    setCookie('JWT', 'Bearer ' + data.jwtToken,
+                        { path: '/', maxAge: 259200, sameSite: 'none', secure: 'None' })
+                })
+                .then(() => navigate('/recipes'));
         }
+
+    }
+
+    const getEmailFromUserInput = async () => {
+        const { value: email } = await Swal.fire({
+            title: 'Input email address',
+            input: 'email',
+            inputLabel: 'Type your email address so that we can reach you.',
+            inputPlaceholder: 'Enter your email address'
+        })
+
+        if (email) {
+            sendResetPasswordRequest(email);
+        }
+    }
+
+    const handleForgotPassword = e => {
+        e.preventDefault();
+
+        getEmailFromUserInput();
     }
 
     useEffect(() => {
@@ -31,7 +53,7 @@ const LoginPage = () => {
             .finally(setHasLoaded(true));
     }, []);
 
-    if (!hasLoaded) return(
+    if (!hasLoaded) return (
         <div id="preloader">
             <div id="loader"></div>
         </div>
@@ -66,7 +88,7 @@ const LoginPage = () => {
                                 <div className="error"></div>
                             </div>
                             <div className='options'>
-                                <Link to={'/resetPassword'}>Forgot Password?</Link>
+                                <a onClick={handleForgotPassword}>Forgot Password?</a>
                             </div>
                             <button className='linkBtn' type="submit">Submit</button>
                             <div className='options'>

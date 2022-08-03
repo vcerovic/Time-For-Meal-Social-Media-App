@@ -414,9 +414,17 @@ body {
 
 .form-container .options a {
   text-decoration: none;
+  border: none;
+  background: none;
   color: #11bb8d;
   font-weight: 500;
   font-size: 1.1em;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.form-container .options a:hover {
+  border-bottom: 1px solid #11bb8d;
 }
 
 .form-container form {

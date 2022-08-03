@@ -84,6 +84,66 @@ export const validateUser = async (cookies) => {
     }
 }
 
+export const sendResetPasswordRequest = async (email) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    };
+
+
+    try {
+        const response = await fetch(REGISTRATION_PATH + '/resetPassword', requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
+export const resetPassword = async (token, newPassword) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newPassword: newPassword })
+    };
+
+
+    try {
+        const response = await fetch(REGISTRATION_PATH + '/savePassword?token=' + token, requestOptions);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        Swal.fire({
+            title: 'Success',
+            icon: 'success',
+            text: data.message,
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.message,
+        });
+    }
+}
+
 export const changePassword = async (oldPassword, newPassword, email, cookies) => {
     if (!cookies.JWT) {
         Swal.fire({

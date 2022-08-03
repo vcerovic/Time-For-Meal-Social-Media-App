@@ -242,3 +242,20 @@ export const validateRecipe = fields => {
 
     return isValid;
 }
+
+export const validatePassword = passwordFld => {
+    let isValid = true;
+
+
+    if (passwordFld.value === '') {
+        setError(passwordFld, 'Password is required.');
+        isValid = false;
+    } else if (passwordFld.value.length > 25 || passwordFld.value.length < 6) {
+        setError(passwordFld, 'Pasword must be between 6 and 25 characters');
+        isValid = false;
+    } else {
+        setSuccess(passwordFld);
+    }
+
+    return isValid;
+}
