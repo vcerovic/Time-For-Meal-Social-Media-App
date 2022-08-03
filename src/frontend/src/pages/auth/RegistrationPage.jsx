@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { registerUser, validateUser } from '../../api/AuthApi';
 import { getUserById, getUserImage, updateUser, getUserImageFile } from '../../api/UserApi';
 import { blobToFile } from '../../utils/FileUtils';
+import { validateUserEdit, validateUserRegistration } from '../../utils/ValidationUtils';
 
 const RegistrationPage = () => {
     const [user, setUser] = useState({});
@@ -23,36 +24,39 @@ const RegistrationPage = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        registerUser(
-            usernameRef.current.value,
-            emailRef.current.value,
-            passwordRef.current.value
-        );
+
+        if (validateUserRegistration({ usernameRef, emailRef, passwordRef })) {
+            registerUser(
+                usernameRef.current.value,
+                emailRef.current.value,
+                passwordRef.current.value
+            );
+        }
     }
 
     const handleUpdateUser = e => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('username', usernameRef.current.value);
-        formData.append('email', emailRef.current.value);
+        if (validateUserEdit({ usernameRef, emailRef })) {
+            const formData = new FormData();
+            formData.append('username', usernameRef.current.value);
+            formData.append('email', emailRef.current.value);
 
-        getUserImageFile(user.id)
-            .then(image => {
-                imageRef.current.files[0]
-                    ? formData.append('image', imageRef.current.files[0])
-                    : formData.append('image', blobToFile(image, user.image));
+            getUserImageFile(user.id)
+                .then(image => {
+                    imageRef.current.files[0]
+                        ? formData.append('image', imageRef.current.files[0])
+                        : formData.append('image', blobToFile(image, user.image));
 
-                updateUser(user.id, formData, cookies)
-                    .then(success => {
-                        if (success) {
-                            removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
-                            navigate('/login');
-                        }
-                    })
-            })
-
-
+                    updateUser(user.id, formData, cookies)
+                        .then(success => {
+                            if (success) {
+                                removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
+                                navigate('/login');
+                            }
+                        })
+                })
+        }
     }
 
     useEffect(() => {
@@ -90,20 +94,23 @@ const RegistrationPage = () => {
                                 ref={usernameRef}
                             />
                             <label htmlFor="username">Username</label>
+                            <div className="error"></div>
                         </div>
                         <div className='field'>
                             <input
                                 id="email"
-                                type="email"
+                                type="text"
                                 defaultValue={user.email}
                                 ref={emailRef}
                             />
                             <label htmlFor="email">Email</label>
+                            <div className="error"></div>
                         </div>
 
                         <div className='field image-field'>
                             <input type="file" ref={imageRef} id="image-file" placeholder=' ' accept="image/png, image/jpeg" className="input_file" />
-                            <label htmlFor="image-file">Change {user.image} image</label>
+                            <label htmlFor="image-file">Change  image</label>
+                            <div className="error"></div>
                         </div>
                         <button className='linkBtn' type="submit">Submit</button>
                     </form>
@@ -124,15 +131,17 @@ const RegistrationPage = () => {
                                     ref={usernameRef}
                                 />
                                 <label htmlFor="username">Username</label>
+                                <div className="error"></div>
                             </div>
                             <div className='field'>
                                 <input
                                     id="email"
-                                    type="email"
+                                    type="text"
                                     placeholder=' '
                                     ref={emailRef}
                                 />
                                 <label htmlFor="email">Email</label>
+                                <div className="error"></div>
                             </div>
                             <div className='field'>
                                 <input
@@ -142,6 +151,7 @@ const RegistrationPage = () => {
                                     ref={passwordRef}
                                 />
                                 <label htmlFor="password">Password</label>
+                                <div className="error"></div>
                             </div>
                             <br></br>
                             <button className='linkBtn' type="submit">Submit</button>

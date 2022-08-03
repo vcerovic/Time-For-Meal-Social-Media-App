@@ -18,7 +18,7 @@ public interface RecipeService {
 
     void deleteRecipe(Integer recipeId) throws RecipeNotFoundException;
 
-    void updateRecipe(Integer recipeId, RecipeModel newRecipe) throws RecipeNotFoundException, ImageSizeLimitException;
+    void updateRecipe(Integer recipeId, RecipeModel newRecipe) throws RecipeNotFoundException, ImageSizeLimitException, UserNotFoundException;
 
 
     byte[] getRecipeImage(Integer recipeId) throws RecipeNotFoundException;

@@ -69,7 +69,7 @@ public class RecipeController {
     public ResponseEntity<ResponseMessage> updateRecipe(@PathVariable(value = "id") Integer recipeId,
                                @Valid @ModelAttribute RecipeModel recipeModel) throws
             RecipeNotFoundException,
-            ImageSizeLimitException {
+            ImageSizeLimitException, UserNotFoundException {
         recipeService.updateRecipe(recipeId, recipeModel);
         return ResponseEntity
                 .status(HttpStatus.OK)

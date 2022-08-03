@@ -252,7 +252,7 @@ body {
       width: 100%;
       display: flex;
       justify-content: center;
-      .actions{
+      .actions {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -260,7 +260,7 @@ body {
         margin: 0 auto;
       }
 
-      .recipeBtn{
+      .recipeBtn {
         width: 60%;
       }
     }
@@ -282,7 +282,7 @@ body {
   align-items: center;
   width: 70%;
   flex-wrap: nowrap;
-  margin: 40px auto;
+  margin: 20px auto;
   .form-container {
     width: 35% !important;
 
@@ -375,16 +375,84 @@ body {
     border-radius: 14px;
     color: white;
     font-family: inherit;
+
+    
   }
 
   .ingDiv {
     margin: 20px 0;
+
+    &.success {
+      input,
+      textarea {
+        border-bottom:2px solid $primary-color;
+        border-left :2px solid $primary-color;
+      }
+
+      &:not(:placeholder-shown) label {
+        color: #52ff69;
+      }
+    }
+
+    &.error {
+      input,
+      textarea {
+        border-bottom:2px solid #ff4747;
+        border-left :2px solid #ff4747;
+      }
+
+      &:not(:placeholder-shown) label {
+        color: #ff4747 !important;
+      }
+    }
+
+    .error {
+      transition: 200ms;
+      padding-top: 5px;
+      padding-left: 20px;
+      color: #ff4747;
+    }
 
     label {
       color: $primary-color;
     }
   }
 
+  .textarea-fld{
+    margin-top: 30px;
+
+    &.success {
+      input,
+      textarea {
+        border-bottom:2px solid $primary-color;
+        border-left :2px solid $primary-color;
+      }
+
+      &:not(:placeholder-shown) label {
+        color: #52ff69;
+      }
+    }
+
+    &.error {
+      input,
+      textarea {
+        border-bottom:2px solid #ff4747;
+        border-left :2px solid #ff4747;
+      }
+
+      &:not(:placeholder-shown) label {
+        color: #ff4747 !important;
+      }
+    }
+
+    .error {
+      transition: 200ms;
+      padding-top: 5px;
+      padding-left: 20px;
+      color: #ff4747;
+    }
+
+  }
   #ingredients {
     width: 100%;
     margin-top: 5px;
@@ -394,6 +462,8 @@ body {
     border: none;
     padding: 0 10px;
     border-radius: 14px;
+
+    
   }
 
   .selectedIng {
@@ -420,7 +490,7 @@ body {
   .field {
     height: 50px;
     width: 98%;
-    margin-top: 30px;
+    margin-top: 34px;
     position: relative;
 
     &:first-child {
@@ -456,29 +526,32 @@ body {
     &.success {
       input,
       textarea {
-        border-color: #24ae36;
+        border-bottom:2px solid $primary-color;
+        border-left :2px solid $primary-color;
       }
 
       &:not(:placeholder-shown) label {
-        color: #24ae36;
+        color: #52ff69;
       }
     }
 
     &.error {
       input,
       textarea {
-        border-color: #d61717;
+        border-bottom:2px solid #ff4747;
+        border-left :2px solid #ff4747;
       }
 
       &:not(:placeholder-shown) label {
-        color: #d61717 !important;
+        color: #ff4747 !important;
       }
     }
 
     .error {
       transition: 200ms;
       padding-top: 5px;
-      color: #d61717;
+      padding-left: 20px;
+      color: #ff4747;
     }
 
     label {
@@ -793,8 +866,8 @@ body {
   }
 }
 
-.passwordBtn{
-  background-color: rgb(217,  92, 255);
+.passwordBtn {
+  background-color: rgb(217, 92, 255);
   border: none;
   border-radius: 14px;
   font-size: 1.2em;
@@ -875,7 +948,7 @@ body {
       width: 100%;
       margin: 0 auto;
 
-      .editBtn{
+      .editBtn {
         margin-right: 15px;
       }
       .passwordBtn {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { createNewRecipe, getAllRecipeCategories, getAllIngredients, getRecipe, getRecipeImage, updateRecipe, getRecipeImageFile } from '../../api/RecipeApi';
+import { getAllRecipeCategories, getAllIngredients, getRecipe, getRecipeImage, updateRecipe, getRecipeImageFile } from '../../api/RecipeApi';
 import { validateUser } from '../../api/AuthApi';
 import { useCookies } from "react-cookie";
 import { capitalizeFirstLetter } from '../../utils/StringUtils';
@@ -8,6 +8,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import { getUserByUsername } from '../../api/UserApi';
 import { blobToFile } from '../../utils/FileUtils';
+import { validateRecipe } from '../../utils/ValidationUtils';
 
 const EditRecipePage = () => {
     const [categories, setCategories] = useState([]);
@@ -56,24 +57,30 @@ const EditRecipePage = () => {
 
     const handleUpdateRecipe = e => {
         e.preventDefault();
+        let isEditForm = true;
 
-        const formData = new FormData();
-        formData.append('name', nameRef.current.value);
-        formData.append('instruction', instructionRef.current.value);
-        formData.append('prepTime', prepTimeRef.current.value);
-        formData.append('cookTime', cookTimeRef.current.value);
-        formData.append('serving', servingRef.current.value);
-        formData.append('recipeCategoryId', recipeCategoryRef.current.value);
+        if (validateRecipe({
+            nameRef, prepTimeRef, cookTimeRef,
+            servingRef, imageRef, instructionRef, selectedIngredients, ingredientsRef, isEditForm
+        })) {
+            const formData = new FormData();
+            formData.append('name', nameRef.current.value);
+            formData.append('instruction', instructionRef.current.value);
+            formData.append('prepTime', prepTimeRef.current.value);
+            formData.append('cookTime', cookTimeRef.current.value);
+            formData.append('serving', servingRef.current.value);
+            formData.append('recipeCategoryId', recipeCategoryRef.current.value);
 
-        getRecipeImageFile(recipe.id)
-            .then(image => {
-                imageRef.current.files[0]
-                    ? formData.append('image', imageRef.current.files[0])
-                    : formData.append('image', blobToFile(image, recipe.name));
+            getRecipeImageFile(recipe.id)
+                .then(image => {
+                    imageRef.current.files[0]
+                        ? formData.append('image', imageRef.current.files[0])
+                        : formData.append('image', blobToFile(image, recipe.name));
 
-                updateRecipe(recipe.id, formData, selectedIngredients, cookies.JWT)
-                    .then(success => success ? navigate(`/recipes/${recipe.id}`) : {});
-            })
+                    updateRecipe(recipe.id, formData, selectedIngredients, cookies.JWT)
+                        .then(success => success ? navigate(`/recipes/${recipe.id}`) : {});
+                })
+        }
     }
 
     useEffect(() => {
@@ -124,32 +131,40 @@ const EditRecipePage = () => {
                                     <input id="name" type="text" placeholder=' '
                                         defaultValue={recipe.name} ref={nameRef} />
                                     <label htmlFor="name">Name:</label>
+                                    <div className="error"></div>
                                 </div>
                                 <div className='field'>
                                     <input id="prepTime" type="text" placeholder=' '
                                         defaultValue={recipe.prepTime} ref={prepTimeRef} />
                                     <label htmlFor="prepTime">Preparation time:</label>
+                                    <div className="error"></div>
                                 </div>
                                 <div className='field'>
                                     <input id="cookTime" type="text" placeholder=' '
                                         defaultValue={recipe.cookTime} ref={cookTimeRef} />
                                     <label htmlFor="cookTime">Cook time:</label>
+                                    <div className="error"></div>
                                 </div>
                                 <div className='field'>
                                     <input id="serving" type="text" placeholder=' '
                                         defaultValue={recipe.serving} ref={servingRef} />
                                     <label htmlFor="serving">Serving:</label>
+                                    <div className="error"></div>
                                 </div>
                                 <div className='field image-field'>
                                     <input type="file" id="image" placeholder=" "
                                         ref={imageRef} accept="image/png, image/jpeg"
                                         className="input_file" />
-                                    <label htmlFor="image">Change {recipe.image}</label>
+                                    <label htmlFor="image">Change image</label>
+                                    <div className="error"></div>
                                 </div>
 
-                                <label id="instructionLbl" htmlFor="instruction">Instructions:</label>
-                                <textarea id="instruction" placeholder=' ' ref={instructionRef}
-                                    defaultValue={recipe.instruction} />
+                                <div className='textarea-fld'>
+                                    <label id="instructionLbl" htmlFor="instruction">Instructions:</label>
+                                    <textarea id="instruction" placeholder=' ' ref={instructionRef}
+                                        defaultValue={recipe.instruction} />
+                                    <div className="error"></div>
+                                </div>
 
                                 <button className='linkBtn' type="submit">Submit</button>
                             </form>
@@ -175,6 +190,7 @@ const EditRecipePage = () => {
                                             </option>
                                         )}
                                     </select>
+                                    <div className="error"></div>
                                 </div>
 
                                 <div className='selectedIng'>

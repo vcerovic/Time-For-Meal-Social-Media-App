@@ -11,6 +11,7 @@ import com.veljkocerovic.timeformeal.utils.FileUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +57,7 @@ public class RecipeServiceImpl implements RecipeService{
         }
 
         //Creating recipe image name
-        String recipeImageName = recipeModel.getName().replaceAll(" ", "_").toLowerCase()
+        String recipeImageName = currentUser.getUsername().replaceAll(" ", "_").toLowerCase()
                 + "_" + StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
 
         //Saving recipe image
@@ -99,9 +100,13 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public void updateRecipe(Integer recipeId, RecipeModel newRecipeModel) throws RecipeNotFoundException, ImageSizeLimitException {
+    public void updateRecipe(Integer recipeId, RecipeModel newRecipeModel) throws RecipeNotFoundException, ImageSizeLimitException, UserNotFoundException {
         Recipe oldRecipe = getRecipeById(recipeId);
         MultipartFile image = newRecipeModel.getImage();
+
+        //Get current user
+        AppUser currentUser = appUserService.findUserByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName());
 
         //Check if uploaded image is smaller than 5mb
         if (image.getSize() > 5e+6) {
@@ -111,7 +116,7 @@ public class RecipeServiceImpl implements RecipeService{
         //Check if new passed image doesn't equal to old one
         if(!oldRecipe.getImage().equals(image.getName())){
             //Renaming image file
-            String newRecipeImageName = newRecipeModel.getName().replaceAll(" ", "_").toLowerCase()
+            String newRecipeImageName = currentUser.getUsername().replaceAll(" ", "_").toLowerCase()
                     + "_" + StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
 
             //Deleting old image

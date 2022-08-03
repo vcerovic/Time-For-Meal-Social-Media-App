@@ -359,7 +359,7 @@ body {
   width: 70%;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  margin: 40px auto;
+  margin: 20px auto;
 }
 
 #recipePage .form-container {
@@ -470,8 +470,68 @@ body {
   margin: 20px 0;
 }
 
+.form-container .ingDiv.success input,
+.form-container .ingDiv.success textarea {
+  border-bottom: 2px solid #11bb8d;
+  border-left: 2px solid #11bb8d;
+}
+
+.form-container .ingDiv.success:not(:placeholder-shown) label {
+  color: #52ff69;
+}
+
+.form-container .ingDiv.error input,
+.form-container .ingDiv.error textarea {
+  border-bottom: 2px solid #ff4747;
+  border-left: 2px solid #ff4747;
+}
+
+.form-container .ingDiv.error:not(:placeholder-shown) label {
+  color: #ff4747 !important;
+}
+
+.form-container .ingDiv .error {
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  padding-top: 5px;
+  padding-left: 20px;
+  color: #ff4747;
+}
+
 .form-container .ingDiv label {
   color: #11bb8d;
+}
+
+.form-container .textarea-fld {
+  margin-top: 30px;
+}
+
+.form-container .textarea-fld.success input,
+.form-container .textarea-fld.success textarea {
+  border-bottom: 2px solid #11bb8d;
+  border-left: 2px solid #11bb8d;
+}
+
+.form-container .textarea-fld.success:not(:placeholder-shown) label {
+  color: #52ff69;
+}
+
+.form-container .textarea-fld.error input,
+.form-container .textarea-fld.error textarea {
+  border-bottom: 2px solid #ff4747;
+  border-left: 2px solid #ff4747;
+}
+
+.form-container .textarea-fld.error:not(:placeholder-shown) label {
+  color: #ff4747 !important;
+}
+
+.form-container .textarea-fld .error {
+  -webkit-transition: 200ms;
+  transition: 200ms;
+  padding-top: 5px;
+  padding-left: 20px;
+  color: #ff4747;
 }
 
 .form-container #ingredients {
@@ -512,7 +572,7 @@ body {
 .form-container .field {
   height: 50px;
   width: 98%;
-  margin-top: 30px;
+  margin-top: 34px;
   position: relative;
 }
 
@@ -554,27 +614,30 @@ body {
 
 .form-container .field.success input,
 .form-container .field.success textarea {
-  border-color: #24ae36;
+  border-bottom: 2px solid #11bb8d;
+  border-left: 2px solid #11bb8d;
 }
 
 .form-container .field.success:not(:placeholder-shown) label {
-  color: #24ae36;
+  color: #52ff69;
 }
 
 .form-container .field.error input,
 .form-container .field.error textarea {
-  border-color: #d61717;
+  border-bottom: 2px solid #ff4747;
+  border-left: 2px solid #ff4747;
 }
 
 .form-container .field.error:not(:placeholder-shown) label {
-  color: #d61717 !important;
+  color: #ff4747 !important;
 }
 
 .form-container .field .error {
   -webkit-transition: 200ms;
   transition: 200ms;
   padding-top: 5px;
-  color: #d61717;
+  padding-left: 20px;
+  color: #ff4747;
 }
 
 .form-container .field label {

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { changePassword, registerUser, validateUser } from '../../api/AuthApi';
 import { getUserById, getUserImage, updateUser, getUserImageFile } from '../../api/UserApi';
 import { blobToFile } from '../../utils/FileUtils';
+import { validateChangePassword } from '../../utils/ValidationUtils';
 
 const EditPasswordPage = () => {
   const [user, setUser] = useState({});
@@ -21,18 +22,20 @@ const EditPasswordPage = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    changePassword(
-      oldPasswordRef.current.value,
-      newPasswordRef.current.value,
-      emailRef.current.value,
-      cookies
-    )
-      .then(success => {
-        if (success) {
-          removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
-          navigate('/login');
-        }
-      })
+    if(validateChangePassword({emailRef, oldPasswordRef, newPasswordRef})){
+      changePassword(
+        oldPasswordRef.current.value,
+        newPasswordRef.current.value,
+        emailRef.current.value,
+        cookies
+      )
+        .then(success => {
+          if (success) {
+            removeCookie('JWT', { path: '/', sameSite: 'none', secure: 'None' });
+            navigate('/login');
+          }
+        })
+    }
   }
 
 
@@ -66,6 +69,7 @@ const EditPasswordPage = () => {
                 ref={emailRef}
               />
               <label htmlFor="email">Email</label>
+              <div className="error"></div>
             </div>
             <div className='field'>
               <input
@@ -74,6 +78,7 @@ const EditPasswordPage = () => {
                 ref={oldPasswordRef}
               />
               <label htmlFor="oldPassword">Old password</label>
+              <div className="error"></div>
             </div>
             <div className='field'>
               <input
@@ -82,6 +87,7 @@ const EditPasswordPage = () => {
                 ref={newPasswordRef}
               />
               <label htmlFor="newPassword">New password</label>
+              <div className="error"></div>
             </div>
 
             <button className='linkBtn' type="submit">Submit</button>
