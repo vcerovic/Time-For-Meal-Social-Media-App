@@ -27,29 +27,30 @@ Data is validated both on the front-end and back-end side.
 <br>
 
 ## <a name="Technologies"></a> Technologies
-<ul>
-  <li>Backend
-     <ul>
+   
+<h3>Back-end</h3>
+   <ul>
        <li>Java</li>
        <li>Spring boot</li>
        <li>Spring Security</li>
-       <li>JWT - Json Web Token</li>
+       <li>JWT</li>
        <li>Spring Data JPA</li>
        <li>MySQL</li>
        <li>JUnit & Mockito</li>
        <li>Spring mail</li>
-    </ul>
-  </li>
-  <li>Frontend
-     <ul>
+   </ul>
+
+<br>
+
+<h3>Front-end</h3>
+   <ul>
      <li>Javascript</li>
      <li>React</li>
      <li>React Router</li>
      <li>SweetAlert2 (for alerts)</li>
      <li>SCSS</li>
-    </ul>  
-  </li>
-</ul>
+   </ul>  
+
 
 <br>
 <br>
@@ -57,18 +58,15 @@ Data is validated both on the front-end and back-end side.
 ## <a name="Guide"></a> User guide
 
 <h3>Back-end setup:</h3>
-<ol>
-  <li>You need to execute a script for creating the database that is in the file `mysql/timeformeal_db.sql`</li>
-  <li>Modify the configuration to suit your settings. All settings can be found in the file `src/main/resources/application.properties`. 
-    <ol>
-      <li>Change `spring.datasource.username` and `spring.datasource.password`</li>
-      <li>Change `spring.mail.username` and `spring.mail.password`</li>
-      <li>Change `jwt.secret`</li>
-      <li>Change `frontend.url` to match your react app</li>
-    </ol>
-  </li>
-  <li>Finally, you can start server by running `main()` method inside `src/main/java/com/veljkocerovic/timeformeal/TimeForMealApplication.java` file.</li>
-</ol> 
+
+  1. You need to execute a script for creating the database that is in the file `mysql/timeformeal_db.sql`.
+  2. Modify the configuration to suit your settings. All settings can be found in the file `src/main/resources/application.properties`. 
+      1. Change `spring.datasource.username` and `spring.datasource.password`
+      2. Change `spring.mail.username` and `spring.mail.password`
+      3. Change `jwt.secret`
+      4. Change `frontend.url` to match your react app
+  3. Finally, you can start server by running `main()` method inside `src/main/java/com/veljkocerovic/timeformeal/TimeForMealApplication.java` file.
+
 
 <br>
 
