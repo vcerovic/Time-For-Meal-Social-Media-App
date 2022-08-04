@@ -63,8 +63,9 @@ Data is validated both on the front-end and back-end side.
   2. Modify the configuration to suit your settings. All settings can be found in the file `src/main/resources/application.properties`. 
       1. Change `spring.datasource.username` and `spring.datasource.password`
       2. Change `spring.mail.username` and `spring.mail.password`
-      3. Change `jwt.secret`
-      4. Change `frontend.url` to match your react app
+      3. Change `spring.mail.host` and `spring.mail.port`
+      4. Change `jwt.secret`
+      5. Change `frontend.url` to match your react app
   3. Finally, you can start server by running `main()` method inside `src/main/java/com/veljkocerovic/timeformeal/TimeForMealApplication.java` file.
 
 
